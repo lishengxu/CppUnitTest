@@ -13,4 +13,5 @@ bool contain(const int *array, int rowBegin, int rowEnd, int columnBegin,
 
 bool contain(const int *array, int rows, int columns, int number);
 
+char* merge(char * desc, char *src, int maxLen);
 #endif /* SORTARRAY_H_ */

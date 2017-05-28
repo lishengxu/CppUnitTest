@@ -5,6 +5,7 @@
  *      Author: lsx
  */
 #include <stddef.h>
+#include <string.h>
 
 bool contain(const int *array, int rowBegin, int rowEnd, int columnBegin,
 		int columnEnd, int rows, int columns, int number) {
@@ -54,3 +55,29 @@ bool contain(const int *array, int rows, int columns, int number) {
 	return result;
 }
 
+char* merge(char* desc, char* src, int maxLen) {
+	if (desc == NULL || src == NULL || maxLen < 1) {
+		return NULL;
+	}
+	const int descLen = strlen(desc);
+	const int srcLen = strlen(src);
+
+	int newIndex = srcLen + descLen;
+	if (newIndex > maxLen) {
+		return NULL;
+	}
+	int descIndex = descLen - 1;
+	int srcIndex = srcLen - 1;
+	*(desc + newIndex--) = '\0';
+	while (descIndex >= 0 && srcIndex >= 0) {
+		if (*(desc + descIndex) < *(src + srcIndex)) {
+			*(desc + newIndex--) = *(src + srcIndex--);
+		} else {
+			*(desc + newIndex--) = *(desc + descIndex--);
+		}
+	}
+	while (srcIndex >= 0) {
+		*(desc + newIndex--) = *(src + srcIndex--);
+	}
+	return desc;
+}
