@@ -49,3 +49,68 @@ void removeNode(ListNode **pHead, int value) {
     }
 }
 
+void deleteList(ListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return;
+    }
+    ListNode *pCur = *pHead;
+    while (pCur != NULL) {
+        ListNode *pToDel = pCur;
+        pCur = pCur->mNext;
+        delete pToDel;
+        pToDel = NULL;
+    }
+    *pHead = NULL;
+}
+
+static void printList(ListNode *pListNode, bool forward,
+        std::vector<int> *pOut) {
+    if (pListNode != NULL) {
+        if (forward) {
+            printf("%d\n", pListNode->mValue);
+            if (pOut != NULL) {
+                pOut->push_back(pListNode->mValue);
+            }
+        }
+        printList(pListNode->mNext, forward, pOut);
+        if (!forward) {
+            printf("%d\n", pListNode->mValue);
+            if (pOut != NULL) {
+                pOut->push_back(pListNode->mValue);
+            }
+        }
+    }
+}
+
+static void printListReverseNonRecursive(ListNode *pListNode,
+        std::vector<int> *pOut) {
+    ListNode *pCur = pListNode;
+    std::stack<ListNode*> nodes;
+    while (pCur != NULL) {
+        nodes.push(pCur);
+        pCur = pCur->mNext;
+    }
+    while (!nodes.empty()) {
+        pCur = nodes.top();
+        nodes.pop();
+        printf("%d\n", pCur->mValue);
+        if (pOut != NULL) {
+            pOut->push_back(pCur->mValue);
+        }
+    }
+}
+
+void printList(ListNode **pHead, bool forward,
+        std::vector<int> *pOut/*=NULL*/) {
+    if (pHead == NULL || *pHead == NULL) {
+        return;
+    }
+    printList(*pHead, forward, pOut);
+}
+
+void printListReverse(ListNode **pHead, std::vector<int> *pOut/*=NULL*/) {
+    if (pHead == NULL || *pHead == NULL) {
+        return;
+    }
+    printListReverseNonRecursive(*pHead, pOut);
+}

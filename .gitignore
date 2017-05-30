@@ -33,3 +33,6 @@
 
 # Debug
 Debug/*
+
+# else
+main/test_other.cpp
