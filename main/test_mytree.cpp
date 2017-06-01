@@ -73,3 +73,106 @@ TEST(mytreetest, construct) {
     }
 }
 
+TEST(mytreetest, preOrderTraversalRecursive) {
+    int preOrder[] = { 1, 2, 4, 7, 3, 9, 5, 6, 8, 10 };
+    int inOrder[] = { 4, 7, 2, 1, 5, 9, 3, 8, 10, 6 };
+    int length = sizeof(preOrder) / sizeof(preOrder[0]);
+    BinaryTreeNode *root = construct(preOrder, inOrder, length);
+    std::vector<int> *pOut = new std::vector<int>();
+    preOrderTraversalRecursive(root, pOut);
+
+    EXPECT_EQ(10, pOut->size());
+    for (int i = 0; i < 10; ++i) {
+        EXPECT_EQ(preOrder[i], pOut->at(i)) << "is differ at index:" << i
+                << std::endl;
+    }
+    destoryTree(root);
+    delete pOut;
+}
+
+TEST(mytreetest, preOrderTraversalNonNonRecursive) {
+    int preOrder[] = { 1, 2, 4, 7, 3, 9, 5, 6, 8, 10 };
+    int inOrder[] = { 4, 7, 2, 1, 5, 9, 3, 8, 10, 6 };
+    int length = sizeof(preOrder) / sizeof(preOrder[0]);
+    BinaryTreeNode *root = construct(preOrder, inOrder, length);
+    std::vector<int> *pOut = new std::vector<int>();
+    preOrderTraversalNonRecursive(root, pOut);
+
+    EXPECT_EQ(10, pOut->size());
+    for (int i = 0; i < 10; ++i) {
+        EXPECT_EQ(preOrder[i], pOut->at(i)) << "is differ at index:" << i
+                << std::endl;
+    }
+    destoryTree(root);
+    delete pOut;
+}
+
+TEST(mytreetest, inOrderTraversalRecursive) {
+    int preOrder[] = { 1, 2, 4, 7, 3, 9, 5, 6, 8, 10 };
+    int inOrder[] = { 4, 7, 2, 1, 5, 9, 3, 8, 10, 6 };
+    int length = sizeof(preOrder) / sizeof(preOrder[0]);
+    BinaryTreeNode *root = construct(preOrder, inOrder, length);
+    std::vector<int> *pOut = new std::vector<int>();
+    inOrderTraversalRecursive(root, pOut);
+
+    EXPECT_EQ(10, pOut->size());
+    for (int i = 0; i < 10; ++i) {
+        EXPECT_EQ(inOrder[i], pOut->at(i)) << "is differ at index:" << i
+                << std::endl;
+    }
+    destoryTree(root);
+    delete pOut;
+}
+
+TEST(mytreetest, inOrderTraversalNonRecursive) {
+    int preOrder[] = { 1, 2, 4, 7, 3, 9, 5, 6, 8, 10 };
+    int inOrder[] = { 4, 7, 2, 1, 5, 9, 3, 8, 10, 6 };
+    int length = sizeof(preOrder) / sizeof(preOrder[0]);
+    BinaryTreeNode *root = construct(preOrder, inOrder, length);
+    std::vector<int> *pOut = new std::vector<int>();
+    inOrderTraversalNonRecursive(root, pOut);
+
+    EXPECT_EQ(10, pOut->size());
+    for (int i = 0; i < 10; ++i) {
+        EXPECT_EQ(inOrder[i], pOut->at(i)) << "is differ at index:" << i
+                << std::endl;
+    }
+    destoryTree(root);
+    delete pOut;
+}
+
+TEST(mytreetest, posOrderTraversalRecursive) {
+    int preOrder[] = { 1, 2, 4, 7, 3, 9, 5, 6, 8, 10 };
+    int inOrder[] = { 4, 7, 2, 1, 5, 9, 3, 8, 10, 6 };
+    int posOrder[] = { 7, 4, 2, 5, 9, 10, 8, 6, 3, 1 };
+    int length = sizeof(preOrder) / sizeof(preOrder[0]);
+    BinaryTreeNode *root = construct(preOrder, inOrder, length);
+    std::vector<int> *pOut = new std::vector<int>();
+    posOrderTraversalRecursive(root, pOut);
+
+    EXPECT_EQ(10, pOut->size());
+    for (int i = 0; i < 10; ++i) {
+        EXPECT_EQ(posOrder[i], pOut->at(i)) << "is differ at index:" << i
+                << std::endl;
+    }
+    destoryTree(root);
+    delete pOut;
+}
+
+TEST(mytreetest, posOrderTraversalNonRecursive) {
+    int preOrder[] = { 1, 2, 4, 7, 3, 9, 5, 6, 8, 10 };
+    int inOrder[] = { 4, 7, 2, 1, 5, 9, 3, 8, 10, 6 };
+    int posOrder[] = { 7, 4, 2, 5, 9, 10, 8, 6, 3, 1 };
+    int length = sizeof(preOrder) / sizeof(preOrder[0]);
+    BinaryTreeNode *root = construct(preOrder, inOrder, length);
+    std::vector<int> *pOut = new std::vector<int>();
+    posOrderTraversalNonRecursive(root, pOut);
+
+    EXPECT_EQ(10, pOut->size());
+    for (int i = 0; i < 10; ++i) {
+        EXPECT_EQ(posOrder[i], pOut->at(i)) << "is differ at index:" << i
+                << std::endl;
+    }
+    destoryTree(root);
+    delete pOut;
+}

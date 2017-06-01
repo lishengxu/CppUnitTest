@@ -7,6 +7,7 @@
 
 #ifndef MYTREE_H_
 #define MYTREE_H_
+#include <vector>
 
 struct BinaryTreeNode {
     int mValue;
@@ -16,6 +17,24 @@ struct BinaryTreeNode {
 
 BinaryTreeNode* construct(const int* preOrder, const int* inOrder,
         const int length);
+
+void preOrderTraversalRecursive(BinaryTreeNode *pHead, std::vector<int> *pOut =
+        NULL);
+
+void preOrderTraversalNonRecursive(BinaryTreeNode *pHead, std::vector<int> *pOut =
+        NULL);
+
+void inOrderTraversalRecursive(BinaryTreeNode *pHead, std::vector<int> *pOut =
+        NULL);
+
+void inOrderTraversalNonRecursive(BinaryTreeNode *pHead, std::vector<int> *pOut =
+        NULL);
+
+void posOrderTraversalRecursive(BinaryTreeNode *pHead, std::vector<int> *pOut =
+        NULL);
+
+void posOrderTraversalNonRecursive(BinaryTreeNode *pHead, std::vector<int> *pOut =
+        NULL);
 
 void destoryTree(BinaryTreeNode *root);
 #endif /* MYTREE_H_ */
