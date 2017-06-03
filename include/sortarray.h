@@ -17,4 +17,7 @@ char* merge(char * desc, char *src, int maxLen);
 
 int findMinInRotate(const int *rotateArray, int length);
 
+void quicksort(int *array, int length, bool increasing = true,
+        bool isPartition1 = true);
+
 #endif /* SORTARRAY_H_ */

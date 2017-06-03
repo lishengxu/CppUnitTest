@@ -8,6 +8,9 @@
 #include <string.h>
 #include <stdexcept>
 #include <exception>
+#include <time.h>
+#include <stdlib.h>
+#include <algorithm>
 
 bool contain(const int *array, int rowBegin, int rowEnd, int columnBegin,
         int columnEnd, int rows, int columns, int number) {
@@ -120,4 +123,91 @@ int findMinInRotate(const int *rotateArray, int length) {
         }
     }
     return rotateArray[begin];
+}
+
+static int partition1(int *array, int begin, int end, bool increasing = true) {
+    int index = begin + ((end - begin) >> 1);
+    std::swap(array[index], array[begin]);
+
+    int value = array[begin];
+    int beginIndex = begin;
+    int endIndex = end;
+    while (beginIndex < endIndex) {
+        if (increasing) {
+            while (beginIndex < endIndex && array[endIndex] >= value) {
+                --endIndex;
+            }
+        } else {
+            while (beginIndex < endIndex && array[endIndex] <= value) {
+                --endIndex;
+            }
+        }
+        array[beginIndex] = array[endIndex];
+        if (increasing) {
+            while (beginIndex < endIndex && array[beginIndex] <= value) {
+                ++beginIndex;
+            }
+        } else {
+            while (beginIndex < endIndex && array[beginIndex] >= value) {
+                ++beginIndex;
+            }
+        }
+        array[endIndex] = array[beginIndex];
+    }
+    array[beginIndex] = value;
+    return beginIndex;
+}
+
+static int partition2(int *array, int begin, int end, bool increasing = true) {
+    int index = begin + ((end - begin) >> 1);
+    std::swap(array[index], array[end]);
+
+    int small = begin;
+    for (int index = begin; index < end; ++index) {
+        if (increasing) {
+            if (array[index] < array[end]) {
+                if (small != index) {
+                    std::swap(array[small], array[index]);
+                }
+                ++small;
+            }
+        } else {
+            if (array[index] > array[end]) {
+                if (small != index) {
+                    std::swap(array[small], array[index]);
+                }
+                ++small;
+            }
+        }
+
+    }
+    std::swap(array[small], array[end]);
+    return small;
+}
+
+static void quicksort(int *array, int begin, int end, bool increasing = true,
+        bool isPartition1 = true) {
+    if (begin == end) {
+        return;
+    }
+
+    int index =
+            isPartition1 ?
+                    partition1(array, begin, end, increasing) :
+                    partition2(array, begin, end, increasing);
+    if (index > begin) {
+        quicksort(array, begin, index - 1, increasing);
+    }
+    if (index < end) {
+        quicksort(array, index + 1, end, increasing);
+    }
+}
+
+void quicksort(int *array, int length, bool increasing, bool isPartition1) {
+    if (array == NULL || length <= 0) {
+        return;
+    }
+    int begin = 0;
+    int end = length - 1;
+    quicksort(array, begin, end, increasing, isPartition1);
 }

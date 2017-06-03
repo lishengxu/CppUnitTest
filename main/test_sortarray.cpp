@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include "gtest/gtest.h"
 #include "sortarray.h"
+#include "common.h"
 
 TEST(sortarraytest, ContainFunction) {
     EXPECT_FALSE(contain(NULL, 0, 0, 0, 0, 0, 0, 1));
@@ -105,4 +106,68 @@ TEST(sortarraytest, findMinInRotate) {
     int array6[] = { 2, 2, 1, 1, 1, 1 };
     length = sizeof(array6) / sizeof(array6[0]);
     EXPECT_EQ(1, findMinInRotate(array6, length));
+}
+
+TEST(sortarraytest, quicksort) {
+    int array[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
+    int expect[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    quicksort(array, LENGTH(array), true);
+    for (int i = 0; i < LENGTH(array); ++i) {
+        EXPECT_EQ(expect[i], array[i]) << ("differ at index " + i) << std::endl;
+    }
+
+    int array1[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int expect1[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
+    quicksort(array1, LENGTH(array1), false);
+    for (int i = 0; i < LENGTH(array1); ++i) {
+        EXPECT_EQ(expect1[i], array1[i]) << "differ at index " + i << std::endl;
+    }
+
+    int array2[] = { 1, 8, 2, 7, 5, 2, 5, 3, 9, 6, 4 };
+    int expect2[] = { 1, 2, 2, 3, 4, 5, 5, 6, 7, 8, 9 };
+    quicksort(array2, LENGTH(array2), true);
+    for (int i = 0; i < LENGTH(array2); ++i) {
+        EXPECT_EQ(expect2[i], array2[i]) << ("differ at index " + i)
+                << std::endl;
+    }
+    int array3[] = { 1 };
+    int expect3[] = { 1 };
+    quicksort(array3, LENGTH(array3), true);
+    for (int i = 0; i < LENGTH(array3); ++i) {
+        EXPECT_EQ(expect3[i], array3[i]) << ("differ at index " + i)
+                << std::endl;
+    }
+}
+
+TEST(sortarraytest, quicksortwithpartition2) {
+    int array[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
+    int expect[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    quicksort(array, LENGTH(array), true, false);
+    for (int i = 0; i < LENGTH(array); ++i) {
+        EXPECT_EQ(expect[i], array[i]) << ("differ at index " + i) << std::endl;
+    }
+
+    int array1[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int expect1[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
+    quicksort(array1, LENGTH(array1), false, false);
+    for (int i = 0; i < LENGTH(array1); ++i) {
+        EXPECT_EQ(expect1[i], array1[i]) << "differ at index " + i << std::endl;
+    }
+
+    int array2[] = { 1, 8, 2, 7, 5, 2, 5, 3, 9, 6, 4 };
+    int expect2[] = { 1, 2, 2, 3, 4, 5, 5, 6, 7, 8, 9 };
+    quicksort(array2, LENGTH(array2), true, false);
+    for (int i = 0; i < LENGTH(array2); ++i) {
+        EXPECT_EQ(expect2[i], array2[i]) << ("differ at index " + i)
+                << std::endl;
+    }
+
+    int array3[] = { 1 };
+    int expect3[] = { 1 };
+    quicksort(array3, LENGTH(array3), true, false);
+    for (int i = 0; i < LENGTH(array3); ++i) {
+        EXPECT_EQ(expect3[i], array3[i]) << ("differ at index " + i)
+                << std::endl;
+    }
+
 }
