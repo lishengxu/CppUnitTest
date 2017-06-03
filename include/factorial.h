@@ -10,4 +10,8 @@
 
 int factorial(int n);
 
+long long fibonacci(const int n);
+
+int numberOf1(const int n, bool newFunction = false);
+
 #endif /* FACTORIAL_H_ */
