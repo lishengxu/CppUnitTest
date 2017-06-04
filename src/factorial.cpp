@@ -5,6 +5,9 @@
  *      Author: lsx
  */
 #include <stdlib.h>
+#include <exception>
+#include <stdexcept>
+#include <math.h>
 
 int factorial(int n) {
     int result = 1;
@@ -57,3 +60,39 @@ int numberOf1(const int n, bool newFunction) {
     }
     return result;
 }
+
+static bool equal(double number1, double number2) {
+    if (abs(number1 - number2) < 0.0000001) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * 由于计算机在存储浮点数时有误差，因此浮点数不能直接使用==判断是否相等。
+ * 负数除以2时，是向下取整，还是向上取整，需要考虑。
+ *
+ */
+double power(double base, int exponent) {
+    if (equal(base, 0) && exponent < 0) {
+        std::logic_error ex("invalid input.");
+        throw std::exception(ex);
+    }
+    unsigned int absExponent = abs(exponent);
+    if (absExponent == 0) {
+        return 1;
+    }
+    if (absExponent == 1) {
+        return base;
+    }
+    double result = power(base, absExponent >> 1);
+    result *= result;
+    if (absExponent & 0x01) {
+        result *= base;
+    }
+    if (exponent < 0) {
+        result = 1 / result;
+    }
+    return result;
+}
+

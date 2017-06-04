@@ -14,4 +14,5 @@ long long fibonacci(const int n);
 
 int numberOf1(const int n, bool newFunction = false);
 
+double power(double base, int exponent);
 #endif /* FACTORIAL_H_ */
