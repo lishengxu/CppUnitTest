@@ -62,6 +62,7 @@ TEST(mylistTest, printlist) {
     addToTail(pHead, 6);
     addToTail(pHead, 4);
     std::vector<int> *pOut = new std::vector<int>();
+    printList(pHead, true);
     printList(pHead, true, pOut);
     EXPECT_EQ(1, pOut->at(0));
     EXPECT_EQ(4, pOut->at(6));

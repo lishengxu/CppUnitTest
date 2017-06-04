@@ -81,3 +81,65 @@ TEST(factorialtest, power) {
     } catch (std::exception &e) {
     }
 }
+
+TEST(factorialtest, printAllNumber) {
+    std::vector<std::string> *pOut = new std::vector<std::string>();
+    printAllNumber(-1, pOut);
+    EXPECT_EQ(0, pOut->size());
+    pOut->clear();
+    printAllNumber(0, pOut);
+    EXPECT_EQ(0, pOut->size());
+    pOut->clear();
+
+    printAllNumber(1, pOut);
+    if (pOut->size() > 2) {
+        EXPECT_STREQ("0", pOut->at(0).c_str());
+        EXPECT_STREQ("8", pOut->at(pOut->size() - 2).c_str());
+        EXPECT_STREQ("9", pOut->at(pOut->size() - 1).c_str());
+    } else {
+        ADD_FAILURE();
+    }
+    pOut->clear();
+
+    printAllNumber(5, pOut);
+    if (pOut->size() > 2) {
+        EXPECT_STREQ("00000", pOut->at(0).c_str());
+        EXPECT_STREQ("99998", pOut->at(pOut->size() - 2).c_str());
+        EXPECT_STREQ("99999", pOut->at(pOut->size() - 1).c_str());
+    } else {
+        ADD_FAILURE();
+    }
+    pOut->clear();
+    delete pOut;
+}
+
+TEST(factorialtest, print1ToMaxOfNDigits) {
+    std::vector<std::string> *pOut = new std::vector<std::string>();
+    print1ToMaxOfNDigits(-1, pOut);
+    EXPECT_EQ(0, pOut->size());
+    pOut->clear();
+    print1ToMaxOfNDigits(0, pOut);
+    EXPECT_EQ(0, pOut->size());
+    pOut->clear();
+
+    print1ToMaxOfNDigits(1, pOut);
+    if (pOut->size() > 2) {
+        EXPECT_STREQ("1", pOut->at(0).c_str());
+        EXPECT_STREQ("8", pOut->at(pOut->size() - 2).c_str());
+        EXPECT_STREQ("9", pOut->at(pOut->size() - 1).c_str());
+    } else {
+        ADD_FAILURE();
+    }
+    pOut->clear();
+
+    print1ToMaxOfNDigits(5, pOut);
+    if (pOut->size() > 2) {
+        EXPECT_STREQ("00001", pOut->at(0).c_str());
+        EXPECT_STREQ("99998", pOut->at(pOut->size() - 2).c_str());
+        EXPECT_STREQ("99999", pOut->at(pOut->size() - 1).c_str());
+    } else {
+        ADD_FAILURE();
+    }
+    pOut->clear();
+    delete pOut;
+}

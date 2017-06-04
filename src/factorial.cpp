@@ -4,10 +4,13 @@
  *  Created on: May 20, 2017
  *      Author: lsx
  */
+#include <stdio.h>
 #include <stdlib.h>
 #include <exception>
 #include <stdexcept>
 #include <math.h>
+#include <memory.h>
+#include "factorial.h"
 
 int factorial(int n) {
     int result = 1;
@@ -94,5 +97,82 @@ double power(double base, int exponent) {
         result = 1 / result;
     }
     return result;
+}
+
+static void printNumber(char *pNumbers, const int length) {
+    bool hasNonZero = false;
+    for (int i = 0; i < length; ++i) {
+        if (hasNonZero) {
+            printf("%c", pNumbers[i]);
+        } else if (pNumbers[i] != '0') {
+            hasNonZero = true;
+            printf("%c", pNumbers[i]);
+        }
+    }
+    if (hasNonZero) {
+        printf("\n");
+    }
+}
+
+static void printNumber(char *pNumbers, const int length, const int index,
+        std::vector<std::string> *pOut = NULL) {
+    if (index == length) {
+        printNumber(pNumbers, length);
+        if (pOut != NULL) {
+            pOut->push_back(pNumbers);
+        }
+        return;
+    }
+    for (int i = 0; i < 10; ++i) {
+        *(pNumbers + index) = i + '0';
+        printNumber(pNumbers, length, index + 1, pOut);
+    }
+}
+
+void printAllNumber(const int n, std::vector<std::string> *pOut/*=NULL*/) {
+    if (n <= 0) {
+        return;
+    }
+    char *pNumbers = (char*) calloc(n + 1, sizeof(char*));
+    printNumber(pNumbers, n, 0, pOut);
+    free(pNumbers);
+}
+
+static bool increaseNumber(char *pNumbers, const int length) {
+    bool isOverflow = false;
+    bool nTakeOver = true;
+    for (int i = length - 1; i >= 0; --i) {
+        int base = pNumbers[i] - '0';
+        if (nTakeOver) {
+            ++base;
+        }
+        if (base == 10) {
+            nTakeOver = true;
+            pNumbers[i] = '0';
+            if (i == 0) {
+                isOverflow = true;
+            }
+        } else {
+            nTakeOver = false;
+            pNumbers[i] = base + '0';
+            break;
+        }
+    }
+    return isOverflow;
+}
+
+void print1ToMaxOfNDigits(const int n,
+        std::vector<std::string> *pOut/*=NULL*/) {
+    if (n <= 0) {
+        return;
+    }
+
+    char *pNumbers = (char*) calloc(n + 1, sizeof(char*));
+    memset(pNumbers, '0', n);
+    while (!increaseNumber(pNumbers, n)) {
+        printNumber(pNumbers, n);
+        pOut->push_back(pNumbers);
+    }
+    free(pNumbers);
 }
 
