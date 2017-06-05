@@ -171,3 +171,34 @@ TEST(sortarraytest, quicksortwithpartition2) {
     }
 
 }
+
+TEST(sortarraytest, frontOddAndAfterEven) {
+    int array[] = { 0 };
+    int expect[] = { 0 };
+    frontOddAndAfterEven(array, LENGTH(array));
+    for (int i = 0; i < LENGTH(array); ++i) {
+        EXPECT_EQ(array[i], expect[i]) << "differ at " << i << std::endl;
+    }
+
+    int array1[] = { 0 };
+    int expect1[] = { 0 };
+    frontOddAndAfterEven(array1, LENGTH(array1));
+    for (int i = 0; i < LENGTH(array1); ++i) {
+        EXPECT_EQ(array1[i], expect1[i]) << "differ at " << i << std::endl;
+    }
+
+    int array2[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int expect2[] = { 1, 3, 5, 7, 9, 2, 6, 0, 8, 4 };
+    frontOddAndAfterEven(array2, LENGTH(array2));
+    for (int i = 0; i < LENGTH(array2); ++i) {
+        EXPECT_EQ(array2[i], expect2[i]) << "differ at " << i << std::endl;
+    }
+
+    int array3[] = { 0, 1, 1, 4, 5, 0, 7, 6, 9, 9, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int expect3[] = { 1, 1, 5, 7, 9, 9, 3, 5, 7, 9, 2, 4, 4, 6, 6, 0, 8, 0 };
+    frontOddAndAfterEven(array3, LENGTH(array3));
+    for (int i = 0; i < LENGTH(array3); ++i) {
+        EXPECT_EQ(array3[i], expect3[i]) << "differ at " << i << std::endl;
+    }
+
+}
