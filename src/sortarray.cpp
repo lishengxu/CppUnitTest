@@ -211,3 +211,31 @@ void quicksort(int *array, int length, bool increasing, bool isPartition1) {
     int end = length - 1;
     quicksort(array, begin, end, increasing, isPartition1);
 }
+
+static void reOrder(int *array, int begin, int end, bool (*func)(int)) {
+    if (array == NULL || begin < 0 || begin > end) {
+        return;
+    }
+    int front = begin;
+    for (int i = begin; i <= end; ++i) {
+        if (func(array[i])) {
+            if (front != i) {
+                std::swap(array[front], array[i]);
+            }
+            ++front;
+        }
+    }
+}
+
+static bool isOdd(int number) {
+    return number & 0x01;
+}
+
+void frontOddAndAfterEven(int *array, int length) {
+    if (array == NULL || length <= 0) {
+        return;
+    }
+
+    reOrder(array, 0, length - 1, isOdd);
+}
+

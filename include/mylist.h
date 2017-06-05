@@ -26,4 +26,7 @@ void printList(ListNode **pHead, bool forward, std::vector<int> *pOut = NULL);
 
 void printListReverse(ListNode **pHead, std::vector<int> *pOut = NULL);
 
+void deleteNode(ListNode **pHead, ListNode *pToBeDeleted);
+
+void quickDeleteNode(ListNode **pHead, ListNode *pToBeDeleted);
 #endif /* MYLIST_H_ */

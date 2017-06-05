@@ -20,4 +20,5 @@ int findMinInRotate(const int *rotateArray, int length);
 void quicksort(int *array, int length, bool increasing = true,
         bool isPartition1 = true);
 
+void frontOddAndAfterEven(int *array, int length);
 #endif /* SORTARRAY_H_ */

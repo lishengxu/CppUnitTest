@@ -62,6 +62,7 @@ TEST(mylistTest, printlist) {
     addToTail(pHead, 6);
     addToTail(pHead, 4);
     std::vector<int> *pOut = new std::vector<int>();
+    printList(pHead, true);
     printList(pHead, true, pOut);
     EXPECT_EQ(1, pOut->at(0));
     EXPECT_EQ(4, pOut->at(6));
@@ -95,4 +96,78 @@ TEST(mylistTest, printlistreverse) {
     deleteList(pHead);
     free(pHead);
     free(pOut);
+}
+
+TEST(mylistTest, deleteNode) {
+    ListNode **pHead = (ListNode**) malloc(sizeof(ListNode*));
+    *pHead = NULL;
+
+    addToTail(pHead, 1);
+    ListNode *pToBeDeleted = *pHead;
+    EXPECT_EQ(1, (*pHead)->mValue);
+    quickDeleteNode(pHead, pToBeDeleted);
+    EXPECT_EQ(NULL, *pHead);
+
+    addToTail(pHead, 1);
+    addToTail(pHead, 2);
+    addToTail(pHead, 3);
+    addToTail(pHead, 4);
+    addToTail(pHead, 5);
+    addToTail(pHead, 6);
+    addToTail(pHead, 4);
+
+    pToBeDeleted = *pHead;
+    EXPECT_EQ(1, (*pHead)->mValue);
+    deleteNode(pHead, pToBeDeleted);
+    EXPECT_EQ(2, ((*pHead)->mValue));
+
+    pToBeDeleted = (*pHead)->mNext->mNext->mNext;
+    EXPECT_EQ(5, (*pHead)->mNext->mNext->mNext->mValue);
+    deleteNode(pHead, pToBeDeleted);
+    EXPECT_EQ(6, (*pHead)->mNext->mNext->mNext->mValue);
+
+    pToBeDeleted = (*pHead)->mNext->mNext->mNext->mNext;
+    EXPECT_EQ(4, (*pHead)->mNext->mNext->mNext->mNext->mValue);
+    deleteNode(pHead, pToBeDeleted);
+    EXPECT_EQ(NULL, (*pHead)->mNext->mNext->mNext->mNext);
+    EXPECT_EQ(6, (*pHead)->mNext->mNext->mNext->mValue);
+    deleteList(pHead);
+    free(pHead);
+}
+
+TEST(mylistTest, quickdeleteNode) {
+    ListNode **pHead = (ListNode**) malloc(sizeof(ListNode*));
+    *pHead = NULL;
+
+    addToTail(pHead, 1);
+    ListNode *pToBeDeleted = *pHead;
+    EXPECT_EQ(1, (*pHead)->mValue);
+    quickDeleteNode(pHead, pToBeDeleted);
+    EXPECT_EQ(NULL, *pHead);
+
+    addToTail(pHead, 1);
+    addToTail(pHead, 2);
+    addToTail(pHead, 3);
+    addToTail(pHead, 4);
+    addToTail(pHead, 5);
+    addToTail(pHead, 6);
+    addToTail(pHead, 4);
+
+    pToBeDeleted = *pHead;
+    EXPECT_EQ(1, (*pHead)->mValue);
+    quickDeleteNode(pHead, pToBeDeleted);
+    EXPECT_EQ(2, ((*pHead)->mValue));
+
+    pToBeDeleted = (*pHead)->mNext->mNext->mNext;
+    EXPECT_EQ(5, (*pHead)->mNext->mNext->mNext->mValue);
+    quickDeleteNode(pHead, pToBeDeleted);
+    EXPECT_EQ(6, (*pHead)->mNext->mNext->mNext->mValue);
+
+    pToBeDeleted = (*pHead)->mNext->mNext->mNext->mNext;
+    EXPECT_EQ(4, (*pHead)->mNext->mNext->mNext->mNext->mValue);
+    quickDeleteNode(pHead, pToBeDeleted);
+    EXPECT_EQ(NULL, (*pHead)->mNext->mNext->mNext->mNext);
+    EXPECT_EQ(6, (*pHead)->mNext->mNext->mNext->mValue);
+    deleteList(pHead);
+    free(pHead);
 }
