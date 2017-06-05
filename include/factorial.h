@@ -22,4 +22,6 @@ void printAllNumber(const int n, std::vector<std::string> *pOut = NULL);
 
 void print1ToMaxOfNDigits(const int n, std::vector<std::string> *pOut = NULL);
 
+const char* add(const char* number1, const char *number2);
+
 #endif /* FACTORIAL_H_ */

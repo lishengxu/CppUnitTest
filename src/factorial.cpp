@@ -11,6 +11,7 @@
 #include <math.h>
 #include <memory.h>
 #include "factorial.h"
+#include <algorithm>
 
 int factorial(int n) {
     int result = 1;
@@ -174,5 +175,140 @@ void print1ToMaxOfNDigits(const int n,
         pOut->push_back(pNumbers);
     }
     free(pNumbers);
+}
+
+static int stringcompare(const char *left, const char *right) {
+    int leftLen = strlen(left);
+    int rightLen = strlen(right);
+    if (leftLen > rightLen) {
+        return 1;
+    } else if (leftLen < rightLen) {
+        return -1;
+    } else {
+        for (int i = 0; i < leftLen; ++i) {
+            if (*(left + i) > *(right + i)) {
+                return 1;
+            } else if (*(left + i) < *(right + i)) {
+                return -1;
+            }
+        }
+    }
+    return 0;
+}
+
+const char* add(const char* left, const char *right) {
+    if (left == NULL || right == NULL || strlen(left) == 0
+            || strlen(right) == 0) {
+        return NULL;
+    }
+
+    int resultFlag = 0;
+    bool isAdd = true;
+    bool leftIsPos = true;
+    if (*left == '+') {
+        ++left;
+    } else if (*left == '-') {
+        ++left;
+        leftIsPos = false;
+    }
+
+    bool rightIsPos = true;
+    if (*right == '+') {
+        ++right;
+    } else if (*right == '-') {
+        ++right;
+        rightIsPos = false;
+    }
+
+    if (!leftIsPos && rightIsPos) {
+        if (stringcompare(left, right) > 0) {
+            resultFlag = -1;
+            std::swap(left, right);
+        }
+        isAdd = false;
+    } else if (leftIsPos && !rightIsPos) {
+        if (stringcompare(left, right) < 0) {
+            resultFlag = -1;
+            std::swap(left, right);
+        }
+        isAdd = false;
+    } else if (!leftIsPos && !rightIsPos) {
+        resultFlag = -1;
+    }
+
+    int leftLen = strlen(left);
+    int rightLen = strlen(right);
+    if (leftLen == 0 || rightLen == 0) {
+        return NULL;
+    }
+
+    char *newNumber = (char*) calloc(leftLen + 2 + 1, sizeof(char*));
+    const char* leftIndex = left + leftLen - 1;
+    const char* rightIndex = right + rightLen - 1;
+    char* newIndex = newNumber;
+    int takeOver = 0;
+    while (leftIndex >= left && rightIndex >= right) {
+        int leftDigit = *leftIndex - '0';
+        int rightDigit = *rightIndex - '0';
+        if (leftDigit > 9 || leftDigit < 0 || rightDigit > 9
+                || rightDigit < 0) {
+            free(newNumber);
+            std::logic_error ex("invalid input ");
+            throw std::exception(ex);
+            return NULL;
+        }
+        int value = leftDigit + takeOver;
+        if (isAdd) {
+            value += rightDigit;
+        } else {
+            value -= rightDigit;
+        }
+        if (value >= 10) {
+            takeOver = 1;
+            value -= 10;
+        } else if (value < 0) {
+            takeOver = -1;
+            value += 10;
+        } else {
+            takeOver = 0;
+        }
+        *newIndex++ = value + '0';
+        --leftIndex, --rightIndex;
+    }
+    while (leftIndex >= left) {
+        int digit = *leftIndex - '0';
+        if (digit > 9 || digit < 0) {
+            free(newNumber);
+            std::logic_error ex("invalid input " + digit);
+            throw std::exception(ex);
+            return NULL;
+        }
+        int value = digit + takeOver;
+        if (value >= 10) {
+            takeOver = 1;
+            value -= 10;
+        } else {
+            takeOver = 0;
+        }
+        *newIndex++ = value + '0';
+        --leftIndex;
+    }
+    if (takeOver > 0) {
+        *newIndex++ = takeOver + '0';
+    }
+    --newIndex;
+    while (newIndex > newNumber) {
+        if (*newIndex == '0') {
+            --newIndex;
+        } else {
+            break;
+        }
+    }
+    if (resultFlag == -1) {
+        *++newIndex = '-';
+    }
+    *++newIndex = '\0';
+    std::reverse(newNumber, newIndex);
+    return newNumber;
 }
 
