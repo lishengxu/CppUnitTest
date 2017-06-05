@@ -114,3 +114,49 @@ void printListReverse(ListNode **pHead, std::vector<int> *pOut/*=NULL*/) {
     }
     printListReverseNonRecursive(*pHead, pOut);
 }
+
+void deleteNode(ListNode **pHead, ListNode *pToBeDeleted) {
+    if (pHead == NULL || *pHead == NULL || pToBeDeleted == NULL) {
+        return;
+    }
+    if (*pHead == pToBeDeleted) {
+        *pHead = (*pHead)->mNext;
+    } else {
+        ListNode *pCur = *pHead;
+        while (pCur->mNext != NULL && pCur->mNext != pToBeDeleted) {
+            pCur = pCur->mNext;
+        }
+        if (pCur->mNext != NULL) {
+            pCur->mNext = pCur->mNext->mNext;
+        }
+    }
+    delete pToBeDeleted;
+    pToBeDeleted = NULL;
+}
+
+/**
+ * 即使无法处理尾部节点，尾部节点可以使用delteNode方法删除，由于出现删除尾部节点的概率为1/n，
+ * 这样时间复杂度依然是o(1)
+ */
+void quickDeleteNode(ListNode **pHead, ListNode *pToBeDeleted) {
+    if (pHead == NULL || *pHead == NULL || pToBeDeleted == NULL) {
+        return;
+    }
+
+    if (*pHead == pToBeDeleted) {
+        *pHead = (*pHead)->mNext;
+    } else {
+        ListNode *pNext = pToBeDeleted->mNext;
+        if (pNext == NULL) {
+            deleteNode(pHead, pToBeDeleted);
+            return;
+        } else {
+            pToBeDeleted->mValue = pNext->mValue;
+            pToBeDeleted->mNext = pNext->mNext;
+            pToBeDeleted = pNext;
+        }
+    }
+
+    delete pToBeDeleted;
+    pToBeDeleted = NULL;
+}
