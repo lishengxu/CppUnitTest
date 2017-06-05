@@ -24,6 +24,36 @@ TEST(mylistTest, addToTail) {
     free(pHead);
 }
 
+TEST(mylistTest, findKNodeToTail) {
+    ListNode **pHead = (ListNode**) malloc(sizeof(ListNode*));
+    *pHead = NULL;
+    EXPECT_TRUE(pHead != NULL);
+    EXPECT_EQ(NULL, *pHead);
+
+    EXPECT_EQ(NULL, findKNodeToTail(pHead, 0));
+    EXPECT_EQ(NULL, findKNodeToTail(NULL, 0));
+    addToTail(pHead, 1);
+    addToTail(pHead, 2);
+    EXPECT_EQ((*pHead)->mNext, findKNodeToTail(pHead, 1));
+    EXPECT_EQ(2, findKNodeToTail(pHead, 1)->mValue);
+    EXPECT_EQ(*pHead, findKNodeToTail(pHead, 2));
+    EXPECT_EQ(1, findKNodeToTail(pHead, 2)->mValue);
+    EXPECT_EQ(NULL, findKNodeToTail(pHead, 3));
+
+    addToTail(pHead, 3);
+    addToTail(pHead, 4);
+    addToTail(pHead, 5);
+    addToTail(pHead, 6);
+    addToTail(pHead, 4);
+    EXPECT_EQ(4, findKNodeToTail(pHead, 1)->mValue);
+    EXPECT_EQ(6, findKNodeToTail(pHead, 2)->mValue);
+    EXPECT_EQ(2, findKNodeToTail(pHead, 6)->mValue);
+    EXPECT_EQ(1, findKNodeToTail(pHead, 7)->mValue);
+    EXPECT_EQ(NULL, findKNodeToTail(pHead, 8));
+    deleteList(pHead);
+    free(pHead);
+}
+
 TEST(mylistTest, removeNode) {
     ListNode **pHead = (ListNode**) malloc(sizeof(ListNode*));
     *pHead = NULL;

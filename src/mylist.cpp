@@ -25,6 +25,28 @@ void addToTail(ListNode **pHead, int value) {
     }
 }
 
+ListNode* findKNodeToTail(ListNode **pHead, unsigned int k) {
+    if (pHead == NULL || *pHead == NULL || k == 0) {
+        return NULL;
+    }
+    ListNode *pCur = *pHead;
+    ListNode *pKNext = *pHead;
+    unsigned int index = 1;
+    while (pKNext != NULL && index < k) {
+        ++index, pKNext = pKNext->mNext;
+    }
+
+    if (pKNext == NULL) {
+        return NULL;
+    }
+
+    while (pKNext->mNext != NULL) {
+        pKNext = pKNext->mNext;
+        pCur = pCur->mNext;
+    }
+    return pCur;
+}
+
 void removeNode(ListNode **pHead, int value) {
     if (pHead == NULL || *pHead == NULL) {
         return;
