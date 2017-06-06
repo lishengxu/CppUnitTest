@@ -203,3 +203,97 @@ TEST(mytreetest, contain) {
     destoryTree(child1);
     destoryTree(child2);
 }
+
+TEST(mytreetest, getMirrorRecursive) {
+    int preOrder[] = { 1, 2, 4, 7, 3, 9, 5, 11, 6, 8, 10 };
+    int inOrder[] = { 4, 7, 2, 1, 5, 9, 11, 3, 8, 10, 6 };
+    int expectPreOrderMirror[] = { 1, 3, 6, 8, 10, 9, 11, 5, 2, 4, 7 };
+    int expectInOrderMirror[] = { 6, 10, 8, 3, 11, 9, 5, 1, 2, 7, 4 };
+    BinaryTreeNode *root = construct(preOrder, inOrder, LENGTH(preOrder));
+    std::vector<int> *pOut = new std::vector<int>();
+
+    getMirrorRecursive(root);
+
+    preOrderTraversalNonRecursive(root, pOut);
+    EXPECT_EQ(11, pOut->size());
+    for (int i = 0; i < 11; ++i) {
+        EXPECT_EQ(expectPreOrderMirror[i], pOut->at(i)) << "is differ at index:"
+                << i << std::endl;
+    }
+    pOut->clear();
+
+    inOrderTraversalNonRecursive(root, pOut);
+    EXPECT_EQ(11, pOut->size());
+    for (int i = 0; i < 11; ++i) {
+        EXPECT_EQ(expectInOrderMirror[i], pOut->at(i)) << "is differ at index:"
+                << i << std::endl;
+    }
+    pOut->clear();
+
+    getMirrorRecursive(root);
+
+    preOrderTraversalNonRecursive(root, pOut);
+    EXPECT_EQ(11, pOut->size());
+    for (int i = 0; i < 11; ++i) {
+        EXPECT_EQ(preOrder[i], pOut->at(i)) << "is differ at index:" << i
+                << std::endl;
+    }
+    pOut->clear();
+
+    inOrderTraversalNonRecursive(root, pOut);
+    EXPECT_EQ(11, pOut->size());
+    for (int i = 0; i < 11; ++i) {
+        EXPECT_EQ(inOrder[i], pOut->at(i)) << "is differ at index:" << i
+                << std::endl;
+    }
+
+    destoryTree(root);
+    delete pOut;
+}
+
+TEST(mytreetest, getMirror) {
+    int preOrder[] = { 1, 2, 4, 7, 3, 9, 5, 11, 6, 8, 10 };
+    int inOrder[] = { 4, 7, 2, 1, 5, 9, 11, 3, 8, 10, 6 };
+    int expectPreOrderMirror[] = { 1, 3, 6, 8, 10, 9, 11, 5, 2, 4, 7 };
+    int expectInOrderMirror[] = { 6, 10, 8, 3, 11, 9, 5, 1, 2, 7, 4 };
+    BinaryTreeNode *root = construct(preOrder, inOrder, LENGTH(preOrder));
+    std::vector<int> *pOut = new std::vector<int>();
+
+    getMirror(root);
+
+    preOrderTraversalNonRecursive(root, pOut);
+    EXPECT_EQ(11, pOut->size());
+    for (int i = 0; i < 11; ++i) {
+        EXPECT_EQ(expectPreOrderMirror[i], pOut->at(i)) << "is differ at index:"
+                << i << std::endl;
+    }
+    pOut->clear();
+
+    inOrderTraversalNonRecursive(root, pOut);
+    EXPECT_EQ(11, pOut->size());
+    for (int i = 0; i < 11; ++i) {
+        EXPECT_EQ(expectInOrderMirror[i], pOut->at(i)) << "is differ at index:"
+                << i << std::endl;
+    }
+    pOut->clear();
+
+    getMirror(root);
+
+    preOrderTraversalNonRecursive(root, pOut);
+    EXPECT_EQ(11, pOut->size());
+    for (int i = 0; i < 11; ++i) {
+        EXPECT_EQ(preOrder[i], pOut->at(i)) << "is differ at index:" << i
+                << std::endl;
+    }
+    pOut->clear();
+
+    inOrderTraversalNonRecursive(root, pOut);
+    EXPECT_EQ(11, pOut->size());
+    for (int i = 0; i < 11; ++i) {
+        EXPECT_EQ(inOrder[i], pOut->at(i)) << "is differ at index:" << i
+                << std::endl;
+    }
+
+    destoryTree(root);
+    delete pOut;
+}

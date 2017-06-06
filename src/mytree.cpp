@@ -184,6 +184,39 @@ bool contain(BinaryTreeNode *pRoot, BinaryTreeNode *pChild) {
     return contain(pRoot->mLeft, pChild) || contain(pRoot->mRight, pChild);
 }
 
+void getMirrorRecursive(BinaryTreeNode *pNode) {
+    if (pNode == NULL) {
+        return;
+    }
+    BinaryTreeNode *temp = pNode->mLeft;
+    pNode->mLeft = pNode->mRight;
+    pNode->mRight = temp;
+    getMirrorRecursive(pNode->mLeft);
+    getMirrorRecursive(pNode->mRight);
+}
+
+void getMirror(BinaryTreeNode *pNode) {
+    if (pNode == NULL) {
+        return;
+    }
+
+    std::stack<BinaryTreeNode*> stack;
+    stack.push(pNode);
+    while (!stack.empty()) {
+        BinaryTreeNode *pCur = stack.top();
+        stack.pop();
+        BinaryTreeNode *temp = pCur->mLeft;
+        pCur->mLeft = pCur->mRight;
+        pCur->mRight = temp;
+        if (pCur->mRight != NULL) {
+            stack.push(pCur->mRight);
+        }
+        if (pCur->mLeft != NULL) {
+            stack.push(pCur->mLeft);
+        }
+    }
+}
+
 void destoryTree(BinaryTreeNode *root) {
     if (root == NULL) {
         return;
