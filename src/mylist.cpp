@@ -47,6 +47,51 @@ ListNode* findKNodeToTail(ListNode **pHead, unsigned int k) {
     return pCur;
 }
 
+ListNode* findMiddleNode(ListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return NULL;
+    }
+
+    ListNode *pFirst = *pHead, *pSecond = *pHead;
+    while (pSecond->mNext != NULL && pSecond->mNext->mNext != NULL) {
+        pSecond = pSecond->mNext->mNext;
+        pFirst = pFirst->mNext;
+    }
+
+    return pFirst;
+}
+
+ListNode* findEndNode(ListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return NULL;
+    }
+
+    ListNode *pCur = *pHead;
+    while (pCur->mNext != NULL) {
+        pCur = pCur->mNext;
+    }
+
+    return pCur;
+}
+
+bool isCircleList(ListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return false;
+    }
+
+    ListNode *pFirst = *pHead, *pSecond = *pHead;
+    while (pSecond->mNext != NULL && pSecond->mNext->mNext != NULL) {
+        if (pSecond->mNext == pFirst || pSecond->mNext->mNext == pFirst) {
+            return true;
+        } else {
+            pSecond = pSecond->mNext->mNext;
+            pFirst = pFirst->mNext;
+        }
+    }
+
+    return false;
+}
+
 void removeNode(ListNode **pHead, int value) {
     if (pHead == NULL || *pHead == NULL) {
         return;
@@ -83,6 +128,40 @@ void deleteList(ListNode **pHead) {
         pToDel = NULL;
     }
     *pHead = NULL;
+}
+
+void reverseList(ListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return;
+    }
+
+    ListNode *pBegin = NULL, *pNext = NULL, *pCur = *pHead;
+    while (pCur != NULL) {
+        pNext = pCur->mNext;
+        pCur->mNext = pBegin;
+        pBegin = pCur;
+        pCur = pNext;
+    }
+
+    *pHead = pBegin;
+}
+
+ListNode* reverseListRecursive(ListNode *pBegin, ListNode *pCur) {
+    if (pCur == NULL) {
+        return pBegin;
+    }
+
+    ListNode *pNext = pCur->mNext;
+    pCur->mNext = pBegin;
+    return reverseListRecursive(pCur, pNext);
+}
+
+void reverseListRecursive(ListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return;
+    }
+
+    *pHead = reverseListRecursive(NULL, *pHead);
 }
 
 static void printList(ListNode *pListNode, bool forward,
