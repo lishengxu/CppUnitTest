@@ -18,6 +18,8 @@ struct ListNode {
 
 void addToTail(ListNode **pHead, int value);
 
+ListNode* findKNodeToTail(ListNode **pHead, unsigned int k);
+
 void removeNode(ListNode **pHead, int value);
 
 void deleteList(ListNode **pHead);
