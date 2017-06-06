@@ -30,6 +30,10 @@ void removeNode(ListNode **pHead, int value);
 
 void deleteList(ListNode **pHead);
 
+void reverseList(ListNode **pHead);
+
+void reverseListRecursive(ListNode **pHead);
+
 void printList(ListNode **pHead, bool forward, std::vector<int> *pOut = NULL);
 
 void printListReverse(ListNode **pHead, std::vector<int> *pOut = NULL);

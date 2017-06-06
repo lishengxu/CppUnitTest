@@ -152,6 +152,62 @@ TEST(mylistTest, removeNode) {
     free(pHead);
 }
 
+TEST(mylistTest, reverseList) {
+    ListNode **pHead = (ListNode**) malloc(sizeof(ListNode*));
+    *pHead = NULL;
+    EXPECT_TRUE(pHead != NULL);
+    EXPECT_EQ(NULL, *pHead);
+
+    reverseList(pHead);
+    EXPECT_EQ(NULL, *pHead);
+    addToTail(pHead, 1);
+    reverseList(pHead);
+    EXPECT_EQ(1, (*pHead)->mValue);
+    addToTail(pHead, 2);
+    reverseList(pHead);
+    EXPECT_EQ(2, (*pHead)->mValue);
+    addToTail(pHead, 3);
+    reverseList(pHead);
+    EXPECT_EQ(3, (*pHead)->mValue);
+    EXPECT_EQ(2, findEndNode(pHead)->mValue);
+    addToTail(pHead, 4);
+    addToTail(pHead, 5);
+    addToTail(pHead, 6);
+    reverseList(pHead);
+    EXPECT_EQ(6, (*pHead)->mValue);
+    EXPECT_EQ(3, findEndNode(pHead)->mValue);
+    deleteList(pHead);
+    free(pHead);
+}
+
+TEST(mylistTest, reverseListrecursive) {
+    ListNode **pHead = (ListNode**) malloc(sizeof(ListNode*));
+    *pHead = NULL;
+    EXPECT_TRUE(pHead != NULL);
+    EXPECT_EQ(NULL, *pHead);
+
+    reverseListRecursive(pHead);
+    EXPECT_EQ(NULL, *pHead);
+    addToTail(pHead, 1);
+    reverseListRecursive(pHead);
+    EXPECT_EQ(1, (*pHead)->mValue);
+    addToTail(pHead, 2);
+    reverseListRecursive(pHead);
+    EXPECT_EQ(2, (*pHead)->mValue);
+    addToTail(pHead, 3);
+    reverseListRecursive(pHead);
+    EXPECT_EQ(3, (*pHead)->mValue);
+    EXPECT_EQ(2, findEndNode(pHead)->mValue);
+    addToTail(pHead, 4);
+    addToTail(pHead, 5);
+    addToTail(pHead, 6);
+    reverseListRecursive(pHead);
+    EXPECT_EQ(6, (*pHead)->mValue);
+    EXPECT_EQ(3, findEndNode(pHead)->mValue);
+    deleteList(pHead);
+    free(pHead);
+}
+
 TEST(mylistTest, printlist) {
     ListNode **pHead = (ListNode**) malloc(sizeof(ListNode*));
     *pHead = NULL;

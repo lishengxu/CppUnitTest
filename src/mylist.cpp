@@ -130,6 +130,40 @@ void deleteList(ListNode **pHead) {
     *pHead = NULL;
 }
 
+void reverseList(ListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return;
+    }
+
+    ListNode *pBegin = NULL, *pNext = NULL, *pCur = *pHead;
+    while (pCur != NULL) {
+        pNext = pCur->mNext;
+        pCur->mNext = pBegin;
+        pBegin = pCur;
+        pCur = pNext;
+    }
+
+    *pHead = pBegin;
+}
+
+ListNode* reverseListRecursive(ListNode *pBegin, ListNode *pCur) {
+    if (pCur == NULL) {
+        return pBegin;
+    }
+
+    ListNode *pNext = pCur->mNext;
+    pCur->mNext = pBegin;
+    return reverseListRecursive(pCur, pNext);
+}
+
+void reverseListRecursive(ListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return;
+    }
+
+    *pHead = reverseListRecursive(NULL, *pHead);
+}
+
 static void printList(ListNode *pListNode, bool forward,
         std::vector<int> *pOut) {
     if (pListNode != NULL) {
