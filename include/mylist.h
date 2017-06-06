@@ -34,6 +34,12 @@ void reverseList(ListNode **pHead);
 
 void reverseListRecursive(ListNode **pHead);
 
+ListNode* mergeOrderList(ListNode **pHead1, ListNode **pHead2);
+
+ListNode* mergeOrderListNewNode(ListNode **pHead1, ListNode **pHead2);
+
+ListNode* mergeOrderListRecursive(ListNode **pHead1, ListNode **pHead2);
+
 void printList(ListNode **pHead, bool forward, std::vector<int> *pOut = NULL);
 
 void printListReverse(ListNode **pHead, std::vector<int> *pOut = NULL);
