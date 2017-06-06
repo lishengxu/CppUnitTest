@@ -54,6 +54,78 @@ TEST(mylistTest, findKNodeToTail) {
     free(pHead);
 }
 
+TEST(mylistTest, findMiddleNode) {
+    ListNode **pHead = (ListNode**) malloc(sizeof(ListNode*));
+    *pHead = NULL;
+    EXPECT_TRUE(pHead != NULL);
+    EXPECT_EQ(NULL, *pHead);
+
+    EXPECT_EQ(NULL, findMiddleNode(pHead));
+    addToTail(pHead, 1);
+    EXPECT_EQ(1, findMiddleNode(pHead)->mValue);
+    addToTail(pHead, 2);
+    EXPECT_EQ(1, findMiddleNode(pHead)->mValue);
+    addToTail(pHead, 3);
+    EXPECT_EQ(2, findMiddleNode(pHead)->mValue);
+    addToTail(pHead, 4);
+    addToTail(pHead, 5);
+    addToTail(pHead, 6);
+    EXPECT_EQ(3, findMiddleNode(pHead)->mValue);
+    addToTail(pHead, 4);
+    EXPECT_EQ(4, findMiddleNode(pHead)->mValue);
+
+    deleteList(pHead);
+    free(pHead);
+}
+
+TEST(mylistTest, findEndNode) {
+    ListNode **pHead = (ListNode**) malloc(sizeof(ListNode*));
+    *pHead = NULL;
+    EXPECT_TRUE(pHead != NULL);
+    EXPECT_EQ(NULL, *pHead);
+
+    EXPECT_EQ(NULL, findEndNode(pHead));
+    addToTail(pHead, 1);
+    EXPECT_EQ(1, findEndNode(pHead)->mValue);
+    addToTail(pHead, 2);
+    addToTail(pHead, 3);
+    addToTail(pHead, 4);
+    addToTail(pHead, 5);
+    addToTail(pHead, 6);
+    EXPECT_EQ(6, findEndNode(pHead)->mValue);
+}
+TEST(mylistTest, isCircleList) {
+    ListNode **pHead = (ListNode**) malloc(sizeof(ListNode*));
+    *pHead = NULL;
+    EXPECT_TRUE(pHead != NULL);
+    EXPECT_EQ(NULL, *pHead);
+
+    EXPECT_EQ(false, isCircleList(pHead));
+    addToTail(pHead, 1);
+    EXPECT_EQ(false, isCircleList(pHead));
+    ListNode *pBegin = *pHead;
+    pBegin->mNext = *pHead;
+    EXPECT_EQ(true, isCircleList(pHead));
+    pBegin->mNext = NULL;
+    addToTail(pHead, 2);
+    addToTail(pHead, 3);
+    addToTail(pHead, 4);
+    addToTail(pHead, 5);
+    addToTail(pHead, 6);
+    EXPECT_EQ(false, isCircleList(pHead));
+    ListNode *pEnd = findEndNode(pHead);
+    pEnd->mNext = *pHead;
+    EXPECT_EQ(true, isCircleList(pHead));
+    pEnd->mNext = NULL;
+    EXPECT_EQ(false, isCircleList(pHead));
+    ListNode *pMiddle = findMiddleNode(pHead);
+    pEnd->mNext = pMiddle;
+    EXPECT_EQ(true, isCircleList(pHead));
+    pEnd->mNext = NULL;
+    deleteList(pHead);
+    free(pHead);
+}
+
 TEST(mylistTest, removeNode) {
     ListNode **pHead = (ListNode**) malloc(sizeof(ListNode*));
     *pHead = NULL;
@@ -61,6 +133,8 @@ TEST(mylistTest, removeNode) {
     EXPECT_EQ(NULL, *pHead);
 
     addToTail(pHead, 1);
+    removeNode(pHead, 1);
+    EXPECT_EQ(NULL, *pHead);
     addToTail(pHead, 2);
     addToTail(pHead, 3);
     addToTail(pHead, 4);

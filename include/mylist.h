@@ -20,6 +20,12 @@ void addToTail(ListNode **pHead, int value);
 
 ListNode* findKNodeToTail(ListNode **pHead, unsigned int k);
 
+ListNode* findMiddleNode(ListNode **pHead);
+
+ListNode* findEndNode(ListNode **pHead);
+
+bool isCircleList(ListNode **pHead);
+
 void removeNode(ListNode **pHead, int value);
 
 void deleteList(ListNode **pHead);

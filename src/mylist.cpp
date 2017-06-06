@@ -47,6 +47,51 @@ ListNode* findKNodeToTail(ListNode **pHead, unsigned int k) {
     return pCur;
 }
 
+ListNode* findMiddleNode(ListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return NULL;
+    }
+
+    ListNode *pFirst = *pHead, *pSecond = *pHead;
+    while (pSecond->mNext != NULL && pSecond->mNext->mNext != NULL) {
+        pSecond = pSecond->mNext->mNext;
+        pFirst = pFirst->mNext;
+    }
+
+    return pFirst;
+}
+
+ListNode* findEndNode(ListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return NULL;
+    }
+
+    ListNode *pCur = *pHead;
+    while (pCur->mNext != NULL) {
+        pCur = pCur->mNext;
+    }
+
+    return pCur;
+}
+
+bool isCircleList(ListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return false;
+    }
+
+    ListNode *pFirst = *pHead, *pSecond = *pHead;
+    while (pSecond->mNext != NULL && pSecond->mNext->mNext != NULL) {
+        if (pSecond->mNext == pFirst || pSecond->mNext->mNext == pFirst) {
+            return true;
+        } else {
+            pSecond = pSecond->mNext->mNext;
+            pFirst = pFirst->mNext;
+        }
+    }
+
+    return false;
+}
+
 void removeNode(ListNode **pHead, int value) {
     if (pHead == NULL || *pHead == NULL) {
         return;
