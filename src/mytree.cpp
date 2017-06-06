@@ -155,6 +155,23 @@ void posOrderTraversalNonRecursive(BinaryTreeNode *pHead,
     }
 }
 
+bool contain(BinaryTreeNode *pRoot, BinaryTreeNode *pChild) {
+    if (pChild == NULL) {
+        return true;
+    }
+    if (pRoot == NULL) {
+        return false;
+    }
+
+    if (pRoot->mValue == pChild->mValue) {
+        if (contain(pRoot->mLeft, pChild->mLeft)
+                && contain(pRoot->mRight, pChild->mRight)) {
+            return true;
+        }
+    }
+    return contain(pRoot->mLeft, pChild) || contain(pRoot->mRight, pChild);
+}
+
 void destoryTree(BinaryTreeNode *root) {
     if (root == NULL) {
         return;

@@ -36,5 +36,7 @@ void posOrderTraversalRecursive(BinaryTreeNode *pHead, std::vector<int> *pOut =
 void posOrderTraversalNonRecursive(BinaryTreeNode *pHead, std::vector<int> *pOut =
         NULL);
 
+bool contain(BinaryTreeNode *pRoot, BinaryTreeNode *pChild);
+
 void destoryTree(BinaryTreeNode *root);
 #endif /* MYTREE_H_ */

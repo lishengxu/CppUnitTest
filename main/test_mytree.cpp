@@ -7,6 +7,7 @@
 
 #include "gtest/gtest.h"
 #include "mytree.h"
+#include "common.h"
 
 TEST(mytreetest, construct) {
     EXPECT_TRUE(construct(NULL, NULL, 0) == NULL);
@@ -175,4 +176,30 @@ TEST(mytreetest, posOrderTraversalNonRecursive) {
     }
     destoryTree(root);
     delete pOut;
+}
+
+TEST(mytreetest, contain) {
+    EXPECT_EQ(true, contain(NULL, NULL));
+    int preOrder[] = { 1, 2, 4, 7, 3, 9, 5, 11, 6, 8, 10 };
+    int inOrder[] = { 4, 7, 2, 1, 5, 9, 11, 3, 8, 10, 6 };
+    BinaryTreeNode *root = construct(preOrder, inOrder, LENGTH(preOrder));
+
+    EXPECT_EQ(false, contain(NULL, root));
+    EXPECT_EQ(true, contain(root, NULL));
+
+    int preOrderChild1[] = { 9, 5, 12 };
+    int inOrderChild1[] = { 5, 9, 12 };
+    BinaryTreeNode *child1 = construct(preOrderChild1, inOrderChild1,
+            LENGTH(preOrderChild1));
+    EXPECT_EQ(false, contain(root, child1));
+
+    int preOrderChild2[] = { 9, 5, 11 };
+    int inOrderChild2[] = { 5, 9, 11 };
+    BinaryTreeNode *child2 = construct(preOrderChild2, inOrderChild2,
+            LENGTH(preOrderChild2));
+    EXPECT_EQ(true, contain(root, child2));
+
+    destoryTree(root);
+    destoryTree(child1);
+    destoryTree(child2);
 }
