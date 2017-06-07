@@ -178,6 +178,24 @@ TEST(mytreetest, posOrderTraversalNonRecursive) {
     delete pOut;
 }
 
+TEST(mytreetest, levelTraversal) {
+    int preOrder[] = { 1, 2, 4, 7, 3, 9, 5, 11, 6, 8, 10 };
+    int inOrder[] = { 4, 7, 2, 1, 5, 9, 11, 3, 8, 10, 6 };
+    int expectOrder[] = { 1, 2, 3, 4, 9, 6, 7, 5, 11, 8, 10 };
+    int length = sizeof(preOrder) / sizeof(preOrder[0]);
+    BinaryTreeNode *root = construct(preOrder, inOrder, length);
+    std::vector<int> *pOut = new std::vector<int>();
+    levelTraversal(root, pOut);
+
+    EXPECT_EQ(11, pOut->size());
+    for (int i = 0; i < 11; ++i) {
+        EXPECT_EQ(expectOrder[i], pOut->at(i)) << "is differ at index:" << i
+                << std::endl;
+    }
+    destoryTree(root);
+    delete pOut;
+}
+
 TEST(mytreetest, contain) {
     EXPECT_EQ(false, contain(NULL, NULL));
     int preOrder[] = { 1, 2, 4, 7, 3, 9, 5, 11, 6, 8, 10 };

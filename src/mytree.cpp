@@ -9,6 +9,7 @@
 #include <exception>
 #include <stdexcept>
 #include <stack>
+#include <queue>
 #include <utility>
 #include "mytree.h"
 
@@ -168,6 +169,30 @@ static bool containChild(BinaryTreeNode *pRoot, BinaryTreeNode *pChild) {
                 && containChild(pRoot->mRight, pChild->mRight);
     }
     return false;
+}
+
+void levelTraversal(BinaryTreeNode *pHead, std::vector<int> *pOut/*= NULL*/) {
+    if (pHead == NULL) {
+        return;
+    }
+
+    BinaryTreeNode *pCur = pHead;
+    std::queue<BinaryTreeNode*> queue;
+    queue.push(pCur);
+    while (!queue.empty()) {
+        BinaryTreeNode *pCur = queue.front();
+        queue.pop();
+        printf("%d\n", pCur->mValue);
+        if (pOut != NULL) {
+            pOut->push_back(pCur->mValue);
+        }
+        if (pCur->mLeft != NULL) {
+            queue.push(pCur->mLeft);
+        }
+        if (pCur->mRight != NULL) {
+            queue.push(pCur->mRight);
+        }
+    }
 }
 
 bool contain(BinaryTreeNode *pRoot, BinaryTreeNode *pChild) {
