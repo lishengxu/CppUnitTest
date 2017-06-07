@@ -4,6 +4,7 @@
  *  Created on: May 21, 2017
  *      Author: lsx
  */
+#include <stdio.h>
 #include <stddef.h>
 #include <string.h>
 #include <stdexcept>
@@ -11,6 +12,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <algorithm>
+#include "sortarray.h"
 
 bool contain(const int *array, int rowBegin, int rowEnd, int columnBegin,
         int columnEnd, int rows, int columns, int number) {
@@ -237,5 +239,47 @@ void frontOddAndAfterEven(int *array, int length) {
     }
 
     reOrder(array, 0, length - 1, isOdd);
+}
+
+void printMatrixClockwise(const int *array, const int rows, const int columns,
+        std::vector<int> *pOut/*= NULL*/) {
+    if (array == NULL || rows < 1 || columns < 1) {
+        return;
+    }
+
+    for (int start = 0, endRow = rows - 1, endCol = columns - 1;
+            start <= endRow && start <= endCol; ++start, --endRow, --endCol) {
+        for (int index = start; index <= endCol; ++index) {
+            printf("%d\n", array[start * columns + index]);
+            if (pOut != NULL) {
+                pOut->push_back(array[start * columns + index]);
+            }
+        }
+
+        for (int index = start + 1; index <= endRow; ++index) {
+            printf("%d\n", array[index * columns + endCol]);
+            if (pOut != NULL) {
+                pOut->push_back(array[index * columns + endCol]);
+            }
+        }
+
+        if (start < endRow) {
+            for (int index = endCol - 1; index >= start; --index) {
+                printf("%d\n", array[endRow * columns + index]);
+                if (pOut != NULL) {
+                    pOut->push_back(array[endRow * columns + index]);
+                }
+            }
+        }
+
+        if (start < endCol) {
+            for (int index = endRow - 1; index > start; --index) {
+                printf("%d\n", array[index * columns + start]);
+                if (pOut != NULL) {
+                    pOut->push_back(array[index * columns + start]);
+                }
+            }
+        }
+    }
 }
 
