@@ -202,3 +202,65 @@ TEST(sortarraytest, frontOddAndAfterEven) {
     }
 
 }
+
+TEST(sortarraytest, printMatrixClockwise) {
+    std::vector<int> *pOut = new std::vector<int>();
+
+    int array[] = { 1 };
+    int expect[] = { 1 };
+    printMatrixClockwise(array, 1, 1, pOut);
+    EXPECT_EQ(1, pOut->size());
+    for (int i = 0; i < LENGTH(expect); ++i) {
+        EXPECT_EQ(expect[i], pOut->at(i)) << "is differ at " << i << std::endl;
+    }
+    pOut->clear();
+
+    int array1[] = { 1, 2, 3, 4 };
+    int expect1[] = { 1, 2, 3, 4 };
+    printMatrixClockwise(array1, 1, 4, pOut);
+    EXPECT_EQ(4, pOut->size());
+    for (int i = 0; i < LENGTH(expect1); ++i) {
+        EXPECT_EQ(expect1[i], pOut->at(i)) << "is differ at " << i << std::endl;
+    }
+    pOut->clear();
+
+    printMatrixClockwise(array1, 4, 1, pOut);
+    EXPECT_EQ(4, pOut->size());
+    for (int i = 0; i < LENGTH(expect1); ++i) {
+        EXPECT_EQ(expect1[i], pOut->at(i)) << "is differ at " << i << std::endl;
+    }
+    pOut->clear();
+
+    int array2[] = { 1, 2, 3, 4, 5, 6, 7, 8 };
+    int expect2[] = { 1, 2, 3, 4, 8, 7, 6, 5 };
+    printMatrixClockwise(array2, 2, 4, pOut);
+    EXPECT_EQ(8, pOut->size());
+    for (int i = 0; i < LENGTH(expect2); ++i) {
+        EXPECT_EQ(expect2[i], pOut->at(i)) << "is differ at " << i << std::endl;
+    }
+    pOut->clear();
+
+    printMatrixClockwise(array2, 4, 2, pOut);
+    EXPECT_EQ(8, pOut->size());
+    int expect22[] = { 1, 2, 4, 6, 8, 7, 5, 3 };
+    for (int i = 0; i < LENGTH(expect22); ++i) {
+        EXPECT_EQ(expect22[i], pOut->at(i)) << "is differ at " << i
+                << std::endl;
+    }
+    pOut->clear();
+
+    int array3[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+            18, 19, 20 };
+    int expect3[] = { 1, 2, 3, 4, 8, 12, 16, 20, 19, 18, 17, 13, 9, 5, 6, 7, 11,
+            15, 14, 10 };
+
+    printMatrixClockwise(array3, 5, 4, pOut);
+    EXPECT_EQ(20, pOut->size());
+    for (int i = 0; i < LENGTH(expect3); ++i) {
+        EXPECT_EQ(expect3[i], pOut->at(i)) << "is differ at " << i << std::endl;
+    }
+    pOut->clear();
+
+    delete pOut;
+}
+

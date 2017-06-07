@@ -82,7 +82,7 @@ TEST(factorialtest, power) {
     }
 }
 
-TEST(factorialtest, printAllNumber) {
+TEST(factorialtest, DISABLED_printAllNumber) {
     std::vector<std::string> *pOut = new std::vector<std::string>();
     printAllNumber(-1, pOut);
     EXPECT_EQ(0, pOut->size());
@@ -113,7 +113,7 @@ TEST(factorialtest, printAllNumber) {
     delete pOut;
 }
 
-TEST(factorialtest, print1ToMaxOfNDigits) {
+TEST(factorialtest, DISABLED_print1ToMaxOfNDigits) {
     std::vector<std::string> *pOut = new std::vector<std::string>();
     print1ToMaxOfNDigits(-1, pOut);
     EXPECT_EQ(0, pOut->size());

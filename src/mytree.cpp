@@ -9,6 +9,7 @@
 #include <exception>
 #include <stdexcept>
 #include <stack>
+#include <queue>
 #include <utility>
 #include "mytree.h"
 
@@ -151,6 +152,127 @@ void posOrderTraversalNonRecursive(BinaryTreeNode *pHead,
             if (pCur->mLeft != NULL) {
                 stack.push(pCur->mLeft);
             }
+        }
+    }
+}
+
+static bool containChild(BinaryTreeNode *pRoot, BinaryTreeNode *pChild) {
+    if (pChild == NULL) {
+        return true;
+    }
+    if (pRoot == NULL) {
+        return false;
+    }
+
+    if (pRoot->mValue == pChild->mValue) {
+        return containChild(pRoot->mLeft, pChild->mRight)
+                && containChild(pRoot->mRight, pChild->mRight);
+    }
+    return false;
+}
+
+void levelTraversal(BinaryTreeNode *pHead, std::vector<int> *pOut/*= NULL*/) {
+    if (pHead == NULL) {
+        return;
+    }
+
+    BinaryTreeNode *pCur = pHead;
+    std::queue<BinaryTreeNode*> queue;
+    queue.push(pCur);
+    while (!queue.empty()) {
+        BinaryTreeNode *pCur = queue.front();
+        queue.pop();
+        printf("%d\n", pCur->mValue);
+        if (pOut != NULL) {
+            pOut->push_back(pCur->mValue);
+        }
+        if (pCur->mLeft != NULL) {
+            queue.push(pCur->mLeft);
+        }
+        if (pCur->mRight != NULL) {
+            queue.push(pCur->mRight);
+        }
+    }
+}
+
+bool isSequeueOfPosOrderTraversalBST(int *array, int length) {
+    if (array == NULL || length < 1) {
+        return false;
+    }
+
+    int root = array[length - 1];
+    int leftIndex = 0;
+    for (; leftIndex < length - 1; ++leftIndex) {
+        if (array[leftIndex] > root) {
+            break;
+        }
+    }
+
+    int rightIndex = leftIndex;
+    for (; rightIndex < length - 1; ++rightIndex) {
+        if (array[rightIndex] < root) {
+            break;
+        }
+    }
+    if (rightIndex < length - 1) {
+        return false;
+    }
+
+    bool leftFlag = true;
+    if (leftIndex > 0) {
+        leftFlag = isSequeueOfPosOrderTraversalBST(array, leftIndex);
+    }
+    bool rightFlag = true;
+    if (leftIndex < length - 1) {
+        rightFlag = isSequeueOfPosOrderTraversalBST(array + leftIndex,
+                length - leftIndex - 1);
+    }
+    return leftFlag && rightFlag;
+}
+
+bool contain(BinaryTreeNode *pRoot, BinaryTreeNode *pChild) {
+    if (pRoot == NULL || pChild == NULL) {
+        return false;
+    }
+
+    if (pRoot->mValue == pChild->mValue) {
+        if (containChild(pRoot->mLeft, pChild->mLeft)
+                && containChild(pRoot->mRight, pChild->mRight)) {
+            return true;
+        }
+    }
+    return contain(pRoot->mLeft, pChild) || contain(pRoot->mRight, pChild);
+}
+
+void getMirrorRecursive(BinaryTreeNode *pNode) {
+    if (pNode == NULL) {
+        return;
+    }
+    BinaryTreeNode *temp = pNode->mLeft;
+    pNode->mLeft = pNode->mRight;
+    pNode->mRight = temp;
+    getMirrorRecursive(pNode->mLeft);
+    getMirrorRecursive(pNode->mRight);
+}
+
+void getMirror(BinaryTreeNode *pNode) {
+    if (pNode == NULL) {
+        return;
+    }
+
+    std::stack<BinaryTreeNode*> stack;
+    stack.push(pNode);
+    while (!stack.empty()) {
+        BinaryTreeNode *pCur = stack.top();
+        stack.pop();
+        BinaryTreeNode *temp = pCur->mLeft;
+        pCur->mLeft = pCur->mRight;
+        pCur->mRight = temp;
+        if (pCur->mRight != NULL) {
+            stack.push(pCur->mRight);
+        }
+        if (pCur->mLeft != NULL) {
+            stack.push(pCur->mLeft);
         }
     }
 }

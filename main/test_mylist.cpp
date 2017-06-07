@@ -208,6 +208,151 @@ TEST(mylistTest, reverseListrecursive) {
     free(pHead);
 }
 
+TEST(mylistTest, mergeOrderList) {
+    ListNode **pHead1 = (ListNode**) malloc(sizeof(ListNode*));
+    ListNode **pHead2 = (ListNode**) malloc(sizeof(ListNode*));
+
+    *pHead1 = NULL;
+    *pHead2 = NULL;
+    EXPECT_TRUE(pHead1 != NULL);
+    EXPECT_TRUE(pHead2 != NULL);
+    EXPECT_EQ(NULL, *pHead1);
+    EXPECT_EQ(NULL, *pHead2);
+
+    EXPECT_EQ(NULL, mergeOrderList(NULL, NULL));
+    EXPECT_EQ(NULL, mergeOrderList(pHead1, pHead2));
+    addToTail(pHead2, 1);
+    *pHead1 = mergeOrderList(pHead1, pHead2);
+    EXPECT_EQ(1, (*pHead1)->mValue);
+    *pHead2 = NULL;
+
+    addToTail(pHead2, 3);
+    *pHead1 = mergeOrderList(pHead1, pHead2);
+    EXPECT_EQ(3, (*pHead1)->mNext->mValue);
+    *pHead2 = NULL;
+
+    addToTail(pHead2, 2);
+    *pHead1 = mergeOrderList(pHead1, pHead2);
+    EXPECT_EQ(2, (*pHead1)->mNext->mValue);
+    *pHead2 = NULL;
+
+    addToTail(pHead2, 3);
+    addToTail(pHead2, 4);
+    *pHead1 = mergeOrderList(pHead1, pHead2);
+    EXPECT_EQ(4, findEndNode(pHead1)->mValue);
+    *pHead2 = NULL;
+
+    addToTail(pHead2, 2);
+    addToTail(pHead2, 3);
+    addToTail(pHead2, 5);
+    *pHead1 = mergeOrderList(pHead1, pHead2);
+    EXPECT_EQ(2, (*pHead1)->mNext->mNext->mValue);
+    EXPECT_EQ(5, findEndNode(pHead1)->mValue);
+    *pHead2 = NULL;
+
+    deleteList(pHead1);
+    free(pHead1);
+    free(pHead2);
+}
+
+TEST(mylistTest, mergeOrderListNewNode) {
+    ListNode **pHead1 = (ListNode**) malloc(sizeof(ListNode*));
+    ListNode **pHead2 = (ListNode**) malloc(sizeof(ListNode*));
+    ListNode **pHeadNew = (ListNode**) malloc(sizeof(ListNode*));
+
+    *pHead1 = NULL;
+    *pHead2 = NULL;
+    EXPECT_TRUE(pHead1 != NULL);
+    EXPECT_TRUE(pHead2 != NULL);
+    EXPECT_EQ(NULL, *pHead1);
+    EXPECT_EQ(NULL, *pHead2);
+
+    EXPECT_EQ(NULL, mergeOrderListNewNode(NULL, NULL));
+    EXPECT_EQ(NULL, mergeOrderListNewNode(pHead1, pHead2));
+    addToTail(pHead1, 1);
+    *pHeadNew = mergeOrderListNewNode(pHead1, pHead2);
+    EXPECT_EQ(1, (*pHeadNew)->mValue);
+    deleteList(pHeadNew);
+
+    addToTail(pHead2, 2);
+    *pHeadNew = mergeOrderListNewNode(pHead1, pHead2);
+    EXPECT_EQ(2, (*pHeadNew)->mNext->mValue);
+    deleteList(pHeadNew);
+
+    addToTail(pHead1, 3);
+    *pHeadNew = mergeOrderListNewNode(pHead1, pHead2);
+    EXPECT_EQ(3, (*pHeadNew)->mNext->mNext->mValue);
+    deleteList(pHeadNew);
+
+    addToTail(pHead1, 3);
+    addToTail(pHead1, 4);
+    *pHeadNew = mergeOrderListNewNode(pHead1, pHead2);
+    EXPECT_EQ(4, findEndNode(pHeadNew)->mValue);
+    deleteList(pHeadNew);
+
+    addToTail(pHead2, 2);
+    addToTail(pHead2, 3);
+    addToTail(pHead2, 5);
+
+    *pHeadNew = mergeOrderListNewNode(pHead1, pHead2);
+    EXPECT_EQ(2, (*pHeadNew)->mNext->mNext->mValue);
+    EXPECT_EQ(5, findEndNode(pHeadNew)->mValue);
+    deleteList(pHeadNew);
+
+    deleteList(pHead1);
+    deleteList(pHead2);
+    free(pHead1);
+    free(pHead2);
+    free(pHeadNew);
+}
+
+TEST(mylistTest, mergeOrderListRecursive) {
+    ListNode **pHead1 = (ListNode**) malloc(sizeof(ListNode*));
+    ListNode **pHead2 = (ListNode**) malloc(sizeof(ListNode*));
+
+    *pHead1 = NULL;
+    *pHead2 = NULL;
+    EXPECT_TRUE(pHead1 != NULL);
+    EXPECT_TRUE(pHead2 != NULL);
+    EXPECT_EQ(NULL, *pHead1);
+    EXPECT_EQ(NULL, *pHead2);
+
+    EXPECT_EQ(NULL, mergeOrderListRecursive(NULL, NULL));
+    EXPECT_EQ(NULL, mergeOrderListRecursive(pHead1, pHead2));
+    addToTail(pHead2, 1);
+    *pHead1 = mergeOrderListRecursive(pHead1, pHead2);
+    EXPECT_EQ(1, (*pHead1)->mValue);
+    *pHead2 = NULL;
+
+    addToTail(pHead2, 3);
+    *pHead1 = mergeOrderListRecursive(pHead1, pHead2);
+    EXPECT_EQ(3, (*pHead1)->mNext->mValue);
+    *pHead2 = NULL;
+
+    addToTail(pHead2, 2);
+    *pHead1 = mergeOrderListRecursive(pHead1, pHead2);
+    EXPECT_EQ(2, (*pHead1)->mNext->mValue);
+    *pHead2 = NULL;
+
+    addToTail(pHead2, 3);
+    addToTail(pHead2, 4);
+    *pHead1 = mergeOrderListRecursive(pHead1, pHead2);
+    EXPECT_EQ(4, findEndNode(pHead1)->mValue);
+    *pHead2 = NULL;
+
+    addToTail(pHead2, 2);
+    addToTail(pHead2, 3);
+    addToTail(pHead2, 5);
+    *pHead1 = mergeOrderListRecursive(pHead1, pHead2);
+    EXPECT_EQ(2, (*pHead1)->mNext->mNext->mValue);
+    EXPECT_EQ(5, findEndNode(pHead1)->mValue);
+    *pHead2 = NULL;
+
+    deleteList(pHead1);
+    free(pHead1);
+    free(pHead2);
+}
+
 TEST(mylistTest, printlist) {
     ListNode **pHead = (ListNode**) malloc(sizeof(ListNode*));
     *pHead = NULL;

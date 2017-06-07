@@ -164,6 +164,127 @@ void reverseListRecursive(ListNode **pHead) {
     *pHead = reverseListRecursive(NULL, *pHead);
 }
 
+ListNode* mergeOrderList(ListNode **pHead1, ListNode **pHead2) {
+    if (pHead1 == NULL || pHead2 == NULL) {
+        return NULL;
+    }
+
+    ListNode *pCur1 = *pHead1, *pCur2 = *pHead2;
+    ListNode *pNew = NULL, *pNewCur = NULL;
+
+    while (pCur1 != NULL && pCur2 != NULL) {
+        if (pCur1->mValue > pCur2->mValue) {
+            if (pNew == NULL) {
+                pNew = pCur2;
+            } else {
+                pNewCur->mNext = pCur2;
+            }
+            pNewCur = pCur2;
+            pCur2 = pCur2->mNext;
+        } else {
+            if (pNew == NULL) {
+                pNew = pCur1;
+            } else {
+                pNewCur->mNext = pCur1;
+            }
+            pNewCur = pCur1;
+            pCur1 = pCur1->mNext;
+        }
+    }
+
+    while (pCur1 != NULL) {
+        if (pNew == NULL) {
+            pNew = pCur1;
+        } else {
+            pNewCur->mNext = pCur1;
+        }
+        pNewCur = pCur1;
+        pCur1 = pCur1->mNext;
+    }
+    while (pCur2 != NULL) {
+        if (pNew == NULL) {
+            pNew = pCur2;
+        } else {
+            pNewCur->mNext = pCur2;
+        }
+        pNewCur = pCur2;
+        pCur2 = pCur2->mNext;
+    }
+
+    return pNew;
+}
+
+ListNode* mergeOrderListNewNode(ListNode **pHead1, ListNode **pHead2) {
+    if (pHead1 == NULL || pHead2 == NULL) {
+        return NULL;
+    }
+
+    ListNode *pCur1 = *pHead1, *pCur2 = *pHead2;
+    ListNode *pNew = new ListNode();
+    ListNode *pCurNew = pNew;
+
+    while (pCur1 != NULL && pCur2 != NULL) {
+        ListNode *node = new ListNode();
+        node->mNext = NULL;
+        if (pCur1->mValue > pCur2->mValue) {
+            node->mValue = pCur2->mValue;
+            pCur2 = pCur2->mNext;
+        } else {
+            node->mValue = pCur1->mValue;
+            pCur1 = pCur1->mNext;
+        }
+        pCurNew->mNext = node;
+        pCurNew = node;
+    }
+    while (pCur1 != NULL) {
+        ListNode *node = new ListNode();
+        node->mNext = NULL;
+        node->mValue = pCur1->mValue;
+        pCur1 = pCur1->mNext;
+        pCurNew->mNext = node;
+        pCurNew = node;
+    }
+    while (pCur2 != NULL) {
+        ListNode *node = new ListNode();
+        node->mNext = NULL;
+        node->mValue = pCur2->mValue;
+        pCur2 = pCur2->mNext;
+        pCurNew->mNext = node;
+        pCurNew = node;
+    }
+
+    ListNode *result = pNew->mNext;
+    delete pNew;
+    return result;
+}
+
+ListNode* mergeOrderList(ListNode *pNode1, ListNode *pNode2) {
+    if (pNode1 == NULL) {
+        return pNode2;
+    }
+    if (pNode2 == NULL) {
+        return pNode1;
+    }
+
+    ListNode *pCur = NULL;
+    if (pNode1->mValue > pNode2->mValue) {
+        pCur = pNode2;
+        pCur->mNext = mergeOrderList(pNode1, pNode2->mNext);
+    } else {
+        pCur = pNode1;
+        pCur->mNext = mergeOrderList(pNode1->mNext, pNode2);
+    }
+    return pCur;
+}
+
+ListNode* mergeOrderListRecursive(ListNode **pHead1, ListNode **pHead2) {
+    if (pHead1 == NULL || pHead2 == NULL) {
+        return NULL;
+    }
+
+    return mergeOrderList(*pHead1, *pHead2);
+}
+
 static void printList(ListNode *pListNode, bool forward,
         std::vector<int> *pOut) {
     if (pListNode != NULL) {
