@@ -20,30 +20,17 @@ bool isStackPopSequence(int *pushArray, int *popArray, int pushSize,
     std::stack<int> stack;
     int pushIndex = 0;
     int popIndex = 0;
-    while (pushIndex < pushSize && popIndex < popSize) {
-        if (pushArray[pushIndex] == popArray[popIndex]) {
-            ++pushIndex, ++popIndex;
-            while (!stack.empty() && popIndex < popSize) {
-                if (stack.top() == popArray[popIndex]) {
-                    stack.pop(), ++popIndex;
-                } else {
-                    break;
-                }
+    while (popIndex < popSize) {
+        while (stack.empty() || stack.top() != popArray[popIndex]) {
+            if (pushIndex == pushSize) {
+                break;
             }
-        } else {
-            stack.push(pushArray[pushIndex]);
-            ++pushIndex;
+            stack.push(pushArray[pushIndex++]);
         }
-    }
-    if (pushIndex < pushSize) {
-        return false;
-    }
-    while (!stack.empty() && popIndex < popSize) {
-        if (stack.top() == popArray[popIndex]) {
-            stack.pop(), ++popIndex;
-        } else {
+        if (stack.top() != popArray[popIndex]) {
             break;
         }
+        stack.pop(), ++popIndex;
     }
     if (!stack.empty() || popIndex < popSize) {
         return false;
