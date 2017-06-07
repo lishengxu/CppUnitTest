@@ -196,6 +196,32 @@ TEST(mytreetest, levelTraversal) {
     delete pOut;
 }
 
+TEST(mytreetest, isSequeueOfPosOrderTraversalBST) {
+    int posOrder1[] = { 1 };
+    int posOrder2[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int posOrder3[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+    int posOrder4[] = { 5, 7, 6, 9, 11, 10, 8 };
+    int posOrder5[] = { 1, 3, 2, 5, 7, 6, 4, 9, 11, 10, 13, 15, 14, 12, 8 };
+    int posOrderError[] = { 7, 4, 6, 5 };
+    int posOrder6[] = { 1, 2, 3, 5, 8, 9, 7, 6, 4, 12, 11, 14, 17, 16, 15, 19,
+            20, 18, 13, 10 };
+    EXPECT_EQ(false, isSequeueOfPosOrderTraversalBST(NULL, 0));
+    EXPECT_EQ(false,
+            isSequeueOfPosOrderTraversalBST(posOrderError, LENGTH(posOrderError)));
+    EXPECT_EQ(true,
+            isSequeueOfPosOrderTraversalBST(posOrder1, LENGTH(posOrder1)));
+    EXPECT_EQ(true,
+            isSequeueOfPosOrderTraversalBST(posOrder2, LENGTH(posOrder2)));
+    EXPECT_EQ(true,
+            isSequeueOfPosOrderTraversalBST(posOrder3, LENGTH(posOrder3)));
+    EXPECT_EQ(true,
+            isSequeueOfPosOrderTraversalBST(posOrder4, LENGTH(posOrder4)));
+    EXPECT_EQ(true,
+            isSequeueOfPosOrderTraversalBST(posOrder5, LENGTH(posOrder5)));
+    EXPECT_EQ(true,
+            isSequeueOfPosOrderTraversalBST(posOrder6, LENGTH(posOrder6)));
+}
+
 TEST(mytreetest, contain) {
     EXPECT_EQ(false, contain(NULL, NULL));
     int preOrder[] = { 1, 2, 4, 7, 3, 9, 5, 11, 6, 8, 10 };
