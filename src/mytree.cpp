@@ -195,6 +195,41 @@ void levelTraversal(BinaryTreeNode *pHead, std::vector<int> *pOut/*= NULL*/) {
     }
 }
 
+bool isSequeueOfPosOrderTraversalBST(int *array, int length) {
+    if (array == NULL || length < 1) {
+        return false;
+    }
+
+    int root = array[length - 1];
+    int leftIndex = 0;
+    for (; leftIndex < length - 1; ++leftIndex) {
+        if (array[leftIndex] > root) {
+            break;
+        }
+    }
+
+    int rightIndex = leftIndex;
+    for (; rightIndex < length - 1; ++rightIndex) {
+        if (array[rightIndex] < root) {
+            break;
+        }
+    }
+    if (rightIndex < length - 1) {
+        return false;
+    }
+
+    bool leftFlag = true;
+    if (leftIndex > 0) {
+        leftFlag = isSequeueOfPosOrderTraversalBST(array, leftIndex);
+    }
+    bool rightFlag = true;
+    if (leftIndex < length - 1) {
+        rightFlag = isSequeueOfPosOrderTraversalBST(array + leftIndex,
+                length - leftIndex - 1);
+    }
+    return leftFlag && rightFlag;
+}
+
 bool contain(BinaryTreeNode *pRoot, BinaryTreeNode *pChild) {
     if (pRoot == NULL || pChild == NULL) {
         return false;

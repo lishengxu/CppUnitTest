@@ -38,6 +38,8 @@ void posOrderTraversalNonRecursive(BinaryTreeNode *pHead,
 
 void levelTraversal(BinaryTreeNode *pHead, std::vector<int> *pOut = NULL);
 
+bool isSequeueOfPosOrderTraversalBST(int *array, int length);
+
 bool contain(BinaryTreeNode *pRoot, BinaryTreeNode *pChild);
 
 void getMirrorRecursive(BinaryTreeNode *pNode);
