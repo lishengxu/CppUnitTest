@@ -8,6 +8,8 @@
 #include "gtest/gtest.h"
 #include "MyStackWithQueue.h"
 #include "MyStack.h"
+#include "stackoperation.h"
+#include "common.h"
 
 TEST(mystacktest, MyStackWithQueue_push) {
     MyStackWithQueue<int> mystack;
@@ -54,6 +56,18 @@ TEST(mystacktest, MyStackmin) {
     EXPECT_EQ(0, mystack.min());
     mystack.pop();
     EXPECT_EQ(1, mystack.min());
+}
+
+TEST(mystacktest, isStackPopSequence) {
+    EXPECT_EQ(false, isStackPopSequence(NULL, NULL, 0, 0));
+
+    int pushArray[] = { 1, 2, 3, 4, 5 };
+    int popArrayCorrect[] = { 4, 3, 2, 1, 5 };
+    int popArrayError[] = { 4, 3, 5, 1, 2 };
+    EXPECT_EQ(false,
+            isStackPopSequence(pushArray, popArrayError, LENGTH(pushArray), LENGTH(popArrayError)));
+    EXPECT_EQ(true,
+            isStackPopSequence(pushArray, popArrayCorrect, LENGTH(pushArray), LENGTH(popArrayCorrect)));
 }
 
 TEST(mystacktest, other) {
