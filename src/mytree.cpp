@@ -6,6 +6,7 @@
  */
 #include <stdio.h>
 #include <stddef.h>
+#include <iostream>
 #include <exception>
 #include <stdexcept>
 #include <stack>
@@ -262,6 +263,47 @@ bool isSequeueOfPreOrderTraversalBST(const int *array, int length) {
         leftFlag = isSequeueOfPreOrderTraversalBST(array + 1, rightIndex);
     }
     return leftFlag && rightFlag;
+}
+
+static void printPath(std::vector<int> *stack, std::vector<int> *pOut = NULL) {
+    for (std::vector<int>::const_iterator iter = stack->begin();
+            iter != stack->end(); ++iter) {
+        std::cout << (*iter) << std::endl;
+        if (pOut != NULL) {
+            pOut->push_back(*iter);
+        }
+    }
+}
+
+static void findPath(BinaryTreeNode *pNode, std::vector<int> *path,
+        const int sum, std::vector<int> *pOut = NULL) {
+    path->push_back(pNode->mValue);
+    if (pNode->mLeft == NULL && pNode->mRight == NULL && pNode->mValue == sum) {
+        printPath(path, pOut);
+    }
+    if (pNode->mLeft != NULL) {
+        findPath(pNode->mLeft, path, sum - pNode->mValue, pOut);
+    }
+    if (pNode->mRight != NULL) {
+        findPath(pNode->mRight, path, sum - pNode->mValue, pOut);
+    }
+
+    path->pop_back();
+}
+
+/**
+ * 该函数是在二叉树中找到从根节点到叶节点的路径长度为指定值的路径。
+ * 另外一个待实现的查找为在二叉树的任何节点到任何子节点的路径长度为指定值的路径。
+ */
+void findPath(BinaryTreeNode *pRoot, const int sum,
+        std::vector<int> *pOut/*= NULL*/) {
+    if (pRoot == NULL) {
+        return;
+    }
+
+    std::vector<int> *path = new std::vector<int>();
+    findPath(pRoot, path, sum, pOut);
+    delete path;
 }
 
 bool contain(BinaryTreeNode *pRoot, BinaryTreeNode *pChild) {

@@ -42,6 +42,9 @@ bool isSequeueOfPosOrderTraversalBST(const int *array, int length);
 
 bool isSequeueOfPreOrderTraversalBST(const int *array, int length);
 
+void findPath(BinaryTreeNode *pRoot, const int sum, std::vector<int> *pOut =
+        NULL);
+
 bool contain(BinaryTreeNode *pRoot, BinaryTreeNode *pChild);
 
 void getMirrorRecursive(BinaryTreeNode *pNode);
