@@ -40,6 +40,8 @@ void levelTraversal(BinaryTreeNode *pHead, std::vector<int> *pOut = NULL);
 
 bool isSequeueOfPosOrderTraversalBST(const int *array, int length);
 
+bool isSequeueOfPreOrderTraversalBST(const int *array, int length);
+
 bool contain(BinaryTreeNode *pRoot, BinaryTreeNode *pChild);
 
 void getMirrorRecursive(BinaryTreeNode *pNode);

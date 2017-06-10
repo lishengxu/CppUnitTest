@@ -230,6 +230,40 @@ bool isSequeueOfPosOrderTraversalBST(const int *array, int length) {
     return leftFlag && rightFlag;
 }
 
+bool isSequeueOfPreOrderTraversalBST(const int *array, int length) {
+    if (array == NULL || length < 1) {
+        return false;
+    }
+
+    int value = array[0];
+    int rightIndex = length - 1;
+    for (/*NULL*/; rightIndex > 0; --rightIndex) {
+        if (array[rightIndex] < value) {
+            break;
+        }
+    }
+    int leftIndex = rightIndex;
+    for (/*NULL*/; leftIndex > 0; --leftIndex) {
+        if (array[leftIndex] > value) {
+            break;
+        }
+    }
+    if (leftIndex > 0) {
+        return false;
+    }
+
+    bool rightFlag = true;
+    if (rightIndex < length - 1) {
+        rightFlag = isSequeueOfPreOrderTraversalBST(array + rightIndex + 1,
+                length - rightIndex - 1);
+    }
+    bool leftFlag = true;
+    if (rightIndex > 0) {
+        leftFlag = isSequeueOfPreOrderTraversalBST(array + 1, rightIndex);
+    }
+    return leftFlag && rightFlag;
+}
+
 bool contain(BinaryTreeNode *pRoot, BinaryTreeNode *pChild) {
     if (pRoot == NULL || pChild == NULL) {
         return false;
