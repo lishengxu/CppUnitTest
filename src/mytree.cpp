@@ -353,6 +353,46 @@ void getMirror(BinaryTreeNode *pNode) {
     }
 }
 
+static BinaryTreeNode* convertBinaryTreeToDoubleLinkedList(
+        BinaryTreeNode *pNode, bool isLeft) {
+    if (pNode == NULL) {
+        return NULL;
+    }
+    BinaryTreeNode *pLeft = convertBinaryTreeToDoubleLinkedList(pNode->mLeft,
+            true);
+    BinaryTreeNode *pRight = convertBinaryTreeToDoubleLinkedList(pNode->mRight,
+            false);
+    pNode->mLeft = NULL;
+    if (pLeft != NULL) {
+        pNode->mLeft = pLeft;
+        pLeft->mRight = pNode;
+    }
+    pNode->mRight = NULL;
+    if (pRight != NULL) {
+        pNode->mRight = pRight;
+        pRight->mLeft = pNode;
+    }
+
+    if (isLeft) {
+        return pRight != NULL ? pRight : pNode;
+    } else {
+        return pLeft != NULL ? pLeft : pNode;
+    }
+}
+
+BinaryTreeNode* convertBinaryTreeToDoubleLinkedList(BinaryTreeNode *pRoot) {
+    if (pRoot == NULL) {
+        return NULL;
+    }
+
+    convertBinaryTreeToDoubleLinkedList(pRoot, false);
+    BinaryTreeNode *pNew = pRoot;
+    while (pNew->mLeft != NULL) {
+        pNew = pNew->mLeft;
+    }
+    return pNew;
+}
+
 void destoryTree(BinaryTreeNode *root) {
     if (root == NULL) {
         return;
