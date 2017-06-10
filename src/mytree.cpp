@@ -6,6 +6,7 @@
  */
 #include <stdio.h>
 #include <stddef.h>
+#include <iostream>
 #include <exception>
 #include <stdexcept>
 #include <stack>
@@ -195,7 +196,7 @@ void levelTraversal(BinaryTreeNode *pHead, std::vector<int> *pOut/*= NULL*/) {
     }
 }
 
-bool isSequeueOfPosOrderTraversalBST(int *array, int length) {
+bool isSequeueOfPosOrderTraversalBST(const int *array, int length) {
     if (array == NULL || length < 1) {
         return false;
     }
@@ -228,6 +229,81 @@ bool isSequeueOfPosOrderTraversalBST(int *array, int length) {
                 length - leftIndex - 1);
     }
     return leftFlag && rightFlag;
+}
+
+bool isSequeueOfPreOrderTraversalBST(const int *array, int length) {
+    if (array == NULL || length < 1) {
+        return false;
+    }
+
+    int value = array[0];
+    int rightIndex = length - 1;
+    for (/*NULL*/; rightIndex > 0; --rightIndex) {
+        if (array[rightIndex] < value) {
+            break;
+        }
+    }
+    int leftIndex = rightIndex;
+    for (/*NULL*/; leftIndex > 0; --leftIndex) {
+        if (array[leftIndex] > value) {
+            break;
+        }
+    }
+    if (leftIndex > 0) {
+        return false;
+    }
+
+    bool rightFlag = true;
+    if (rightIndex < length - 1) {
+        rightFlag = isSequeueOfPreOrderTraversalBST(array + rightIndex + 1,
+                length - rightIndex - 1);
+    }
+    bool leftFlag = true;
+    if (rightIndex > 0) {
+        leftFlag = isSequeueOfPreOrderTraversalBST(array + 1, rightIndex);
+    }
+    return leftFlag && rightFlag;
+}
+
+static void printPath(std::vector<int> *stack, std::vector<int> *pOut = NULL) {
+    for (std::vector<int>::const_iterator iter = stack->begin();
+            iter != stack->end(); ++iter) {
+        std::cout << (*iter) << std::endl;
+        if (pOut != NULL) {
+            pOut->push_back(*iter);
+        }
+    }
+}
+
+static void findPath(BinaryTreeNode *pNode, std::vector<int> *path,
+        const int sum, std::vector<int> *pOut = NULL) {
+    path->push_back(pNode->mValue);
+    if (pNode->mLeft == NULL && pNode->mRight == NULL && pNode->mValue == sum) {
+        printPath(path, pOut);
+    }
+    if (pNode->mLeft != NULL) {
+        findPath(pNode->mLeft, path, sum - pNode->mValue, pOut);
+    }
+    if (pNode->mRight != NULL) {
+        findPath(pNode->mRight, path, sum - pNode->mValue, pOut);
+    }
+
+    path->pop_back();
+}
+
+/**
+ * 该函数是在二叉树中找到从根节点到叶节点的路径长度为指定值的路径。
+ * 另外一个待实现的查找为在二叉树的任何节点到任何子节点的路径长度为指定值的路径。
+ */
+void findPath(BinaryTreeNode *pRoot, const int sum,
+        std::vector<int> *pOut/*= NULL*/) {
+    if (pRoot == NULL) {
+        return;
+    }
+
+    std::vector<int> *path = new std::vector<int>();
+    findPath(pRoot, path, sum, pOut);
+    delete path;
 }
 
 bool contain(BinaryTreeNode *pRoot, BinaryTreeNode *pChild) {
@@ -275,6 +351,46 @@ void getMirror(BinaryTreeNode *pNode) {
             stack.push(pCur->mLeft);
         }
     }
+}
+
+static BinaryTreeNode* convertBinaryTreeToDoubleLinkedList(
+        BinaryTreeNode *pNode, bool isLeft) {
+    if (pNode == NULL) {
+        return NULL;
+    }
+    BinaryTreeNode *pLeft = convertBinaryTreeToDoubleLinkedList(pNode->mLeft,
+            true);
+    BinaryTreeNode *pRight = convertBinaryTreeToDoubleLinkedList(pNode->mRight,
+            false);
+    pNode->mLeft = NULL;
+    if (pLeft != NULL) {
+        pNode->mLeft = pLeft;
+        pLeft->mRight = pNode;
+    }
+    pNode->mRight = NULL;
+    if (pRight != NULL) {
+        pNode->mRight = pRight;
+        pRight->mLeft = pNode;
+    }
+
+    if (isLeft) {
+        return pRight != NULL ? pRight : pNode;
+    } else {
+        return pLeft != NULL ? pLeft : pNode;
+    }
+}
+
+BinaryTreeNode* convertBinaryTreeToDoubleLinkedList(BinaryTreeNode *pRoot) {
+    if (pRoot == NULL) {
+        return NULL;
+    }
+
+    convertBinaryTreeToDoubleLinkedList(pRoot, false);
+    BinaryTreeNode *pNew = pRoot;
+    while (pNew->mLeft != NULL) {
+        pNew = pNew->mLeft;
+    }
+    return pNew;
 }
 
 void destoryTree(BinaryTreeNode *root) {

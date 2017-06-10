@@ -38,13 +38,20 @@ void posOrderTraversalNonRecursive(BinaryTreeNode *pHead,
 
 void levelTraversal(BinaryTreeNode *pHead, std::vector<int> *pOut = NULL);
 
-bool isSequeueOfPosOrderTraversalBST(int *array, int length);
+bool isSequeueOfPosOrderTraversalBST(const int *array, int length);
+
+bool isSequeueOfPreOrderTraversalBST(const int *array, int length);
+
+void findPath(BinaryTreeNode *pRoot, const int sum, std::vector<int> *pOut =
+        NULL);
 
 bool contain(BinaryTreeNode *pRoot, BinaryTreeNode *pChild);
 
 void getMirrorRecursive(BinaryTreeNode *pNode);
 
 void getMirror(BinaryTreeNode *pNode);
+
+BinaryTreeNode* convertBinaryTreeToDoubleLinkedList(BinaryTreeNode *pRoot);
 
 void destoryTree(BinaryTreeNode *root);
 #endif /* MYTREE_H_ */

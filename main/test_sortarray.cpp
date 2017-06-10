@@ -203,7 +203,7 @@ TEST(sortarraytest, frontOddAndAfterEven) {
 
 }
 
-TEST(sortarraytest, printMatrixClockwise) {
+TEST(sortarraytest, DISABLED_printMatrixClockwise) {
     std::vector<int> *pOut = new std::vector<int>();
 
     int array[] = { 1 };

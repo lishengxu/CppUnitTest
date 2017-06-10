@@ -222,6 +222,75 @@ TEST(mytreetest, isSequeueOfPosOrderTraversalBST) {
             isSequeueOfPosOrderTraversalBST(posOrder6, LENGTH(posOrder6)));
 }
 
+TEST(mytreetest, isSequeueOfPreOrderTraversalBST) {
+    int preOrder1[] = { 1 };
+    int preOrder2[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int preOrder3[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+    int preOrder4[] = { 8, 6, 5, 7, 10, 9, 11 };
+    int preOrder5[] = { 8, 4, 2, 1, 3, 6, 5, 7, 12, 10, 9, 11, 14, 13, 15 };
+    int preOrderError[] = { 5, 6, 7, 4 };
+    int preOrderError2[] = { 1, 2, 3, 5, 8, 9, 7, 6, 4, 12, 11, 14, 17, 16, 15,
+            19, 20, 18, 13, 10 };
+    EXPECT_EQ(false, isSequeueOfPreOrderTraversalBST(NULL, 0));
+    EXPECT_EQ(false,
+            isSequeueOfPreOrderTraversalBST(preOrderError, LENGTH(preOrderError)));
+    EXPECT_EQ(true,
+            isSequeueOfPreOrderTraversalBST(preOrder1, LENGTH(preOrder1)));
+    EXPECT_EQ(true,
+            isSequeueOfPreOrderTraversalBST(preOrder2, LENGTH(preOrder2)));
+    EXPECT_EQ(true,
+            isSequeueOfPreOrderTraversalBST(preOrder3, LENGTH(preOrder3)));
+    EXPECT_EQ(true,
+            isSequeueOfPreOrderTraversalBST(preOrder4, LENGTH(preOrder4)));
+    EXPECT_EQ(true,
+            isSequeueOfPreOrderTraversalBST(preOrder5, LENGTH(preOrder5)));
+    EXPECT_EQ(false,
+            isSequeueOfPreOrderTraversalBST(preOrderError2, LENGTH(preOrderError2)));
+}
+
+TEST(mytreetest, findPath) {
+    int preOrder[] = { 1 };
+    int inOrder[] = { 1 };
+    BinaryTreeNode *root = construct(preOrder, inOrder, LENGTH(preOrder));
+    std::vector<int> *pOut = new std::vector<int>();
+    findPath(root, 0, pOut);
+    EXPECT_EQ(0, pOut->size());
+    findPath(root, 1, pOut);
+    EXPECT_EQ(1, pOut->size());
+    int expect[] = { 1 };
+    for (int i = 0; i < LENGTH(expect); ++i) {
+        EXPECT_EQ(expect[i], pOut->at(i)) << "is differ at " << i << std::endl;
+    }
+    pOut->clear();
+
+    int preOrder1[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int inOrder1[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+    root = construct(preOrder1, inOrder1, LENGTH(preOrder1));
+    findPath(root, 0, pOut);
+    EXPECT_EQ(0, pOut->size());
+    findPath(root, 3, pOut);
+    EXPECT_EQ(0, pOut->size());
+    findPath(root, 45, pOut);
+    int expect1[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    for (int i = 0; i < LENGTH(expect1); ++i) {
+        EXPECT_EQ(expect1[i], pOut->at(i)) << "is differ at " << i << std::endl;
+    }
+    pOut->clear();
+
+    int preOrder2[] = { 1, 2, 4, 7, 3, 9, 5, 11, 6, 8, 10 };
+    int inOrder2[] = { 4, 7, 2, 1, 5, 9, 11, 3, 8, 6, 10 };
+    root = construct(preOrder2, inOrder2, LENGTH(preOrder2));
+
+    findPath(root, 13, pOut);
+    EXPECT_EQ(0, pOut->size());
+    findPath(root, 18, pOut);
+    int expect2[] = { 1, 3, 9, 5, 1, 3, 6, 8 };
+    EXPECT_EQ(8, pOut->size());
+    for (int i = 0; i < LENGTH(expect2); ++i) {
+        EXPECT_EQ(expect2[i], pOut->at(i)) << "is differ at " << i << std::endl;
+    }
+}
+
 TEST(mytreetest, contain) {
     EXPECT_EQ(false, contain(NULL, NULL));
     int preOrder[] = { 1, 2, 4, 7, 3, 9, 5, 11, 6, 8, 10 };
@@ -248,7 +317,7 @@ TEST(mytreetest, contain) {
     destoryTree(child2);
 }
 
-TEST(mytreetest, getMirrorRecursive) {
+TEST(mytreetest, DISABLED_getMirrorRecursive) {
     int preOrder[] = { 1, 2, 4, 7, 3, 9, 5, 11, 6, 8, 10 };
     int inOrder[] = { 4, 7, 2, 1, 5, 9, 11, 3, 8, 10, 6 };
     int expectPreOrderMirror[] = { 1, 3, 6, 8, 10, 9, 11, 5, 2, 4, 7 };
@@ -295,7 +364,7 @@ TEST(mytreetest, getMirrorRecursive) {
     delete pOut;
 }
 
-TEST(mytreetest, getMirror) {
+TEST(mytreetest, DISABLED_getMirror) {
     int preOrder[] = { 1, 2, 4, 7, 3, 9, 5, 11, 6, 8, 10 };
     int inOrder[] = { 4, 7, 2, 1, 5, 9, 11, 3, 8, 10, 6 };
     int expectPreOrderMirror[] = { 1, 3, 6, 8, 10, 9, 11, 5, 2, 4, 7 };
@@ -341,3 +410,66 @@ TEST(mytreetest, getMirror) {
     destoryTree(root);
     delete pOut;
 }
+
+static void destoryListTree(BinaryTreeNode *root) {
+    if (root == NULL) {
+        return;
+    }
+    BinaryTreeNode* pCur = root;
+    destoryListTree(pCur->mRight);
+    delete pCur;
+    pCur = NULL;
+}
+
+TEST(mytreetest, convertBinaryTreeToDoubleLinkedList) {
+    int preOrder[] = { 1 };
+    int inOrder[] = { 1 };
+    BinaryTreeNode *root = construct(preOrder, inOrder, LENGTH(preOrder));
+
+    root = convertBinaryTreeToDoubleLinkedList(root);
+    EXPECT_EQ(1, root->mValue);
+    EXPECT_EQ(NULL, root->mLeft);
+    EXPECT_EQ(NULL, root->mRight);
+    destoryListTree(root);
+
+    int preOrder1[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int inOrder1[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    root = construct(preOrder1, inOrder1, LENGTH(preOrder1));
+
+    root = convertBinaryTreeToDoubleLinkedList(root);
+    EXPECT_EQ(1, root->mValue);
+    EXPECT_EQ(NULL, root->mLeft);
+
+    BinaryTreeNode *pCur = root;
+    BinaryTreeNode *pNext = pCur->mRight;
+    for (int i = 2; i < 9; ++i) {
+        EXPECT_EQ(i, pNext->mValue);
+        EXPECT_EQ(pCur, pNext->mLeft);
+        pCur = pNext;
+        pNext = pCur->mRight;
+    }
+    EXPECT_EQ(9, pNext->mValue);
+    EXPECT_EQ(NULL, pNext->mRight);
+    destoryListTree(root);
+
+    int preOrder2[] = { 10, 6, 4, 8, 14, 12, 16 };
+    int inOrder2[] = { 4, 6, 8, 10, 12, 14, 16 };
+    root = construct(preOrder2, inOrder2, LENGTH(preOrder2));
+
+    root = convertBinaryTreeToDoubleLinkedList(root);
+    EXPECT_EQ(4, root->mValue);
+    EXPECT_EQ(NULL, root->mLeft);
+
+    pCur = root;
+    pNext = pCur->mRight;
+    for (int i = 2; i < 7; ++i) {
+        EXPECT_EQ(inOrder2[i - 1], pNext->mValue);
+        EXPECT_EQ(pCur, pNext->mLeft);
+        pCur = pNext;
+        pNext = pCur->mRight;
+    }
+    EXPECT_EQ(16, pNext->mValue);
+    EXPECT_EQ(NULL, pNext->mRight);
+    //destoryListTree(root);
+}
+

@@ -7,6 +7,163 @@
 #include "stdio.h"
 #include "mylist.h"
 
+static ComplexListNode* cloneNodes(ComplexListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return NULL;
+    }
+
+    ComplexListNode *pNewHead = NULL;
+    ComplexListNode *pNewCur = NULL;
+    ComplexListNode *pCur = *pHead;
+    while (pCur != NULL) {
+        ComplexListNode *pNew = new ComplexListNode();
+        pNew->mValue = pCur->mValue;
+        pNew->mNext = pCur->mNext;
+        pNew->mSibling = pCur->mSibling;
+        if (pNewHead == NULL) {
+            pNewHead = pNew;
+        } else {
+            pNewCur->mNext = pNew;
+        }
+        pNewCur = pNew;
+        pCur = pCur->mNext;
+    }
+    return pNewHead;
+}
+
+static void cloneSibling(ComplexListNode **pHead, ComplexListNode **pNew) {
+    if (pHead == NULL || *pHead == NULL || pNew == NULL || *pNew == NULL) {
+        return;
+    }
+    ComplexListNode *pCur = *pHead;
+    ComplexListNode *pNewCur = *pNew;
+    while (pCur != NULL) {
+        ComplexListNode *pSibling = pCur->mSibling;
+        if (pSibling != NULL) {
+            pNewCur->mSibling = getValue(pNew, getIndex(pHead, pSibling));
+        }
+        pCur = pCur->mNext;
+        pNewCur = pNewCur->mNext;
+    }
+}
+
+static void cloneAnotherNodes(ComplexListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return;
+    }
+
+    ComplexListNode *pCur = *pHead;
+    while (pCur != NULL) {
+        ComplexListNode *pNew = new ComplexListNode();
+        pNew->mValue = pCur->mValue;
+        pNew->mSibling = NULL;
+        pNew->mNext = pCur->mNext;
+        pCur->mNext = pNew;
+        pCur = pNew->mNext;
+    }
+}
+
+static void cloneOddSiblingToOdd(ComplexListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return;
+    }
+
+    ComplexListNode *pCur = *pHead;
+    while (pCur != NULL && pCur->mNext != NULL) {
+        if (pCur->mSibling != NULL) {
+            pCur->mNext->mSibling = pCur->mSibling->mNext;
+        }
+        pCur = pCur->mNext->mNext;
+    }
+}
+
+static ComplexListNode* paritySplit(ComplexListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return NULL;
+    }
+
+    ComplexListNode *pCur = *pHead;
+    ComplexListNode *pNewHead = NULL;
+    ComplexListNode *pNewCur = NULL;
+    while (pCur != NULL && pCur->mNext != NULL) {
+        if (pNewHead == NULL) {
+            pNewHead = pCur->mNext;
+        } else {
+            pNewCur->mNext = pCur->mNext;
+        }
+        pNewCur = pCur->mNext;
+        pCur->mNext = pCur->mNext->mNext;
+        pCur = pCur->mNext;
+    }
+    return pNewHead;
+}
+
+ComplexListNode* clone(ComplexListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return NULL;
+    }
+
+    ComplexListNode *pNewHead = cloneNodes(pHead);
+    cloneSibling(pHead, &pNewHead);
+
+    return pNewHead;
+}
+
+ComplexListNode* quickClone(ComplexListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return NULL;
+    }
+
+    cloneAnotherNodes(pHead);
+    cloneOddSiblingToOdd(pHead);
+    return paritySplit(pHead);
+}
+
+int getIndex(ComplexListNode **pHead, ComplexListNode *pNode) {
+    if (pHead == NULL || *pHead == NULL || pNode == NULL) {
+        return -1;
+    }
+
+    ComplexListNode *pCur = *pHead;
+    int index = 0;
+    while (pCur != NULL && pCur != pNode) {
+        pCur = pCur->mNext;
+        ++index;
+    }
+
+    if (pCur != NULL) {
+        return index;
+    }
+    return -1;
+}
+
+ComplexListNode* getValue(ComplexListNode **pHead, int index) {
+    if (pHead == NULL || *pHead == NULL || index < 0) {
+        return NULL;
+    }
+
+    ComplexListNode *pCur = *pHead;
+    while (pCur != NULL && index > 0) {
+        pCur = pCur->mNext;
+        --index;
+    }
+    return pCur;
+}
+
+void deleteList(ComplexListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return;
+    }
+    ComplexListNode *pCur = *pHead;
+    while (pCur != NULL) {
+        ComplexListNode *pToDel = pCur;
+        pCur = pCur->mNext;
+        delete pToDel;
+        pToDel = NULL;
+    }
+    *pHead = NULL;
+}
+
 void addToTail(ListNode **pHead, int value) {
     if (pHead == NULL) {
         return;

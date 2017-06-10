@@ -16,6 +16,22 @@ struct ListNode {
     ListNode *mNext;
 };
 
+struct ComplexListNode {
+    int mValue;
+    ComplexListNode *mNext;
+    ComplexListNode *mSibling;
+};
+
+ComplexListNode* clone(ComplexListNode **pHead);
+
+ComplexListNode* quickClone(ComplexListNode **pHead);
+
+int getIndex(ComplexListNode **pHead, ComplexListNode *pNode);
+
+ComplexListNode* getValue(ComplexListNode **pHead, int index);
+
+void deleteList(ComplexListNode **pHead);
+
 void addToTail(ListNode **pHead, int value);
 
 ListNode* findKNodeToTail(ListNode **pHead, unsigned int k);
