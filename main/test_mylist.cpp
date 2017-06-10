@@ -104,6 +104,102 @@ TEST(mylistTest, clone) {
     free(pNew);
 }
 
+TEST(mylistTest, quickClone) {
+    EXPECT_EQ(NULL, quickClone(NULL));
+    ComplexListNode **pHead = (ComplexListNode**) malloc(
+            sizeof(ComplexListNode*));
+    *pHead = NULL;
+    EXPECT_TRUE(pHead != NULL);
+    EXPECT_EQ(NULL, *pHead);
+
+    ComplexListNode *pNode1 = new ComplexListNode();
+    pNode1->mNext = NULL;
+    pNode1->mValue = 1;
+    pNode1->mSibling = pNode1;
+    *pHead = pNode1;
+
+    ComplexListNode **pNew = (ComplexListNode**) malloc(
+            sizeof(ComplexListNode*));
+    *pNew = quickClone(pHead);
+    EXPECT_EQ(1, (*pNew)->mValue);
+    EXPECT_EQ(NULL, (*pNew)->mNext);
+    EXPECT_EQ(1, (*pNew)->mSibling->mValue);
+    deleteList(pNew);
+
+    ComplexListNode *pNode2 = new ComplexListNode();
+    pNode2->mNext = NULL;
+    pNode2->mValue = 2;
+    pNode2->mSibling = NULL;
+    pNode1->mNext = pNode2;
+
+    ComplexListNode *pNode3 = new ComplexListNode();
+    pNode3->mNext = NULL;
+    pNode3->mValue = 3;
+    pNode3->mSibling = NULL;
+    pNode2->mNext = pNode3;
+
+    ComplexListNode *pNode4 = new ComplexListNode();
+    pNode4->mNext = NULL;
+    pNode4->mValue = 4;
+    pNode4->mSibling = NULL;
+    pNode3->mNext = pNode4;
+
+    ComplexListNode *pNode5 = new ComplexListNode();
+    pNode5->mNext = NULL;
+    pNode5->mValue = 5;
+    pNode5->mSibling = NULL;
+    pNode4->mNext = pNode5;
+
+    ComplexListNode *pNode6 = new ComplexListNode();
+    pNode6->mNext = NULL;
+    pNode6->mValue = 6;
+    pNode6->mSibling = NULL;
+    pNode5->mNext = pNode6;
+
+    EXPECT_EQ(1, (*pHead)->mValue);
+    EXPECT_EQ(2, (*pHead)->mNext->mValue);
+    EXPECT_EQ(3, (*pHead)->mNext->mNext->mValue);
+    EXPECT_EQ(4, (*pHead)->mNext->mNext->mNext->mValue);
+    EXPECT_EQ(5, (*pHead)->mNext->mNext->mNext->mNext->mValue);
+    EXPECT_EQ(6, (*pHead)->mNext->mNext->mNext->mNext->mNext->mValue);
+    EXPECT_EQ(NULL, (*pHead)->mNext->mNext->mNext->mNext->mNext->mNext);
+    pNode1->mSibling = pNode4;
+    pNode2->mSibling = pNode3;
+    pNode3->mSibling = pNode1;
+    pNode4->mSibling = pNode2;
+    pNode5->mSibling = pNode1;
+    pNode6->mSibling = pNode5;
+    EXPECT_EQ((*pHead)->mNext->mNext->mNext, (*pHead)->mSibling);
+    EXPECT_EQ((*pHead)->mNext->mNext, (*pHead)->mNext->mSibling);
+    EXPECT_EQ(*pHead, (*pHead)->mNext->mNext->mSibling);
+    EXPECT_EQ((*pHead)->mNext, (*pHead)->mNext->mNext->mNext->mSibling);
+    EXPECT_EQ((*pHead), (*pHead)->mNext->mNext->mNext->mNext->mSibling);
+    EXPECT_EQ((*pHead)->mNext->mNext->mNext->mNext,
+            (*pHead)->mNext->mNext->mNext->mNext->mNext->mSibling);
+
+    *pNew = quickClone(pHead);
+    EXPECT_EQ(1, (*pNew)->mValue);
+    EXPECT_EQ(2, (*pNew)->mNext->mValue);
+    EXPECT_EQ(3, (*pNew)->mNext->mNext->mValue);
+    EXPECT_EQ(4, (*pNew)->mNext->mNext->mNext->mValue);
+    EXPECT_EQ(5, (*pNew)->mNext->mNext->mNext->mNext->mValue);
+    EXPECT_EQ(6, (*pNew)->mNext->mNext->mNext->mNext->mNext->mValue);
+    EXPECT_EQ(NULL, (*pNew)->mNext->mNext->mNext->mNext->mNext->mNext);
+    EXPECT_EQ((*pNew)->mNext->mNext->mNext, (*pNew)->mSibling);
+    EXPECT_EQ((*pNew)->mNext->mNext, (*pNew)->mNext->mSibling);
+    EXPECT_EQ(*pNew, (*pNew)->mNext->mNext->mSibling);
+    EXPECT_EQ((*pNew)->mNext, (*pNew)->mNext->mNext->mNext->mSibling);
+    EXPECT_EQ((*pNew), (*pNew)->mNext->mNext->mNext->mNext->mSibling);
+    EXPECT_EQ((*pNew)->mNext->mNext->mNext->mNext,
+            (*pNew)->mNext->mNext->mNext->mNext->mNext->mSibling);
+
+    deleteList(pHead);
+    deleteList(pNew);
+
+    free(pHead);
+    free(pNew);
+}
+
 TEST(mylistTest, getIndex) {
     EXPECT_EQ(-1, getIndex(NULL, NULL));
     ComplexListNode **pHead = (ComplexListNode**) malloc(

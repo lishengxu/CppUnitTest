@@ -24,6 +24,8 @@ struct ComplexListNode {
 
 ComplexListNode* clone(ComplexListNode **pHead);
 
+ComplexListNode* quickClone(ComplexListNode **pHead);
+
 int getIndex(ComplexListNode **pHead, ComplexListNode *pNode);
 
 ComplexListNode* getValue(ComplexListNode **pHead, int index);

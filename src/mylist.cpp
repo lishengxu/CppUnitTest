@@ -31,8 +31,7 @@ static ComplexListNode* cloneNodes(ComplexListNode **pHead) {
     return pNewHead;
 }
 
-static void cloneSibling(ComplexListNode **pHead,
-        ComplexListNode **pNew) {
+static void cloneSibling(ComplexListNode **pHead, ComplexListNode **pNew) {
     if (pHead == NULL || *pHead == NULL || pNew == NULL || *pNew == NULL) {
         return;
     }
@@ -48,6 +47,57 @@ static void cloneSibling(ComplexListNode **pHead,
     }
 }
 
+static void cloneAnotherNodes(ComplexListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return;
+    }
+
+    ComplexListNode *pCur = *pHead;
+    while (pCur != NULL) {
+        ComplexListNode *pNew = new ComplexListNode();
+        pNew->mValue = pCur->mValue;
+        pNew->mSibling = NULL;
+        pNew->mNext = pCur->mNext;
+        pCur->mNext = pNew;
+        pCur = pNew->mNext;
+    }
+}
+
+static void cloneOddSiblingToOdd(ComplexListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return;
+    }
+
+    ComplexListNode *pCur = *pHead;
+    while (pCur != NULL && pCur->mNext != NULL) {
+        if (pCur->mSibling != NULL) {
+            pCur->mNext->mSibling = pCur->mSibling->mNext;
+        }
+        pCur = pCur->mNext->mNext;
+    }
+}
+
+static ComplexListNode* paritySplit(ComplexListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return NULL;
+    }
+
+    ComplexListNode *pCur = *pHead;
+    ComplexListNode *pNewHead = NULL;
+    ComplexListNode *pNewCur = NULL;
+    while (pCur != NULL && pCur->mNext != NULL) {
+        if (pNewHead == NULL) {
+            pNewHead = pCur->mNext;
+        } else {
+            pNewCur->mNext = pCur->mNext;
+        }
+        pNewCur = pCur->mNext;
+        pCur->mNext = pCur->mNext->mNext;
+        pCur = pCur->mNext;
+    }
+    return pNewHead;
+}
+
 ComplexListNode* clone(ComplexListNode **pHead) {
     if (pHead == NULL || *pHead == NULL) {
         return NULL;
@@ -57,6 +107,16 @@ ComplexListNode* clone(ComplexListNode **pHead) {
     cloneSibling(pHead, &pNewHead);
 
     return pNewHead;
+}
+
+ComplexListNode* quickClone(ComplexListNode **pHead) {
+    if (pHead == NULL || *pHead == NULL) {
+        return NULL;
+    }
+
+    cloneAnotherNodes(pHead);
+    cloneOddSiblingToOdd(pHead);
+    return paritySplit(pHead);
 }
 
 int getIndex(ComplexListNode **pHead, ComplexListNode *pNode) {
