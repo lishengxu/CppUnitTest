@@ -51,7 +51,13 @@ void getMirrorRecursive(BinaryTreeNode *pNode);
 
 void getMirror(BinaryTreeNode *pNode);
 
-BinaryTreeNode* convertBinaryTreeToDoubleLinkedListRecursive(BinaryTreeNode *pRoot);
+BinaryTreeNode* convertBinaryTreeToDoubleLinkedList(BinaryTreeNode *pRoot);
+
+BinaryTreeNode* convertBinaryTreeToDoubleLinkedListRecursive(
+        BinaryTreeNode *pRoot);
+
+BinaryTreeNode* convertBinaryTreeToDoubleLinkedListRecursiveAnother(
+        BinaryTreeNode *pRoot);
 
 void destoryTree(BinaryTreeNode *root);
 #endif /* MYTREE_H_ */
