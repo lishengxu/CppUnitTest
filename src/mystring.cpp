@@ -4,21 +4,23 @@
  *  Created on: May 24, 2017
  *      Author: lsx
  */
+#include <stdio.h>
 #include <stddef.h>
 #include <string.h>
 #include <stdlib.h>
+#include "mystring.h"
 
 static char* copy(const char* const src) {
-	if (src == NULL) {
-		return NULL;
-	}
-	const int newStringLen = strlen(src) + 1;
-	char* newString = (char*) calloc(newStringLen, sizeof(char));
-	if (newString == NULL) {
-		return NULL;
-	}
-	strcat(newString, src);
-	return newString;
+    if (src == NULL) {
+        return NULL;
+    }
+    const int newStringLen = strlen(src) + 1;
+    char* newString = (char*) calloc(newStringLen, sizeof(char));
+    if (newString == NULL) {
+        return NULL;
+    }
+    strcat(newString, src);
+    return newString;
 }
 
 /**
@@ -26,54 +28,54 @@ static char* copy(const char* const src) {
  * return new string
  */
 char* stringreplace(const char* const operation, const char* const src,
-		const char* const desc) {
-	if (operation == NULL || src == NULL || desc == NULL) {
-		return NULL;
-	}
+        const char* const desc) {
+    if (operation == NULL || src == NULL || desc == NULL) {
+        return NULL;
+    }
 
-	if (!strcmp(operation, src)) {
-		return copy(desc);
-	}
+    if (!strcmp(operation, src)) {
+        return copy(desc);
+    }
 
-	if (!*src) {
-		return copy(operation);
-	}
+    if (!*src) {
+        return copy(operation);
+    }
 
-	const char* cur = operation;
-	const char* next = cur;
-	int containCount = 0;
-	while (*cur) {
-		next = strstr(cur, src);
-		if (next != NULL) {
-			++containCount;
-			cur = next + strlen(src);
-		} else {
-			break;
-		}
-	}
+    const char* cur = operation;
+    const char* next = cur;
+    int containCount = 0;
+    while (*cur) {
+        next = strstr(cur, src);
+        if (next != NULL) {
+            ++containCount;
+            cur = next + strlen(src);
+        } else {
+            break;
+        }
+    }
 
-	const int newStringLen = strlen(operation)
-			+ containCount * (strlen(desc) - strlen(src)) + 1;
-	char* newString = (char*) calloc(newStringLen, sizeof(char));
-	if (newString == NULL) {
-		return NULL;
-	}
+    const int newStringLen = strlen(operation)
+            + containCount * (strlen(desc) - strlen(src)) + 1;
+    char* newString = (char*) calloc(newStringLen, sizeof(char));
+    if (newString == NULL) {
+        return NULL;
+    }
 
-	cur = operation;
-	next = cur;
-	while (*cur) {
-		next = strstr(cur, src);
-		if (next != NULL) {
-			strncat(newString, cur, next - cur);
-			strcat(newString, desc);
-			cur = next + strlen(src);
-		} else {
-			strcat(newString, cur);
-			break;
-		}
-	}
+    cur = operation;
+    next = cur;
+    while (*cur) {
+        next = strstr(cur, src);
+        if (next != NULL) {
+            strncat(newString, cur, next - cur);
+            strcat(newString, desc);
+            cur = next + strlen(src);
+        } else {
+            strcat(newString, cur);
+            break;
+        }
+    }
 
-	return newString;
+    return newString;
 }
 
 /**
@@ -83,39 +85,98 @@ char* stringreplace(const char* const operation, const char* const src,
  * 另外一个函数。
  */
 char* stringreplace(char* const operation, const int maxLen, const char src,
-		const char* const desc) {
-	if (operation == NULL || desc == NULL || maxLen < 1) {
-		return NULL;
-	}
+        const char* const desc) {
+    if (operation == NULL || desc == NULL || maxLen < 1) {
+        return NULL;
+    }
 
-	const int operationLen = strlen(operation);
-	const int descLen = strlen(desc);
-	char *cur = operation;
-	int containCount = 0;
-	while (*cur) {
-		if (*cur == src) {
-			++containCount;
-		}
-		++cur;
-	}
-	if (containCount == 0) {
-		return operation;
-	}
-	int newLen = operationLen + containCount * (descLen - 1);
-	if (newLen > maxLen) {
-		return NULL;
-	}
-	int newIndex = newLen;
-	int origIndex = operationLen;
-	while (origIndex >= 0 && newIndex > origIndex) {
-		if (*(operation + origIndex) == src) {
-			strncpy(operation + newIndex - descLen + 1, desc, descLen);
-			newIndex -= descLen;
-			--origIndex;
-		} else {
-			*(operation + newIndex--) = *(operation + origIndex--);
-		}
-	}
+    const int operationLen = strlen(operation);
+    const int descLen = strlen(desc);
+    char *cur = operation;
+    int containCount = 0;
+    while (*cur) {
+        if (*cur == src) {
+            ++containCount;
+        }
+        ++cur;
+    }
+    if (containCount == 0) {
+        return operation;
+    }
+    int newLen = operationLen + containCount * (descLen - 1);
+    if (newLen > maxLen) {
+        return NULL;
+    }
+    int newIndex = newLen;
+    int origIndex = operationLen;
+    while (origIndex >= 0 && newIndex > origIndex) {
+        if (*(operation + origIndex) == src) {
+            strncpy(operation + newIndex - descLen + 1, desc, descLen);
+            newIndex -= descLen;
+            --origIndex;
+        } else {
+            *(operation + newIndex--) = *(operation + origIndex--);
+        }
+    }
 
-	return operation;
+    return operation;
+}
+
+static void printPermutation(char *operation, char *begin,
+        std::vector<std::string> *pOut) {
+    if (*begin == '\0') {
+        printf("%s\n", operation);
+        if (pOut != NULL) {
+            pOut->push_back(operation);
+        }
+    } else {
+        for (char *index = begin; *index != '\0'; ++index) {
+            char temp = *index;
+            *index = *begin;
+            *begin = temp;
+            printPermutation(operation, begin + 1, pOut);
+            temp = *index;
+            *index = *begin;
+            *begin = temp;
+        }
+    }
+}
+
+void printPermutation(char *operation, std::vector<std::string> *pOut/*=
+ NULL*/) {
+    if (operation == NULL || strlen(operation) == 0) {
+        return;
+    }
+
+    printPermutation(operation, operation, pOut);
+}
+
+static void printStr(char *begin, char *end, std::vector<std::string> *pOut) {
+    char *index = begin;
+    while (index != end) {
+        printf("%c", *index++);
+    }
+    printf("\n");
+    if (pOut != NULL) {
+        std::string str(begin, end);
+        pOut->push_back(str);
+    }
+}
+
+static void printCombination(char *operation, int length,
+        std::vector<std::string> *pOut) {
+    for (unsigned int i = 0; i < length; ++i) {
+        for (unsigned int j = i + 1; j <= length; ++j) {
+            printStr(operation + i, operation + j, pOut);
+        }
+    }
+}
+
+void printCombination(char *operation,
+        std::vector<std::string> *pOut/*= NULL*/) {
+    if (operation == NULL || strlen(operation) == 0) {
+        return;
+    }
+
+    printCombination(operation, strlen(operation), pOut);
 }

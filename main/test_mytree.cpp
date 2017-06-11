@@ -470,6 +470,109 @@ TEST(mytreetest, convertBinaryTreeToDoubleLinkedList) {
     }
     EXPECT_EQ(16, pNext->mValue);
     EXPECT_EQ(NULL, pNext->mRight);
-    //destoryListTree(root);
+    destoryListTree(root);
 }
 
+TEST(mytreetest, convertBinaryTreeToDoubleLinkedListRecursive) {
+    int preOrder[] = { 1 };
+    int inOrder[] = { 1 };
+    BinaryTreeNode *root = construct(preOrder, inOrder, LENGTH(preOrder));
+
+    root = convertBinaryTreeToDoubleLinkedListRecursive(root);
+    EXPECT_EQ(1, root->mValue);
+    EXPECT_EQ(NULL, root->mLeft);
+    EXPECT_EQ(NULL, root->mRight);
+    destoryListTree(root);
+
+    int preOrder1[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int inOrder1[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    root = construct(preOrder1, inOrder1, LENGTH(preOrder1));
+
+    root = convertBinaryTreeToDoubleLinkedListRecursive(root);
+    EXPECT_EQ(1, root->mValue);
+    EXPECT_EQ(NULL, root->mLeft);
+
+    BinaryTreeNode *pCur = root;
+    BinaryTreeNode *pNext = pCur->mRight;
+    for (int i = 2; i < 9; ++i) {
+        EXPECT_EQ(i, pNext->mValue);
+        EXPECT_EQ(pCur, pNext->mLeft);
+        pCur = pNext;
+        pNext = pCur->mRight;
+    }
+    EXPECT_EQ(9, pNext->mValue);
+    EXPECT_EQ(NULL, pNext->mRight);
+    destoryListTree(root);
+
+    int preOrder2[] = { 10, 6, 4, 8, 14, 12, 16 };
+    int inOrder2[] = { 4, 6, 8, 10, 12, 14, 16 };
+    root = construct(preOrder2, inOrder2, LENGTH(preOrder2));
+
+    root = convertBinaryTreeToDoubleLinkedListRecursive(root);
+    EXPECT_EQ(4, root->mValue);
+    EXPECT_EQ(NULL, root->mLeft);
+
+    pCur = root;
+    pNext = pCur->mRight;
+    for (int i = 2; i < 7; ++i) {
+        EXPECT_EQ(inOrder2[i - 1], pNext->mValue);
+        EXPECT_EQ(pCur, pNext->mLeft);
+        pCur = pNext;
+        pNext = pCur->mRight;
+    }
+    EXPECT_EQ(16, pNext->mValue);
+    EXPECT_EQ(NULL, pNext->mRight);
+    destoryListTree(root);
+}
+
+TEST(mytreetest, convertBinaryTreeToDoubleLinkedListRecursiveAnother) {
+    int preOrder[] = { 1 };
+    int inOrder[] = { 1 };
+    BinaryTreeNode *root = construct(preOrder, inOrder, LENGTH(preOrder));
+
+    root = convertBinaryTreeToDoubleLinkedListRecursiveAnother(root);
+    EXPECT_EQ(1, root->mValue);
+    EXPECT_EQ(NULL, root->mLeft);
+    EXPECT_EQ(NULL, root->mRight);
+    destoryListTree(root);
+
+    int preOrder1[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int inOrder1[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    root = construct(preOrder1, inOrder1, LENGTH(preOrder1));
+
+    root = convertBinaryTreeToDoubleLinkedListRecursiveAnother(root);
+    EXPECT_EQ(1, root->mValue);
+    EXPECT_EQ(NULL, root->mLeft);
+
+    BinaryTreeNode *pCur = root;
+    BinaryTreeNode *pNext = pCur->mRight;
+    for (int i = 2; i < 9; ++i) {
+        EXPECT_EQ(i, pNext->mValue);
+        EXPECT_EQ(pCur, pNext->mLeft);
+        pCur = pNext;
+        pNext = pCur->mRight;
+    }
+    EXPECT_EQ(9, pNext->mValue);
+    EXPECT_EQ(NULL, pNext->mRight);
+    destoryListTree(root);
+
+    int preOrder2[] = { 10, 6, 4, 8, 14, 12, 16 };
+    int inOrder2[] = { 4, 6, 8, 10, 12, 14, 16 };
+    root = construct(preOrder2, inOrder2, LENGTH(preOrder2));
+
+    root = convertBinaryTreeToDoubleLinkedListRecursiveAnother(root);
+    EXPECT_EQ(4, root->mValue);
+    EXPECT_EQ(NULL, root->mLeft);
+
+    pCur = root;
+    pNext = pCur->mRight;
+    for (int i = 2; i < 7; ++i) {
+        EXPECT_EQ(inOrder2[i - 1], pNext->mValue);
+        EXPECT_EQ(pCur, pNext->mLeft);
+        pCur = pNext;
+        pNext = pCur->mRight;
+    }
+    EXPECT_EQ(16, pNext->mValue);
+    EXPECT_EQ(NULL, pNext->mRight);
+    destoryListTree(root);
+}

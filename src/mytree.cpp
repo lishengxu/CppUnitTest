@@ -353,15 +353,46 @@ void getMirror(BinaryTreeNode *pNode) {
     }
 }
 
-static BinaryTreeNode* convertBinaryTreeToDoubleLinkedList(
+BinaryTreeNode* convertBinaryTreeToDoubleLinkedList(BinaryTreeNode *pRoot) {
+    if (pRoot == NULL) {
+        return NULL;
+    }
+
+    BinaryTreeNode *pLast = NULL;
+    BinaryTreeNode *pCur = pRoot;
+    std::stack<BinaryTreeNode*> stack;
+
+    while (pCur != NULL || !stack.empty()) {
+        if (pCur != NULL) {
+            stack.push(pCur), pCur = pCur->mLeft;
+        } else {
+            pCur = stack.top();
+            stack.pop();
+            pCur->mLeft = pLast;
+            if (pLast != NULL) {
+                pLast->mRight = pCur;
+            }
+            pLast = pCur;
+            pCur = pCur->mRight;
+        }
+    }
+
+    pCur = pRoot;
+    while (pCur->mLeft != NULL) {
+        pCur = pCur->mLeft;
+    }
+    return pCur;
+}
+
+static BinaryTreeNode* convertBinaryTreeToDoubleLinkedListRecursive(
         BinaryTreeNode *pNode, bool isLeft) {
     if (pNode == NULL) {
         return NULL;
     }
-    BinaryTreeNode *pLeft = convertBinaryTreeToDoubleLinkedList(pNode->mLeft,
-            true);
-    BinaryTreeNode *pRight = convertBinaryTreeToDoubleLinkedList(pNode->mRight,
-            false);
+    BinaryTreeNode *pLeft = convertBinaryTreeToDoubleLinkedListRecursive(
+            pNode->mLeft, true);
+    BinaryTreeNode *pRight = convertBinaryTreeToDoubleLinkedListRecursive(
+            pNode->mRight, false);
     pNode->mLeft = NULL;
     if (pLeft != NULL) {
         pNode->mLeft = pLeft;
@@ -380,12 +411,49 @@ static BinaryTreeNode* convertBinaryTreeToDoubleLinkedList(
     }
 }
 
-BinaryTreeNode* convertBinaryTreeToDoubleLinkedList(BinaryTreeNode *pRoot) {
+BinaryTreeNode* convertBinaryTreeToDoubleLinkedListRecursive(
+        BinaryTreeNode *pRoot) {
     if (pRoot == NULL) {
         return NULL;
     }
 
-    convertBinaryTreeToDoubleLinkedList(pRoot, false);
+    convertBinaryTreeToDoubleLinkedListRecursive(pRoot, false);
+    BinaryTreeNode *pNew = pRoot;
+    while (pNew->mLeft != NULL) {
+        pNew = pNew->mLeft;
+    }
+    return pNew;
+}
+
+static void convertBinaryTreeToDoubleLinkedListRecursive(BinaryTreeNode *pNode,
+        BinaryTreeNode **pLast) {
+    if (pNode == NULL || pLast == NULL) {
+        return;
+    }
+
+    if (pNode->mLeft != NULL) {
+        convertBinaryTreeToDoubleLinkedListRecursive(pNode->mLeft, pLast);
+    }
+
+    pNode->mLeft = *pLast;
+    if (*pLast != NULL) {
+        (*pLast)->mRight = pNode;
+    }
+    *pLast = pNode;
+
+    if (pNode->mRight != NULL) {
+        convertBinaryTreeToDoubleLinkedListRecursive(pNode->mRight, pLast);
+    }
+}
+
+BinaryTreeNode* convertBinaryTreeToDoubleLinkedListRecursiveAnother(
+        BinaryTreeNode *pRoot) {
+    if (pRoot == NULL) {
+        return NULL;
+    }
+
+    BinaryTreeNode *pLast = NULL;
+    convertBinaryTreeToDoubleLinkedListRecursive(pRoot, &pLast);
     BinaryTreeNode *pNew = pRoot;
     while (pNew->mLeft != NULL) {
         pNew = pNew->mLeft;

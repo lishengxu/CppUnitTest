@@ -283,3 +283,68 @@ void printMatrixClockwise(const int *array, const int rows, const int columns,
     }
 }
 
+int kthLargestNum(int *array, int length, int k) {
+    if (array == NULL || length < 1 || k < 1 || length < k) {
+        return 0;
+    }
+
+    const int kIndex = length - k;
+    int begin = 0, end = length - 1;
+    int index = 0;
+    do {
+        index = partition2(array, begin, end, true);
+        if (index > kIndex) {
+            end = index - 1;
+        } else if (index < kIndex) {
+            begin = index + 1;
+        }
+    } while (index != kIndex);
+
+    return array[kIndex];
+}
+
+static bool isMoreThanHalf(const int *array, int length, int value) {
+    int count = 0;
+    for (int i = 0; i < length; ++i) {
+        if (array[i] == value) {
+            ++count;
+        }
+    }
+    return (length >> 1) < count;
+}
+
+int moreThanHalfNum(int *array, int length) {
+    if (array == NULL || length < 1) {
+        return 0;
+    }
+
+    int result = kthLargestNum(array, length, (length >> 1) + 1);
+    if (!isMoreThanHalf(array, length, result)) {
+        result = 0;
+    }
+    return result;
+}
+
+int moreThanHalfNum(const int *array, int length) {
+    if (array == NULL || length < 1) {
+        return 0;
+    }
+
+    int base = 0;
+    int times = 0;
+    for (int i = 0; i < length; ++i) {
+        if (times == 0) {
+            base = array[i];
+        }
+        if (array[i] == base) {
+            ++times;
+        } else {
+            --times;
+        }
+    }
+    int result = base;
+    if (!isMoreThanHalf(array, length, result)) {
+        result = 0;
+    }
+    return result;
+}

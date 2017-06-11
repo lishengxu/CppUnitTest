@@ -27,4 +27,10 @@ void frontOddAndAfterEven(int *array, int length);
 void printMatrixClockwise(const int *array, const int rows, const int columns,
         std::vector<int> *pOut = NULL);
 
+int kthLargestNum(int *array, int length, int k);
+
+int moreThanHalfNum(int *array, int length);
+
+int moreThanHalfNum(const int *array, int length);
+
 #endif /* SORTARRAY_H_ */

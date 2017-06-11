@@ -264,3 +264,44 @@ TEST(sortarraytest, DISABLED_printMatrixClockwise) {
     delete pOut;
 }
 
+TEST(sortarraytest, kthLargestNum) {
+    int *array = NULL;
+    EXPECT_EQ(0, kthLargestNum(array, 0, 0));
+
+    int array1[] = { 1 };
+    EXPECT_EQ(1, kthLargestNum(array1, LENGTH(array1), 1));
+
+    int array2[] = { 1, 2, 3, 2, 2, 2, 5, 4, 2 };
+    EXPECT_EQ(5, kthLargestNum(array2, LENGTH(array2), 1));
+    EXPECT_EQ(3, kthLargestNum(array2, LENGTH(array2), 3));
+    EXPECT_EQ(1, kthLargestNum(array2, LENGTH(array2), 9));
+    EXPECT_EQ(0, kthLargestNum(array2, LENGTH(array2), 10));
+}
+
+TEST(sortarraytest, moreThanHalfNum) {
+    int *array = NULL;
+    EXPECT_EQ(0, moreThanHalfNum(array, 0));
+
+    int array1[] = { 1 };
+    EXPECT_EQ(1, moreThanHalfNum(array1, LENGTH(array1)));
+
+    int array2[] = { 1, 2, 3, 2, 2, 2, 5, 4, 2 };
+    EXPECT_EQ(2, moreThanHalfNum(array2, LENGTH(array2)));
+
+    int arry3[] = { 1, 2, 3, 2, 2, 4, 5, 6, 7 };
+    EXPECT_EQ(0, moreThanHalfNum(arry3, LENGTH(arry3)));
+}
+
+TEST(sortarraytest, moreThanHalfNumConst) {
+    const int *array = NULL;
+    EXPECT_EQ(0, moreThanHalfNum(array, 0));
+
+    const int array1[] = { 1 };
+    EXPECT_EQ(1, moreThanHalfNum(array1, LENGTH(array1)));
+
+    const int array2[] = { 1, 2, 3, 2, 2, 2, 5, 4, 2 };
+    EXPECT_EQ(2, moreThanHalfNum(array2, LENGTH(array2)));
+
+    const int arry3[] = { 1, 2, 3, 2, 2, 4, 5, 6, 7 };
+    EXPECT_EQ(0, moreThanHalfNum(arry3, LENGTH(arry3)));
+}
