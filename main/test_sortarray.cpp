@@ -305,3 +305,63 @@ TEST(sortarraytest, moreThanHalfNumConst) {
     const int arry3[] = { 1, 2, 3, 2, 2, 4, 5, 6, 7 };
     EXPECT_EQ(0, moreThanHalfNum(arry3, LENGTH(arry3)));
 }
+
+TEST(sortarraytest, getLeastNumbers) {
+    int *array = NULL;
+    int output[1] = { 0 };
+    getLeastNumbers(array, 0, output, LENGTH(output));
+    EXPECT_EQ(0, output[0]);
+
+    int array1[] = { 1 };
+    int output1[1] = { 0 };
+    getLeastNumbers(array1, LENGTH(array1), output1, LENGTH(output1));
+    EXPECT_EQ(1, output1[0]);
+
+    int array2[] = { 4, 5, 1, 6, 2, 7, 3, 8 };
+    int output2[4];
+    int expect2[] = { 1, 2, 3, 4 };
+    getLeastNumbers(array2, LENGTH(array2), output2, LENGTH(output2));
+    for (int i = 0; i < LENGTH(expect2); ++i) {
+        EXPECT_EQ(expect2[i], output2[i]) << "is differ at " << i << std::endl;
+    }
+}
+
+TEST(sortarraytest, getLeastNumbersConst) {
+    const int *array = NULL;
+    int output[1] = { 0 };
+    getLeastNumbers(array, 0, output, LENGTH(output));
+    EXPECT_EQ(0, output[0]);
+
+    const int array1[] = { 1 };
+    int output1[1] = { 0 };
+    getLeastNumbers(array1, LENGTH(array1), output1, LENGTH(output1));
+    EXPECT_EQ(1, output1[0]);
+
+    const int array2[] = { 4, 5, 1, 6, 2, 7, 3, 8 };
+    int output2[4];
+    int expect2[] = { 4, 3, 2, 1 };
+    getLeastNumbers(array2, LENGTH(array2), output2, LENGTH(output2));
+    for (int i = 0; i < LENGTH(expect2); ++i) {
+        EXPECT_EQ(expect2[i], output2[i]) << "is differ at " << i << std::endl;
+    }
+}
+
+TEST(sortarraytest, getMaxSequeueSum) {
+    EXPECT_EQ(0, getMaxSequeueSum(NULL, 0));
+
+    int array[] = { 1 };
+    EXPECT_EQ(1, getMaxSequeueSum(array, LENGTH(array)));
+
+    int array2[] = { 1, 3, -2, 4, -6, 3, -4, 2, 5, 7 };
+    EXPECT_EQ(14, getMaxSequeueSum(array2, LENGTH(array2)));
+
+    int array3[] = { -1, -2, -3, -4, -5, -6, -7, -8};
+    EXPECT_EQ(-1, getMaxSequeueSum(array3, LENGTH(array3)));
+
+    int array4[] = { -1, -2, -3, -4, -5, 0, -6, -7, -8};
+    EXPECT_EQ(0, getMaxSequeueSum(array4, LENGTH(array4)));
+
+    int array5[] = { 1, -2, 3, 10, -4, 7, 2, -5};
+    EXPECT_EQ(18, getMaxSequeueSum(array5, LENGTH(array5)));
+}
+

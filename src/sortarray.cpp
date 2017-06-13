@@ -11,6 +11,7 @@
 #include <exception>
 #include <time.h>
 #include <stdlib.h>
+#include <set>
 #include <algorithm>
 #include "sortarray.h"
 
@@ -348,3 +349,74 @@ int moreThanHalfNum(const int *array, int length) {
     }
     return result;
 }
+
+void getLeastNumbers(int *array, unsigned int length, int *output,
+        unsigned int k) {
+    if (array == NULL || length < 1 || output == NULL || k < 1 || length < k) {
+        return;
+    }
+
+    unsigned int begin = 0, end = length - 1;
+    unsigned int index = 0;
+
+    unsigned int kIndex = k - 1;
+    do {
+        index = partition2(array, begin, end, true);
+        if (index > kIndex) {
+            end = index - 1;
+        } else if (index < kIndex) {
+            begin = index + 1;
+        }
+    } while (index != kIndex);
+
+    for (unsigned int i = 0; i < k; ++i) {
+        output[i] = array[i];
+    }
+}
+
+void getLeastNumbers(const int *array, unsigned int length, int *output,
+        unsigned int k) {
+    if (array == NULL || length < 1 || output == NULL || k < 1 || length < k) {
+        return;
+    }
+
+    std::multiset<int, std::greater<int> > kMinSet;
+    for (unsigned int i = 0; i < length; ++i) {
+        if (kMinSet.size() < k) {
+            kMinSet.insert(array[i]);
+        } else {
+            if (array[i] < *kMinSet.begin()) {
+                kMinSet.erase(kMinSet.begin());
+                kMinSet.insert(array[i]);
+            }
+        }
+    }
+
+    unsigned int index = 0;
+    for (std::multiset<int, std::greater<int> >::const_iterator iter =
+            kMinSet.begin(); iter != kMinSet.end(); ++iter) {
+        output[index++] = *iter;
+    }
+}
+
+int getMaxSequeueSum(const int *array, unsigned int length) {
+    if (array == NULL || length < 1) {
+        return 0;
+    }
+
+    int maxSequeueSum = array[0];
+    int curSequeueSum = array[0];
+    for (unsigned int i = 1; i < length; ++i) {
+        if (curSequeueSum < 0) {
+            curSequeueSum = array[i];
+        } else {
+            curSequeueSum += array[i];
+        }
+
+        if (curSequeueSum > maxSequeueSum) {
+            maxSequeueSum = curSequeueSum;
+        }
+    }
+    return maxSequeueSum;
+}
+

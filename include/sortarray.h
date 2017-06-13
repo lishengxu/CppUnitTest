@@ -33,4 +33,12 @@ int moreThanHalfNum(int *array, int length);
 
 int moreThanHalfNum(const int *array, int length);
 
+void getLeastNumbers(int *array, unsigned int length, int *output,
+        unsigned int k);
+
+void getLeastNumbers(const int *array, unsigned int length, int *output,
+        unsigned int k);
+
+int getMaxSequeueSum(const int *array, unsigned int length);
+
 #endif /* SORTARRAY_H_ */
