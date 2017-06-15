@@ -144,6 +144,34 @@ TEST(factorialtest, DISABLED_print1ToMaxOfNDigits) {
     delete pOut;
 }
 
+static int numberOf1(unsigned int n) {
+    int number = 0;
+    while (n) {
+        if (n % 10 == 1) {
+            ++number;
+        }
+        n /= 10;
+    }
+    return number;
+}
+
+static int numberOf1ToN(unsigned int n) {
+    int number = 0;
+    for (unsigned int i = 1; i <= n; ++i) {
+        number += numberOf1(i);
+    }
+    return number;
+}
+
+TEST(factorialtest, get1CountFrom1ToN) {
+    EXPECT_EQ(0, get1CountFrom1ToN(0));
+    EXPECT_EQ(1, get1CountFrom1ToN(1));
+    EXPECT_EQ(5, get1CountFrom1ToN(12));
+    EXPECT_EQ(numberOf1ToN(100), get1CountFrom1ToN(100));
+    EXPECT_EQ(numberOf1ToN(11111), get1CountFrom1ToN(11111));
+    EXPECT_EQ(numberOf1ToN(21345), get1CountFrom1ToN(21345));
+}
+
 TEST(factorialtest, add) {
     EXPECT_EQ(NULL, add(NULL, NULL));
     EXPECT_EQ(NULL, add("", ""));
@@ -153,8 +181,7 @@ TEST(factorialtest, add) {
     } catch (std::exception &e) {
     }
     EXPECT_STREQ("3456789", add("3456777", "12"));
-    EXPECT_STREQ("1111111111111110",
-            add("111111111111111", "999999999999999"));
+    EXPECT_STREQ("1111111111111110", add("111111111111111", "999999999999999"));
     EXPECT_STREQ("74894", add("123456", "-48562"));
     EXPECT_STREQ("1", add("10000", "-9999"));
     EXPECT_STREQ("0", add("10000", "-10000"));

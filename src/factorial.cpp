@@ -196,6 +196,40 @@ static int stringcompare(const char *left, const char *right) {
     return 0;
 }
 
+static unsigned int powerBase10(unsigned int n) {
+    unsigned int result = 1;
+    for (unsigned int i = 0; i < n; ++i) {
+        result *= 10;
+    }
+    return result;
+}
+
+unsigned int get1CountFrom1ToN(const unsigned int n) {
+    unsigned int count = 0;
+    unsigned int number = n;
+    unsigned int base = 0;
+    while (true) {
+        unsigned int value = number / powerBase10(base);
+        if (value == 0) {
+            break;
+        }
+        unsigned int bit = value % 10;
+        count += bit * base * powerBase10(base) / 10;
+
+        if (bit > 1) {
+            count += powerBase10(base);
+        } else if (bit == 1) {
+            if (base == 0) {
+                count += 1;
+            } else {
+                count += number % powerBase10(base) + 1;
+            }
+        }
+        ++base;
+    }
+    return count;
+}
+
 const char* add(const char* left, const char *right) {
     if (left == NULL || right == NULL || strlen(left) == 0
             || strlen(right) == 0) {

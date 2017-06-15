@@ -22,6 +22,8 @@ void printAllNumber(const int n, std::vector<std::string> *pOut = NULL);
 
 void print1ToMaxOfNDigits(const int n, std::vector<std::string> *pOut = NULL);
 
+unsigned int get1CountFrom1ToN(const unsigned int n);
+
 const char* add(const char* number1, const char *number2);
 
 #endif /* FACTORIAL_H_ */
