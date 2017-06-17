@@ -11,6 +11,7 @@
 #include <exception>
 #include <time.h>
 #include <stdlib.h>
+#include <set>
 #include <algorithm>
 #include "sortarray.h"
 
@@ -348,3 +349,155 @@ int moreThanHalfNum(const int *array, int length) {
     }
     return result;
 }
+
+void getLeastNumbers(int *array, unsigned int length, int *output,
+        unsigned int k) {
+    if (array == NULL || length < 1 || output == NULL || k < 1 || length < k) {
+        return;
+    }
+
+    unsigned int begin = 0, end = length - 1;
+    unsigned int index = 0;
+
+    unsigned int kIndex = k - 1;
+    do {
+        index = partition2(array, begin, end, true);
+        if (index > kIndex) {
+            end = index - 1;
+        } else if (index < kIndex) {
+            begin = index + 1;
+        }
+    } while (index != kIndex);
+
+    for (unsigned int i = 0; i < k; ++i) {
+        output[i] = array[i];
+    }
+}
+
+void getLeastNumbers(const int *array, unsigned int length, int *output,
+        unsigned int k) {
+    if (array == NULL || length < 1 || output == NULL || k < 1 || length < k) {
+        return;
+    }
+
+    std::multiset<int, std::greater<int> > kMinSet;
+    for (unsigned int i = 0; i < length; ++i) {
+        if (kMinSet.size() < k) {
+            kMinSet.insert(array[i]);
+        } else {
+            if (array[i] < *kMinSet.begin()) {
+                kMinSet.erase(kMinSet.begin());
+                kMinSet.insert(array[i]);
+            }
+        }
+    }
+
+    unsigned int index = 0;
+    for (std::multiset<int, std::greater<int> >::const_iterator iter =
+            kMinSet.begin(); iter != kMinSet.end(); ++iter) {
+        output[index++] = *iter;
+    }
+}
+
+int getMaxSequeueSum(const int *array, unsigned int length) {
+    if (array == NULL || length < 1) {
+        return 0;
+    }
+
+    int maxSequeueSum = array[0];
+    int curSequeueSum = array[0];
+    for (unsigned int i = 1; i < length; ++i) {
+        if (curSequeueSum < 0) {
+            curSequeueSum = array[i];
+        } else {
+            curSequeueSum += array[i];
+        }
+
+        if (curSequeueSum > maxSequeueSum) {
+            maxSequeueSum = curSequeueSum;
+        }
+    }
+    return maxSequeueSum;
+}
+
+const int gMaxIntNums = 10;
+char gLeft[2 * gMaxIntNums + 1] = { 0 };
+char gRight[2 * gMaxIntNums + 1] = { 0 };
+
+static int compare(const void *left, const void *right) {
+    strcpy(gLeft, *(const char**) left);
+    strcat(gLeft, *(const char**) right);
+    strcpy(gRight, *(const char**) right);
+    strcat(gRight, *(const char**) left);
+    return strcmp(gLeft, gRight);
+}
+
+void getMinConnectionNumber(int *array, unsigned int length,
+        std::vector<std::string> *pOut/* = NULL*/) {
+    if (array == NULL || length < 1) {
+        return;
+    }
+
+    char **strNumbers = (char**) calloc(length, sizeof(char*));
+    for (unsigned int i = 0; i != length; ++i) {
+        strNumbers[i] = (char*) calloc(gMaxIntNums + 1, sizeof(char));
+        sprintf(strNumbers[i], "%d", array[i]);
+    }
+
+    std::qsort(strNumbers, length, sizeof(char*), compare);
+    for (unsigned int i = 0; i != length; ++i) {
+        printf("%s", strNumbers[i]);
+        if (pOut != NULL) {
+            pOut->push_back(strNumbers[i]);
+        }
+    }
+    printf("\n");
+
+    for (unsigned int i = 0; i != length; ++i) {
+        free(strNumbers[i]);
+    }
+    free(strNumbers);
+}
+
+static unsigned int getReversePairNumber(int *src, int *desc, int begin,
+        int end) {
+    if (begin == end) {
+        return 0;
+    }
+
+    int middle = begin + ((end - begin) >> 1);
+    int left = getReversePairNumber(desc, src, begin, middle);
+    int right = getReversePairNumber(desc, src, middle + 1, end);
+
+    unsigned int reversePairNumber = 0;
+    int leftIndex = middle, rightIndex = end, index = end;
+    while (leftIndex >= begin && rightIndex >= middle + 1) {
+        if (src[leftIndex] > src[rightIndex]) {
+            reversePairNumber += rightIndex - middle;
+            desc[index--] = src[leftIndex--];
+        } else {
+            desc[index--] = src[rightIndex--];
+        }
+    }
+
+    while (leftIndex >= begin) {
+        desc[index--] = src[leftIndex--];
+    }
+    while (rightIndex >= middle + 1) {
+        desc[index--] = src[rightIndex--];
+    }
+    return left + right + reversePairNumber;
+}
+
+unsigned int getReversePairNumber(int *array, unsigned int length) {
+    if (array == NULL || length < 1) {
+        return 0;
+    }
+
+    int copy[length];
+    for (unsigned int i = 0; i != length; ++i) {
+        copy[i] = array[i];
+    }
+    return getReversePairNumber(array, copy, 0, length - 1);
+}
+

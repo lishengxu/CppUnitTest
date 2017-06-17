@@ -231,6 +231,42 @@ ListNode* findEndNode(ListNode **pHead) {
     return pCur;
 }
 
+ListNode* getCommonNode(ListNode **pLeftHead, ListNode **pRightHead) {
+    if (pLeftHead == NULL || *pLeftHead == NULL || pRightHead == NULL
+            || *pRightHead == NULL) {
+        return NULL;
+    }
+
+    int leftLen = 0, rightLen = 0;
+    ListNode *pLeftCur = *pLeftHead, *pRightCur = *pRightHead;
+    while (pLeftCur != NULL) {
+        ++leftLen, pLeftCur = pLeftCur->mNext;
+    }
+    while (pRightCur != NULL) {
+        ++rightLen, pRightCur = pRightCur->mNext;
+    }
+
+    pLeftCur = *pLeftHead, pRightCur = *pRightHead;
+    if (leftLen > rightLen) {
+        int index = leftLen - rightLen;
+        while (index > 0 && pLeftCur != NULL) {
+            --index, pLeftCur = pLeftCur->mNext;
+        }
+    } else {
+        int index = rightLen - leftLen;
+        while (index > 0 && pRightCur != NULL) {
+            --index, pRightCur = pRightCur->mNext;
+        }
+    }
+    while (pLeftCur != NULL && pRightCur != NULL && pLeftCur != pRightCur) {
+        pLeftCur = pLeftCur->mNext, pRightCur = pRightCur->mNext;
+    }
+    if (pLeftCur == NULL || pRightCur == NULL) {
+        return NULL;
+    }
+    return pLeftCur;
+}
+
 bool isCircleList(ListNode **pHead) {
     if (pHead == NULL || *pHead == NULL) {
         return false;

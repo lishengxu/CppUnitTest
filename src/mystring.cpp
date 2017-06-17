@@ -180,3 +180,25 @@ void printCombination(char *operation,
 
     printCombination(operation, strlen(operation), pOut);
 }
+
+char getFirstNotRepeatingChar(const char *string) {
+    if (string == NULL) {
+        return '\0';
+    }
+
+    int hash[256] = { 0 };
+    const char *index = string;
+    while (*index) {
+        ++hash[*index++ - '\0'];
+    }
+
+    index = string;
+    while (*index) {
+        if (hash[*index - '\0'] == 1) {
+            return *index;
+        }
+        ++index;
+    }
+
+    return '\0';
+}

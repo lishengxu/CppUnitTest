@@ -410,6 +410,49 @@ TEST(mylistTest, findEndNode) {
     addToTail(pHead, 6);
     EXPECT_EQ(6, findEndNode(pHead)->mValue);
 }
+
+TEST(mylistTest, getCommonNode) {
+    EXPECT_EQ(NULL, getCommonNode(NULL, NULL));
+    ListNode *pLeftHead = NULL;
+    EXPECT_EQ(NULL, getCommonNode(NULL, &pLeftHead));
+    ListNode *pRightHead = NULL;
+    addToTail(&pLeftHead, 1);
+    EXPECT_EQ(NULL, getCommonNode(&pLeftHead, &pRightHead));
+
+    pRightHead = pLeftHead;
+    EXPECT_EQ(1, getCommonNode(&pLeftHead, &pRightHead)->mValue);
+
+    addToTail(&pLeftHead, 2);
+    addToTail(&pLeftHead, 3);
+    addToTail(&pLeftHead, 4);
+    addToTail(&pLeftHead, 5);
+
+    pRightHead = NULL;
+    pRightHead = pLeftHead->mNext->mNext->mNext->mNext;
+    EXPECT_EQ(5, getCommonNode(&pLeftHead, &pRightHead)->mValue);
+
+    pRightHead = NULL;
+    addToTail(&pRightHead, 8);
+    addToTail(&pRightHead, 9);
+    addToTail(&pRightHead, 10);
+    addToTail(&pRightHead, 11);
+    EXPECT_EQ(NULL, getCommonNode(&pLeftHead, &pRightHead));
+
+    ListNode *pNew = NULL;
+    addToTail(&pNew, 2);
+
+    addToTail(&pNew, 12);
+    addToTail(&pNew, 5);
+
+    findEndNode(&pLeftHead)->mNext = pNew;
+    findEndNode(&pRightHead)->mNext = pNew;
+    EXPECT_EQ(2, getCommonNode(&pLeftHead, &pRightHead)->mValue);
+
+    pRightHead->mNext->mNext->mNext->mNext = NULL;
+    deleteList(&pLeftHead);
+    deleteList(&pRightHead);
+}
+
 TEST(mylistTest, isCircleList) {
     ListNode **pHead = (ListNode**) malloc(sizeof(ListNode*));
     *pHead = NULL;

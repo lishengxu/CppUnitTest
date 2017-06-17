@@ -21,4 +21,6 @@ void printPermutation(char *operation, std::vector<std::string> *pOut = NULL);
 
 void printCombination(char *operation, std::vector<std::string> *pOut = NULL);
 
+char getFirstNotRepeatingChar(const char *string);
+
 #endif /* MYSTRING_H_ */
