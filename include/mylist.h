@@ -40,6 +40,8 @@ ListNode* findMiddleNode(ListNode **pHead);
 
 ListNode* findEndNode(ListNode **pHead);
 
+ListNode* getCommonNode(ListNode **pLeftHead, ListNode **pRightHead);
+
 bool isCircleList(ListNode **pHead);
 
 void removeNode(ListNode **pHead, int value);
@@ -63,4 +65,5 @@ void printListReverse(ListNode **pHead, std::vector<int> *pOut = NULL);
 void deleteNode(ListNode **pHead, ListNode *pToBeDeleted);
 
 void quickDeleteNode(ListNode **pHead, ListNode *pToBeDeleted);
+
 #endif /* MYLIST_H_ */
