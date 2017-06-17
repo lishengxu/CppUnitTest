@@ -188,3 +188,38 @@ TEST(factorialtest, add) {
     EXPECT_STREQ("-464040", add("123456", "-587496"));
     EXPECT_STREQ("-710952", add("-123456", "-587496"));
 }
+
+static bool isUgly(unsigned int number) {
+    while (number % 2 == 0) {
+        number /= 2;
+    }
+    while (number % 3 == 0) {
+        number /= 3;
+    }
+    while (number % 5 == 0) {
+        number /= 5;
+    }
+    return number == 1;
+}
+
+static unsigned int getUgly(unsigned int n) {
+    if (n <= 0) {
+        return 0;
+    }
+    unsigned int number = 0;
+    unsigned int uglyFound = 0;
+    while (uglyFound < n) {
+        ++number;
+        if (isUgly(number)) {
+            ++uglyFound;
+        }
+    }
+    return number;
+}
+
+TEST(factorialtest, getUglyNumber) {
+    for (int i = 0; i < 100; ++i) {
+        EXPECT_EQ(getUgly(i), getUglyNumber(i)) << "is differ at " << i
+                << std::endl;
+    }
+}

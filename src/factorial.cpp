@@ -346,3 +346,32 @@ const char* add(const char* left, const char *right) {
     return newNumber;
 }
 
+unsigned int getUglyNumber(const unsigned int n) {
+    if (n == 0) {
+        return 0;
+    }
+    unsigned int ugly[n];
+    unsigned int base[3][2];
+    base[0][0] = 2;
+    base[1][0] = 3;
+    base[2][0] = 5;
+
+    ugly[0] = 1;
+    base[0][1] = 0;
+    base[1][1] = 0;
+    base[2][1] = 0;
+    for (unsigned int i = 1; i != n; ++i) {
+        unsigned int max = ugly[i - 1];
+        unsigned int curMax = base[2][0] * max;
+        for (unsigned int j = 0; j < 3; ++j) {
+            if (base[j][0] * ugly[base[j][1]] == max) {
+                ++base[j][1];
+            }
+            if (base[j][0] * ugly[base[j][1]] <= curMax) {
+                curMax = base[j][0] * ugly[base[j][1]];
+            }
+        }
+        ugly[i] = curMax;
+    }
+    return ugly[n - 1];
+}
