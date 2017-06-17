@@ -420,3 +420,41 @@ int getMaxSequeueSum(const int *array, unsigned int length) {
     return maxSequeueSum;
 }
 
+const int gMaxIntNums = 10;
+char gLeft[2 * gMaxIntNums + 1] = { 0 };
+char gRight[2 * gMaxIntNums + 1] = { 0 };
+
+static int compare(const void *left, const void *right) {
+    strcpy(gLeft, *(const char**) left);
+    strcat(gLeft, *(const char**) right);
+    strcpy(gRight, *(const char**) right);
+    strcat(gRight, *(const char**) left);
+    return strcmp(gLeft, gRight);
+}
+
+void getMinConnectionNumber(int *array, unsigned int length,
+        std::vector<std::string> *pOut/* = NULL*/) {
+    if (array == NULL || length < 1) {
+        return;
+    }
+
+    char **strNumbers = (char**) calloc(length, sizeof(char*));
+    for (unsigned int i = 0; i != length; ++i) {
+        strNumbers[i] = (char*) calloc(gMaxIntNums + 1, sizeof(char));
+        sprintf(strNumbers[i], "%d", array[i]);
+    }
+
+    std::qsort(strNumbers, length, sizeof(char*), compare);
+    for (unsigned int i = 0; i != length; ++i) {
+        printf("%s", strNumbers[i]);
+        if (pOut != NULL) {
+            pOut->push_back(strNumbers[i]);
+        }
+    }
+    printf("\n");
+
+    for (unsigned int i = 0; i != length; ++i) {
+        free(strNumbers[i]);
+    }
+    free(strNumbers);
+}

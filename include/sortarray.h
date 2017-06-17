@@ -41,4 +41,7 @@ void getLeastNumbers(const int *array, unsigned int length, int *output,
 
 int getMaxSequeueSum(const int *array, unsigned int length);
 
+void getMinConnectionNumber(int *array, unsigned int length,
+        std::vector<std::string> *pOut = NULL);
+
 #endif /* SORTARRAY_H_ */

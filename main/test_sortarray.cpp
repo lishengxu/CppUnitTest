@@ -355,13 +355,47 @@ TEST(sortarraytest, getMaxSequeueSum) {
     int array2[] = { 1, 3, -2, 4, -6, 3, -4, 2, 5, 7 };
     EXPECT_EQ(14, getMaxSequeueSum(array2, LENGTH(array2)));
 
-    int array3[] = { -1, -2, -3, -4, -5, -6, -7, -8};
+    int array3[] = { -1, -2, -3, -4, -5, -6, -7, -8 };
     EXPECT_EQ(-1, getMaxSequeueSum(array3, LENGTH(array3)));
 
-    int array4[] = { -1, -2, -3, -4, -5, 0, -6, -7, -8};
+    int array4[] = { -1, -2, -3, -4, -5, 0, -6, -7, -8 };
     EXPECT_EQ(0, getMaxSequeueSum(array4, LENGTH(array4)));
 
-    int array5[] = { 1, -2, 3, 10, -4, 7, 2, -5};
+    int array5[] = { 1, -2, 3, 10, -4, 7, 2, -5 };
     EXPECT_EQ(18, getMaxSequeueSum(array5, LENGTH(array5)));
 }
 
+TEST(factorialtest, getMinConnectionNumber) {
+    std::vector<std::string> pOut;
+
+    int array[] = { 1 };
+    getMinConnectionNumber(array, LENGTH(array), &pOut);
+    EXPECT_STREQ("1", pOut.at(0).c_str());
+    pOut.clear();
+
+    int array2[] = { 1, 12 };
+    getMinConnectionNumber(array2, LENGTH(array2), &pOut);
+    EXPECT_STREQ("1", pOut.at(0).c_str());
+    EXPECT_STREQ("12", pOut.at(1).c_str());
+    pOut.clear();
+
+    int array3[] = { 4, 43, 432, 4321, 43210 };
+    getMinConnectionNumber(array3, LENGTH(array3), &pOut);
+    EXPECT_STREQ("43210", pOut.at(0).c_str());
+    EXPECT_STREQ("4321", pOut.at(1).c_str());
+    EXPECT_STREQ("432", pOut.at(2).c_str());
+    EXPECT_STREQ("43", pOut.at(3).c_str());
+    EXPECT_STREQ("4", pOut.at(4).c_str());
+    pOut.clear();
+
+    int array4[] = { 1, 12, 123, 1234, 12345 };
+    getMinConnectionNumber(array4, LENGTH(array4), &pOut);
+    EXPECT_STREQ("1", pOut.at(0).c_str());
+    EXPECT_STREQ("12", pOut.at(1).c_str());
+    EXPECT_STREQ("123", pOut.at(2).c_str());
+    EXPECT_STREQ("1234", pOut.at(3).c_str());
+    EXPECT_STREQ("12345", pOut.at(4).c_str());
+
+    pOut.clear();
+
+}
