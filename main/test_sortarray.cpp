@@ -399,3 +399,20 @@ TEST(factorialtest, getMinConnectionNumber) {
     pOut.clear();
 
 }
+
+TEST(sortarraytest, getReversePairNumber) {
+    EXPECT_EQ(0, getReversePairNumber(NULL, 0));
+    int array[] = { 1 };
+    EXPECT_EQ(0, getReversePairNumber(array, LENGTH(array)));
+
+    int array2[] = { 1, 2 };
+    EXPECT_EQ(0, getReversePairNumber(array2, LENGTH(array2)));
+
+    int array3[] = { 2, 1 };
+    EXPECT_EQ(1, getReversePairNumber(array3, LENGTH(array3)));
+
+    int array4[] = { 7, 5, 6, 4 };
+    EXPECT_EQ(5, getReversePairNumber(array4,LENGTH (array4)));
+
+}
+

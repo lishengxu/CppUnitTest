@@ -458,3 +458,46 @@ void getMinConnectionNumber(int *array, unsigned int length,
     }
     free(strNumbers);
 }
+
+static unsigned int getReversePairNumber(int *src, int *desc, int begin,
+        int end) {
+    if (begin == end) {
+        return 0;
+    }
+
+    int middle = begin + ((end - begin) >> 1);
+    int left = getReversePairNumber(desc, src, begin, middle);
+    int right = getReversePairNumber(desc, src, middle + 1, end);
+
+    unsigned int reversePairNumber = 0;
+    int leftIndex = middle, rightIndex = end, index = end;
+    while (leftIndex >= begin && rightIndex >= middle + 1) {
+        if (src[leftIndex] > src[rightIndex]) {
+            reversePairNumber += rightIndex - middle;
+            desc[index--] = src[leftIndex--];
+        } else {
+            desc[index--] = src[rightIndex--];
+        }
+    }
+
+    while (leftIndex >= begin) {
+        desc[index--] = src[leftIndex--];
+    }
+    while (rightIndex >= middle + 1) {
+        desc[index--] = src[rightIndex--];
+    }
+    return left + right + reversePairNumber;
+}
+
+unsigned int getReversePairNumber(int *array, unsigned int length) {
+    if (array == NULL || length < 1) {
+        return 0;
+    }
+
+    int copy[length];
+    for (unsigned int i = 0; i != length; ++i) {
+        copy[i] = array[i];
+    }
+    return getReversePairNumber(array, copy, 0, length - 1);
+}
+
