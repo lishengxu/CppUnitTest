@@ -99,3 +99,17 @@ TEST(mystringtest, printCombination) {
     EXPECT_STREQ("c", pOut.at(5).c_str());
     pOut.clear();
 }
+
+TEST(mystringtest, getFirstNotRepeatingChar) {
+    EXPECT_EQ('\0', getFirstNotRepeatingChar(NULL));
+    EXPECT_EQ('\0', getFirstNotRepeatingChar(""));
+    EXPECT_EQ('a', getFirstNotRepeatingChar("a"));
+    EXPECT_EQ('a', getFirstNotRepeatingChar("abcdefghijklmnopqrstuvwxyz"));
+    EXPECT_EQ('\0',
+            getFirstNotRepeatingChar(
+                    "aabbccddeeffgghhiijjkkllmmnnooppqqrrssttuuvvwwxxyyzz"));
+    EXPECT_EQ('b', getFirstNotRepeatingChar("abaccdeff"));
+    EXPECT_EQ('s',
+            getFirstNotRepeatingChar(
+                    "alkdjafldsaflaieoneafenazjaojdllwkenfaadfa"));
+}
