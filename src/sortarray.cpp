@@ -501,3 +501,43 @@ unsigned int getReversePairNumber(int *array, unsigned int length) {
     return getReversePairNumber(array, copy, 0, length - 1);
 }
 
+static int getIndexOfK(int *array, int length, int begin, int end,
+        int k, bool isFirst) {
+    if (begin > end) {
+        return -1;
+    }
+
+    int middle = begin + ((end - begin) >> 1);
+    if (array[middle] > k) {
+        end = middle - 1;
+    } else if (array[middle] == k) {
+        if (isFirst) {
+            if (middle == 0 || array[middle - 1] != k) {
+                return middle;
+            }
+            end = middle - 1;
+        } else {
+            if (middle == length - 1 || array[middle + 1] != k) {
+                return middle;
+            }
+            begin = middle + 1;
+        }
+    } else {
+        begin = middle + 1;
+    }
+    return getIndexOfK(array, length, begin, end, k, isFirst);
+}
+
+unsigned int getNumberOfK(int *array, unsigned int length, int k) {
+    if (array == NULL || length < 1) {
+        return 0;
+    }
+
+    int firstKIndex = getIndexOfK(array, length, 0, length - 1, k, true);
+    int endKIndex = getIndexOfK(array, length, 0, length - 1, k, false);
+
+    if (firstKIndex < 0 || endKIndex < 0) {
+        return 0;
+    }
+    return endKIndex - firstKIndex + 1;
+}

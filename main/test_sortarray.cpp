@@ -416,3 +416,21 @@ TEST(sortarraytest, getReversePairNumber) {
 
 }
 
+TEST(sortarraytest, getNumberOfK) {
+    EXPECT_EQ(0, getNumberOfK(NULL, 0, 0));
+    int array[] = { 1 };
+    EXPECT_EQ(0, getNumberOfK(array, LENGTH(array), 2));
+    EXPECT_EQ(1, getNumberOfK(array, LENGTH(array), 1));
+
+    int array2[] = { 1, 2, 3, 4, 5, 6, 7 };
+    EXPECT_EQ(0, getNumberOfK(array2, LENGTH(array2), 0));
+    EXPECT_EQ(1, getNumberOfK(array2, LENGTH(array2), 1));
+    EXPECT_EQ(1, getNumberOfK(array2, LENGTH(array2), 7));
+
+    int array3[] = { 1, 1, 1, 1, 1, 1 };
+    EXPECT_EQ(6, getNumberOfK(array3, LENGTH(array3), 1));
+
+    int array4[] = { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 };
+    EXPECT_EQ(2, getNumberOfK(array4, LENGTH(array4), 1));
+    EXPECT_EQ(2, getNumberOfK(array4, LENGTH(array4), 5));
+}

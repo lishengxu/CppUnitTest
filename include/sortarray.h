@@ -46,4 +46,6 @@ void getMinConnectionNumber(int *array, unsigned int length,
 
 unsigned int getReversePairNumber(int *array, unsigned int length);
 
+unsigned int getNumberOfK(int *array, unsigned int length, int k);
+
 #endif /* SORTARRAY_H_ */
