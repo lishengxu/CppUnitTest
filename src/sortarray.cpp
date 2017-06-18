@@ -501,8 +501,8 @@ unsigned int getReversePairNumber(int *array, unsigned int length) {
     return getReversePairNumber(array, copy, 0, length - 1);
 }
 
-static int getIndexOfK(int *array, int length, int begin, int end,
-        int k, bool isFirst) {
+static int getIndexOfK(int *array, int length, int begin, int end, int k,
+        bool isFirst) {
     if (begin > end) {
         return -1;
     }
@@ -540,4 +540,30 @@ unsigned int getNumberOfK(int *array, unsigned int length, int k) {
         return 0;
     }
     return endKIndex - firstKIndex + 1;
+}
+
+static int getFirst1Number(int number) {
+    return (number ^ (number - 1)) & number;
+}
+
+void findNumbersAppearOnce(int *array, unsigned int length, int &number1,
+        int &number2) {
+    if (array == NULL || length < 2) {
+        return;
+    }
+
+    int result = 0;
+    for (unsigned int i = 0; i != length; ++i) {
+        result ^= array[i];
+    }
+
+    int first1Number = getFirst1Number(result);
+    number1 = number2 = 0;
+    for (unsigned int i = 0; i != length; ++i) {
+        if (array[i] & first1Number) {
+            number1 ^= array[i];
+        } else {
+            number2 ^= array[i];
+        }
+    }
 }

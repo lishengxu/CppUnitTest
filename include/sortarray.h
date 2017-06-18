@@ -48,4 +48,7 @@ unsigned int getReversePairNumber(int *array, unsigned int length);
 
 unsigned int getNumberOfK(int *array, unsigned int length, int k);
 
+void findNumbersAppearOnce(int *array, unsigned int length, int &number1,
+        int &number2);
+
 #endif /* SORTARRAY_H_ */

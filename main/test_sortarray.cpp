@@ -434,3 +434,31 @@ TEST(sortarraytest, getNumberOfK) {
     EXPECT_EQ(2, getNumberOfK(array4, LENGTH(array4), 1));
     EXPECT_EQ(2, getNumberOfK(array4, LENGTH(array4), 5));
 }
+
+TEST(sortarraytest, findNumbersAppearOnce) {
+    int number1 = 0;
+    int number2 = 0;
+    findNumbersAppearOnce(NULL, 0, number1, number2);
+    EXPECT_EQ(number1, number2);
+
+    int array[] = { 1 };
+    findNumbersAppearOnce(array, LENGTH(array), number1, number2);
+    EXPECT_EQ(number1, number2);
+
+    int array2[] = { 1, 2 };
+    findNumbersAppearOnce(array2, LENGTH(array2), number1, number2);
+    EXPECT_EQ(1, number1);
+    EXPECT_EQ(2, number2);
+
+    int array3[] = { 2, 4, 3, 6, 3, 2, 5, 5 };
+    findNumbersAppearOnce(array3, LENGTH(array3), number1, number2);
+    EXPECT_EQ(6, number1);
+    EXPECT_EQ(4, number2);
+
+    int array4[] = { 2, 4, 3, 6, 3, 2, 5, 5, 4 };
+    findNumbersAppearOnce(array4, LENGTH(array4), number1, number2);
+    EXPECT_EQ(6, number1);
+    EXPECT_EQ(0, number2);
+
+}
+
