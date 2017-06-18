@@ -248,6 +248,40 @@ TEST(mytreetest, isSequeueOfPreOrderTraversalBST) {
             isSequeueOfPreOrderTraversalBST(preOrderError2, LENGTH(preOrderError2)));
 }
 
+TEST(mytreetest, isAVL) {
+    EXPECT_FALSE(isAVL(NULL));
+
+    int preOrder[] = { 1 };
+    int inOrder[] = { 1 };
+    BinaryTreeNode *root = construct(preOrder, inOrder, LENGTH(preOrder));
+    EXPECT_TRUE(isAVL(root));
+    destoryTree(root);
+
+    int preOrder2[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int inOrder2[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    root = construct(preOrder2, inOrder2, LENGTH(preOrder2));
+    EXPECT_FALSE(isAVL(root));
+    destoryTree(root);
+
+    int preOrder3[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int inOrder3[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+    root = construct(preOrder3, inOrder3, LENGTH(preOrder3));
+    EXPECT_FALSE(isAVL(root));
+    destoryTree(root);
+
+    int preOrder4[] = { 1, 2, 4, 7, 12, 3, 9, 5, 11, 6, 8, 10, 13 };
+    int inOrder4[] = { 4, 7, 2, 12, 1, 5, 9, 11, 3, 8, 10, 6, 13 };
+    root = construct(preOrder4, inOrder4, LENGTH(preOrder4));
+    EXPECT_TRUE(isAVL(root));
+    destoryTree(root);
+
+    int preOrder5[] = { 1, 2, 4, 7, 3, 9, 5, 11, 6, 8, 12, 10 };
+    int inOrder5[] = { 4, 7, 2, 1, 5, 9, 11, 3, 8, 10, 12, 6 };
+    root = construct(preOrder5, inOrder5, LENGTH(preOrder5));
+    EXPECT_FALSE(isAVL(root));
+    destoryTree(root);
+}
+
 TEST(mytreetest, findPath) {
     int preOrder[] = { 1 };
     int inOrder[] = { 1 };
@@ -289,6 +323,35 @@ TEST(mytreetest, findPath) {
     for (int i = 0; i < LENGTH(expect2); ++i) {
         EXPECT_EQ(expect2[i], pOut->at(i)) << "is differ at " << i << std::endl;
     }
+}
+
+TEST(mytreetest, getDepth) {
+    EXPECT_EQ(0, getDepth(NULL));
+
+    int preOrder[] = { 1 };
+    int inOrder[] = { 1 };
+    BinaryTreeNode *root = construct(preOrder, inOrder, LENGTH(preOrder));
+    EXPECT_EQ(1, getDepth(root));
+    destoryTree(root);
+
+    int preOrder2[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int inOrder2[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    root = construct(preOrder2, inOrder2, LENGTH(preOrder2));
+    EXPECT_EQ(9, getDepth(root));
+    destoryTree(root);
+
+    int preOrder3[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int inOrder3[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+    root = construct(preOrder3, inOrder3, LENGTH(preOrder3));
+    EXPECT_EQ(9, getDepth(root));
+    destoryTree(root);
+
+    int preOrder4[] = { 1, 2, 4, 7, 3, 9, 5, 11, 6, 8, 10 };
+    int inOrder4[] = { 4, 7, 2, 1, 5, 9, 11, 3, 8, 10, 6 };
+    root = construct(preOrder4, inOrder4, LENGTH(preOrder4));
+    EXPECT_EQ(5, getDepth(root));
+
+    destoryTree(root);
 }
 
 TEST(mytreetest, contain) {
