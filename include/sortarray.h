@@ -9,6 +9,7 @@
 #define SORTARRAY_H_
 #include <stddef.h>
 #include <vector>
+#include <map>
 
 bool contain(const int *array, int rowBegin, int rowEnd, int columnBegin,
         int columnEnd, int rows, int columns, int number);
@@ -50,5 +51,8 @@ unsigned int getNumberOfK(int *array, unsigned int length, int k);
 
 void findNumbersAppearOnce(int *array, unsigned int length, int &number1,
         int &number2);
+
+void findNumberPairWithSumEqualsS(int *array, unsigned int length, int sum,
+        std::map<int, int> *pOut = NULL);
 
 #endif /* SORTARRAY_H_ */

@@ -567,3 +567,29 @@ void findNumbersAppearOnce(int *array, unsigned int length, int &number1,
         }
     }
 }
+
+void findNumberPairWithSumEqualsS(int *array, unsigned int length, int sum,
+        std::map<int, int> *pOut/* = NULL*/) {
+    if (array == NULL || length < 2) {
+        return;
+    }
+
+    unsigned int begin = 0, end = length - 1;
+    while (begin < end) {
+        if (array[begin] + array[end] > sum) {
+            --end;
+        } else if (array[begin] + array[end] < sum) {
+            ++begin;
+        } else {
+            printf("first:%d, second:%d\n", array[begin], array[end]);
+            if (pOut != NULL) {
+                pOut->insert(std::make_pair(array[begin], array[end]));
+            }
+            if (array[begin] == array[begin + 1]) {
+                ++begin;
+            } else {
+                --end;
+            }
+        }
+    }
+}

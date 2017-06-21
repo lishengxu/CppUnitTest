@@ -462,3 +462,37 @@ TEST(sortarraytest, findNumbersAppearOnce) {
 
 }
 
+TEST(sortarraytest, findNumberPairWithSumEqualsS) {
+    std::map<int, int> out;
+    findNumberPairWithSumEqualsS(NULL, 0, 0, &out);
+    EXPECT_EQ(0, out.size());
+
+    int array[] = { 1 };
+    findNumberPairWithSumEqualsS(array, LENGTH(array), 1, &out);
+    EXPECT_EQ(0, out.size());
+
+    int array2[] = { 1, 2 };
+    findNumberPairWithSumEqualsS(array2, LENGTH(array2), 1, &out);
+    EXPECT_EQ(0, out.size());
+    findNumberPairWithSumEqualsS(array2, LENGTH(array2), 3, &out);
+    EXPECT_EQ(1, out.size());
+    EXPECT_EQ(1, out.begin()->first);
+    EXPECT_EQ(2, out.begin()->second);
+    out.clear();
+
+    int array3[] = { 1, 2, 4, 7, 8, 11, 15 };
+    findNumberPairWithSumEqualsS(array3, LENGTH(array3), 15, &out);
+    EXPECT_EQ(2, out.size());
+    std::map<int, int>::const_iterator iter = out.begin();
+    EXPECT_EQ(4, iter->first);
+    EXPECT_EQ(11, iter->second);
+    ++iter;
+    EXPECT_EQ(7, iter->first);
+    EXPECT_EQ(8, iter->second);
+    out.clear();
+
+    int array4[] = { 1, 2, 4, 4, 7, 8, 11, 11, 15 };
+    findNumberPairWithSumEqualsS(array4, LENGTH(array4), 15, &out);
+    EXPECT_EQ(2, out.size());
+    out.clear();
+}
