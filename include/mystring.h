@@ -23,4 +23,6 @@ void printCombination(char *operation, std::vector<std::string> *pOut = NULL);
 
 char getFirstNotRepeatingChar(const char *string);
 
+void reverseSentenceWithWordOrderNoChanged(char *operation);
+
 #endif /* MYSTRING_H_ */

@@ -113,3 +113,18 @@ TEST(mystringtest, getFirstNotRepeatingChar) {
             getFirstNotRepeatingChar(
                     "alkdjafldsaflaieoneafenazjaojdllwkenfaadfa"));
 }
+
+TEST(mystringtest, reverseSentenceWithWordOrderNoChanged) {
+    reverseSentenceWithWordOrderNoChanged(NULL);
+    char str[] = "";
+    reverseSentenceWithWordOrderNoChanged(str);
+    EXPECT_STREQ("", str);
+
+    char str2[] = "a";
+    reverseSentenceWithWordOrderNoChanged(str2);
+    EXPECT_STREQ("a", str2);
+
+    char str3[] = "I am a student.";
+    reverseSentenceWithWordOrderNoChanged(str3);
+    EXPECT_STREQ("student. a am I", str3);
+}
