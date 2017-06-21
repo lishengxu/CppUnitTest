@@ -593,3 +593,36 @@ void findNumberPairWithSumEqualsS(int *array, unsigned int length, int sum,
         }
     }
 }
+
+static std::string getSequeue(unsigned int begin, unsigned int end) {
+    std::string result;
+    for (unsigned int index = begin; index <= end; ++index) {
+        char value[11] = { 0 };
+        sprintf(value, "%d", index);
+        result.append(value);
+    }
+    return result;
+}
+
+void findSequeueWithSumEqualsS(unsigned int sum,
+        std::vector<std::string> *pOut/* = NULL*/) {
+    unsigned int begin = 1;
+    unsigned int end = 2;
+    unsigned int middle = sum >> 1;
+    unsigned int curSum = begin + end;
+    while (begin <= middle && end <= middle + 1 && begin < end) {
+        if (curSum > sum) {
+            curSum -= begin;
+            ++begin;
+        } else if (curSum < sum) {
+            ++end;
+            curSum += end;
+        } else {
+            std::string str = getSequeue(begin, end);
+            printf("%s\n", str.c_str());
+            pOut->push_back(str);
+            ++end;
+            curSum += end;
+        }
+    }
+}

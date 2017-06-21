@@ -496,3 +496,34 @@ TEST(sortarraytest, findNumberPairWithSumEqualsS) {
     EXPECT_EQ(2, out.size());
     out.clear();
 }
+
+TEST(sortarraytest, findSequeueWithSumEqualsS) {
+    std::vector<std::string> out;
+    findSequeueWithSumEqualsS(0, &out);
+    EXPECT_EQ(0, out.size());
+    findSequeueWithSumEqualsS(1, &out);
+    EXPECT_EQ(0, out.size());
+    findSequeueWithSumEqualsS(3, &out);
+    EXPECT_EQ(1, out.size());
+    EXPECT_STREQ("12", out.at(0).c_str());
+    out.clear();
+
+    findSequeueWithSumEqualsS(4, &out);
+    EXPECT_EQ(0, out.size());
+    out.clear();
+
+    findSequeueWithSumEqualsS(15, &out);
+    EXPECT_EQ(3, out.size());
+    EXPECT_STREQ("12345", out.at(0).c_str());
+    EXPECT_STREQ("456", out.at(1).c_str());
+    EXPECT_STREQ("78", out.at(2).c_str());
+    out.clear();
+
+    findSequeueWithSumEqualsS(21, &out);
+    EXPECT_EQ(3, out.size());
+    EXPECT_STREQ("123456", out.at(0).c_str());
+    EXPECT_STREQ("678", out.at(1).c_str());
+    EXPECT_STREQ("1011", out.at(2).c_str());
+    out.clear();
+}
+

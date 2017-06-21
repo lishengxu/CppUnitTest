@@ -55,4 +55,7 @@ void findNumbersAppearOnce(int *array, unsigned int length, int &number1,
 void findNumberPairWithSumEqualsS(int *array, unsigned int length, int sum,
         std::map<int, int> *pOut = NULL);
 
+void findSequeueWithSumEqualsS(unsigned int sum,
+        std::vector<std::string> *pOut = NULL);
+
 #endif /* SORTARRAY_H_ */
