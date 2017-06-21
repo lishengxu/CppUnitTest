@@ -237,3 +237,20 @@ void reverseSentenceWithWordOrderNoChanged(char *operation) {
         reverse(operation + index2, operation + index1 - 1);
     }
 }
+
+void leftRotateString(char *operation, unsigned int n) {
+    if (operation == NULL || n < 0) {
+        return;
+    }
+
+    unsigned int len = strlen(operation);
+    if (len < 2) {
+        return;
+    }
+    n = n % len;
+
+    reverse(operation, operation + len - 1);
+    reverse(operation, operation + len - n - 1);
+    reverse(operation + len - n, operation + len - 1);
+}
+
