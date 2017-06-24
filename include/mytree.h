@@ -47,6 +47,9 @@ bool isAVL(BinaryTreeNode *pRoot);
 void findPath(BinaryTreeNode *pRoot, const int sum, std::vector<int> *pOut =
         NULL);
 
+BinaryTreeNode* getCommonAncestor(BinaryTreeNode *pRoot, BinaryTreeNode *pOne,
+        BinaryTreeNode *pTwo);
+
 unsigned int getDepth(BinaryTreeNode *pRoot);
 
 bool contain(BinaryTreeNode *pRoot, BinaryTreeNode *pChild);

@@ -332,6 +332,57 @@ void findPath(BinaryTreeNode *pRoot, const int sum,
     delete path;
 }
 
+static bool getPath(BinaryTreeNode *pNode, BinaryTreeNode *pFind,
+        std::vector<BinaryTreeNode*> *path) {
+    if (pNode == NULL) {
+        return false;
+    }
+    path->push_back(pNode);
+    if (pNode == pFind) {
+        return true;
+    }
+    if (getPath(pNode->mLeft, pFind, path)) {
+        return true;
+    }
+    if (getPath(pNode->mRight, pFind, path)) {
+        return true;
+    }
+    path->pop_back();
+    return false;
+}
+
+static BinaryTreeNode* getLastCommonNode(std::vector<BinaryTreeNode*> *pathOne,
+        std::vector<BinaryTreeNode*> *pathTwo) {
+    BinaryTreeNode *pFind = NULL;
+    int indexOne = 0, indexTwo = 0;
+    while (indexOne != pathOne->size() && indexTwo != pathTwo->size()) {
+        if (pathOne->at(indexOne) == pathTwo->at(indexTwo)) {
+            pFind = pathOne->at(indexOne);
+        } else {
+            break;
+        }
+        ++indexOne, ++indexTwo;
+    }
+
+    return pFind;
+}
+
+BinaryTreeNode* getCommonAncestor(BinaryTreeNode *pRoot, BinaryTreeNode *pOne,
+        BinaryTreeNode *pTwo) {
+    if (pRoot == NULL || pOne == NULL || pTwo == NULL) {
+        return NULL;
+    }
+    std::vector<BinaryTreeNode*> pathOne;
+    if (!getPath(pRoot, pOne, &pathOne)) {
+        return NULL;
+    }
+    std::vector<BinaryTreeNode*> pathTwo;
+    if (!getPath(pRoot, pTwo, &pathTwo)) {
+        return NULL;
+    }
+    return getLastCommonNode(&pathOne, &pathTwo);
+}
+
 unsigned int getDepth(BinaryTreeNode *pRoot) {
     if (pRoot == NULL) {
         return 0;
