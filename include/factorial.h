@@ -32,4 +32,6 @@ void printAllProbality(const int n, std::vector<float> *pOut = NULL);
 
 int add1ToN(unsigned int n);
 
+int addNoUseArithmetic(int left, int right);
+
 #endif /* FACTORIAL_H_ */

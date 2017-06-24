@@ -422,3 +422,12 @@ static unsigned int functionTrue(unsigned int n) {
 int add1ToN(unsigned int n) {
     return functionTrue(n);
 }
+
+int addNoUseArithmetic(int left, int right) {
+    int sum = left, temp = right;
+    while (temp) {
+        sum ^= temp;
+        temp = ((sum ^ temp) & temp) << 1;
+    }
+    return sum;
+}

@@ -259,3 +259,13 @@ TEST(factorialtest, add1ToN) {
     EXPECT_EQ(3, add1ToN(2));
     EXPECT_EQ(5050, add1ToN(100));
 }
+
+TEST(factorialtest, add2) {
+    EXPECT_EQ(0, addNoUseArithmetic(0, 0));
+    EXPECT_EQ(1, addNoUseArithmetic(1, 0));
+
+    EXPECT_EQ(2, addNoUseArithmetic(1, 1));
+    EXPECT_EQ(62, addNoUseArithmetic(31, 31));
+    EXPECT_EQ(2046, addNoUseArithmetic(1023, 1023));
+    EXPECT_EQ(2047, addNoUseArithmetic(1024, 1023));
+}
