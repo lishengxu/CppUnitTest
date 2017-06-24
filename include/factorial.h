@@ -28,4 +28,6 @@ const char* add(const char* number1, const char *number2);
 
 unsigned int getUglyNumber(const unsigned int n);
 
+void printAllProbality(const int n, std::vector<float> *pOut = NULL);
+
 #endif /* FACTORIAL_H_ */
