@@ -30,4 +30,6 @@ unsigned int getUglyNumber(const unsigned int n);
 
 void printAllProbality(const int n, std::vector<float> *pOut = NULL);
 
+int add1ToN(unsigned int n);
+
 #endif /* FACTORIAL_H_ */

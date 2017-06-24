@@ -409,3 +409,16 @@ void printAllProbality(const int n, std::vector<float> *pOut/* = NULL*/) {
     }
     free(pBuffer);
 }
+
+static unsigned int functionFalse(unsigned int n) {
+    return 0;
+}
+static unsigned int functionTrue(unsigned int n);
+static unsigned int (*p[2])(unsigned int) = {functionFalse, functionTrue};
+static unsigned int functionTrue(unsigned int n) {
+    return n + p[!!n](n - 1);
+}
+
+int add1ToN(unsigned int n) {
+    return functionTrue(n);
+}

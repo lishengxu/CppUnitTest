@@ -252,3 +252,10 @@ TEST(factorialtest, printAllProbality) {
     EXPECT_FLOAT_EQ(1.0 / (6 * 6 * 6 * 6 * 6 * 6), pOut.at(30));
     pOut.clear();
 }
+
+TEST(factorialtest, add1ToN) {
+    EXPECT_EQ(0, add1ToN(0));
+    EXPECT_EQ(1, add1ToN(1));
+    EXPECT_EQ(3, add1ToN(2));
+    EXPECT_EQ(5050, add1ToN(100));
+}
