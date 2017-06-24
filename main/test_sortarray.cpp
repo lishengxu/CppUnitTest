@@ -538,3 +538,12 @@ TEST(sortarraytest, isSequeue) {
     int array2[] = { 0, 1, 3, 4, 5 };
     EXPECT_TRUE(isSequeue(array2, LENGTH(array2)));
 }
+
+TEST(sortarraytest, getLastNumber) {
+    EXPECT_EQ(-1, getLastNumber(0, 0));
+    EXPECT_EQ(-1, getLastNumber(0, 1));
+    EXPECT_EQ(0, getLastNumber(1, 1));
+    EXPECT_EQ(1, getLastNumber(2, 1));
+    EXPECT_EQ(2, getLastNumber(8, 5));
+
+}

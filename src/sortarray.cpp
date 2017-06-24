@@ -663,3 +663,15 @@ bool isSequeue(int *array, unsigned int length) {
 
     return numberOfZero >= numberOfGap;
 }
+
+int getLastNumber(unsigned int n, unsigned int m) {
+    if (n < 1 || m < 1) {
+        return -1;
+    }
+
+    int last = 0;
+    for (unsigned int i = 2; i <= n; ++i) {
+        last = (last + m) % i;
+    }
+    return last;
+}

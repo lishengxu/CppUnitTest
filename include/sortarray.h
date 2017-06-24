@@ -60,4 +60,6 @@ void findSequeueWithSumEqualsS(unsigned int sum,
 
 bool isSequeue(int *array, unsigned int length);
 
+int getLastNumber(unsigned int n, unsigned int m);
+
 #endif /* SORTARRAY_H_ */
