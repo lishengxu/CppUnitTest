@@ -134,7 +134,7 @@ void printAllNumber(const int n, std::vector<std::string> *pOut/*=NULL*/) {
     if (n <= 0) {
         return;
     }
-    char *pNumbers = (char*) calloc(n + 1, sizeof(char*));
+    char *pNumbers = (char*) calloc(n + 1, sizeof(char));
     printNumber(pNumbers, n, 0, pOut);
     free(pNumbers);
 }
@@ -168,7 +168,7 @@ void print1ToMaxOfNDigits(const int n,
         return;
     }
 
-    char *pNumbers = (char*) calloc(n + 1, sizeof(char*));
+    char *pNumbers = (char*) calloc(n + 1, sizeof(char));
     memset(pNumbers, '0', n);
     while (!increaseNumber(pNumbers, n)) {
         printNumber(pNumbers, n);
@@ -276,7 +276,7 @@ const char* add(const char* left, const char *right) {
         return NULL;
     }
 
-    char *newNumber = (char*) calloc(leftLen + 2 + 1, sizeof(char*));
+    char *newNumber = (char*) calloc(leftLen + 2 + 1, sizeof(char));
     const char* leftIndex = left + leftLen - 1;
     const char* rightIndex = right + rightLen - 1;
     char* newIndex = newNumber;
