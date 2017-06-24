@@ -58,4 +58,6 @@ void findNumberPairWithSumEqualsS(int *array, unsigned int length, int sum,
 void findSequeueWithSumEqualsS(unsigned int sum,
         std::vector<std::string> *pOut = NULL);
 
+bool isSequeue(int *array, unsigned int length);
+
 #endif /* SORTARRAY_H_ */

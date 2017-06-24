@@ -626,3 +626,40 @@ void findSequeueWithSumEqualsS(unsigned int sum,
         }
     }
 }
+
+static int compareInt(const void *left, const void *right) {
+    return *(int *) left - *(int*) right;
+}
+bool isSequeue(int *array, unsigned int length) {
+    if (array == NULL || length < 1) {
+        return false;
+    }
+
+    std::qsort(array, length, sizeof(int), compareInt);
+
+    int numberOfZero = 0;
+    int numberOfGap = 0;
+    unsigned int i = 0;
+    for (/*NULL*/; i < length; ++i) {
+        if (!array[i]) {
+            ++numberOfZero;
+        } else {
+            break;
+        }
+    }
+
+    if (i == length) {
+        return true;
+    }
+    int pre = 0, cur = array[i];
+    while (i != length) {
+        if (pre == cur) {
+            return false;
+        }
+        numberOfGap += cur - pre - 1;
+        pre = cur;
+        cur = array[++i];
+    }
+
+    return numberOfZero >= numberOfGap;
+}

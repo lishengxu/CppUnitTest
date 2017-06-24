@@ -527,3 +527,14 @@ TEST(sortarraytest, findSequeueWithSumEqualsS) {
     out.clear();
 }
 
+TEST(sortarraytest, isSequeue) {
+    EXPECT_FALSE(isSequeue(NULL, 0));
+    int array[] = { 1 };
+    EXPECT_TRUE(isSequeue(array, LENGTH(array)));
+
+    int array1[] = { 1, 3 };
+    EXPECT_FALSE(isSequeue(array1, LENGTH(array1)));
+
+    int array2[] = { 0, 1, 3, 4, 5 };
+    EXPECT_TRUE(isSequeue(array2, LENGTH(array2)));
+}
