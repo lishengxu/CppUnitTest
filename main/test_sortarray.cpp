@@ -416,3 +416,134 @@ TEST(sortarraytest, getReversePairNumber) {
 
 }
 
+TEST(sortarraytest, getNumberOfK) {
+    EXPECT_EQ(0, getNumberOfK(NULL, 0, 0));
+    int array[] = { 1 };
+    EXPECT_EQ(0, getNumberOfK(array, LENGTH(array), 2));
+    EXPECT_EQ(1, getNumberOfK(array, LENGTH(array), 1));
+
+    int array2[] = { 1, 2, 3, 4, 5, 6, 7 };
+    EXPECT_EQ(0, getNumberOfK(array2, LENGTH(array2), 0));
+    EXPECT_EQ(1, getNumberOfK(array2, LENGTH(array2), 1));
+    EXPECT_EQ(1, getNumberOfK(array2, LENGTH(array2), 7));
+
+    int array3[] = { 1, 1, 1, 1, 1, 1 };
+    EXPECT_EQ(6, getNumberOfK(array3, LENGTH(array3), 1));
+
+    int array4[] = { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 };
+    EXPECT_EQ(2, getNumberOfK(array4, LENGTH(array4), 1));
+    EXPECT_EQ(2, getNumberOfK(array4, LENGTH(array4), 5));
+}
+
+TEST(sortarraytest, findNumbersAppearOnce) {
+    int number1 = 0;
+    int number2 = 0;
+    findNumbersAppearOnce(NULL, 0, number1, number2);
+    EXPECT_EQ(number1, number2);
+
+    int array[] = { 1 };
+    findNumbersAppearOnce(array, LENGTH(array), number1, number2);
+    EXPECT_EQ(number1, number2);
+
+    int array2[] = { 1, 2 };
+    findNumbersAppearOnce(array2, LENGTH(array2), number1, number2);
+    EXPECT_EQ(1, number1);
+    EXPECT_EQ(2, number2);
+
+    int array3[] = { 2, 4, 3, 6, 3, 2, 5, 5 };
+    findNumbersAppearOnce(array3, LENGTH(array3), number1, number2);
+    EXPECT_EQ(6, number1);
+    EXPECT_EQ(4, number2);
+
+    int array4[] = { 2, 4, 3, 6, 3, 2, 5, 5, 4 };
+    findNumbersAppearOnce(array4, LENGTH(array4), number1, number2);
+    EXPECT_EQ(6, number1);
+    EXPECT_EQ(0, number2);
+
+}
+
+TEST(sortarraytest, findNumberPairWithSumEqualsS) {
+    std::map<int, int> out;
+    findNumberPairWithSumEqualsS(NULL, 0, 0, &out);
+    EXPECT_EQ(0, out.size());
+
+    int array[] = { 1 };
+    findNumberPairWithSumEqualsS(array, LENGTH(array), 1, &out);
+    EXPECT_EQ(0, out.size());
+
+    int array2[] = { 1, 2 };
+    findNumberPairWithSumEqualsS(array2, LENGTH(array2), 1, &out);
+    EXPECT_EQ(0, out.size());
+    findNumberPairWithSumEqualsS(array2, LENGTH(array2), 3, &out);
+    EXPECT_EQ(1, out.size());
+    EXPECT_EQ(1, out.begin()->first);
+    EXPECT_EQ(2, out.begin()->second);
+    out.clear();
+
+    int array3[] = { 1, 2, 4, 7, 8, 11, 15 };
+    findNumberPairWithSumEqualsS(array3, LENGTH(array3), 15, &out);
+    EXPECT_EQ(2, out.size());
+    std::map<int, int>::const_iterator iter = out.begin();
+    EXPECT_EQ(4, iter->first);
+    EXPECT_EQ(11, iter->second);
+    ++iter;
+    EXPECT_EQ(7, iter->first);
+    EXPECT_EQ(8, iter->second);
+    out.clear();
+
+    int array4[] = { 1, 2, 4, 4, 7, 8, 11, 11, 15 };
+    findNumberPairWithSumEqualsS(array4, LENGTH(array4), 15, &out);
+    EXPECT_EQ(2, out.size());
+    out.clear();
+}
+
+TEST(sortarraytest, findSequeueWithSumEqualsS) {
+    std::vector<std::string> out;
+    findSequeueWithSumEqualsS(0, &out);
+    EXPECT_EQ(0, out.size());
+    findSequeueWithSumEqualsS(1, &out);
+    EXPECT_EQ(0, out.size());
+    findSequeueWithSumEqualsS(3, &out);
+    EXPECT_EQ(1, out.size());
+    EXPECT_STREQ("12", out.at(0).c_str());
+    out.clear();
+
+    findSequeueWithSumEqualsS(4, &out);
+    EXPECT_EQ(0, out.size());
+    out.clear();
+
+    findSequeueWithSumEqualsS(15, &out);
+    EXPECT_EQ(3, out.size());
+    EXPECT_STREQ("12345", out.at(0).c_str());
+    EXPECT_STREQ("456", out.at(1).c_str());
+    EXPECT_STREQ("78", out.at(2).c_str());
+    out.clear();
+
+    findSequeueWithSumEqualsS(21, &out);
+    EXPECT_EQ(3, out.size());
+    EXPECT_STREQ("123456", out.at(0).c_str());
+    EXPECT_STREQ("678", out.at(1).c_str());
+    EXPECT_STREQ("1011", out.at(2).c_str());
+    out.clear();
+}
+
+TEST(sortarraytest, isSequeue) {
+    EXPECT_FALSE(isSequeue(NULL, 0));
+    int array[] = { 1 };
+    EXPECT_TRUE(isSequeue(array, LENGTH(array)));
+
+    int array1[] = { 1, 3 };
+    EXPECT_FALSE(isSequeue(array1, LENGTH(array1)));
+
+    int array2[] = { 0, 1, 3, 4, 5 };
+    EXPECT_TRUE(isSequeue(array2, LENGTH(array2)));
+}
+
+TEST(sortarraytest, getLastNumber) {
+    EXPECT_EQ(-1, getLastNumber(0, 0));
+    EXPECT_EQ(-1, getLastNumber(0, 1));
+    EXPECT_EQ(0, getLastNumber(1, 1));
+    EXPECT_EQ(1, getLastNumber(2, 1));
+    EXPECT_EQ(2, getLastNumber(8, 5));
+
+}

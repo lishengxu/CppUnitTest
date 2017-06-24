@@ -265,6 +265,32 @@ bool isSequeueOfPreOrderTraversalBST(const int *array, int length) {
     return leftFlag && rightFlag;
 }
 
+static bool isAVL(BinaryTreeNode *pNode, int &depth) {
+    if (pNode == NULL) {
+        depth = 0;
+        return true;
+    }
+
+    int leftDepth = 0, rightDepth = 0;
+    if (isAVL(pNode->mLeft, leftDepth) && isAVL(pNode->mRight, rightDepth)) {
+        int diff = leftDepth - rightDepth;
+        if (diff <= 1 && diff >= -1) {
+            depth = 1 + (leftDepth > rightDepth ? leftDepth : rightDepth);
+            return true;
+        }
+    }
+    return false;
+}
+
+bool isAVL(BinaryTreeNode *pRoot) {
+    if (pRoot == NULL) {
+        return false;
+    }
+
+    int depth = 0;
+    return isAVL(pRoot, depth);
+}
+
 static void printPath(std::vector<int> *stack, std::vector<int> *pOut = NULL) {
     for (std::vector<int>::const_iterator iter = stack->begin();
             iter != stack->end(); ++iter) {
@@ -304,6 +330,16 @@ void findPath(BinaryTreeNode *pRoot, const int sum,
     std::vector<int> *path = new std::vector<int>();
     findPath(pRoot, path, sum, pOut);
     delete path;
+}
+
+unsigned int getDepth(BinaryTreeNode *pRoot) {
+    if (pRoot == NULL) {
+        return 0;
+    }
+
+    unsigned int leftDepth = getDepth(pRoot->mLeft);
+    unsigned int rightDepth = getDepth(pRoot->mRight);
+    return 1 + (leftDepth > rightDepth ? leftDepth : rightDepth);
 }
 
 bool contain(BinaryTreeNode *pRoot, BinaryTreeNode *pChild) {

@@ -202,3 +202,55 @@ char getFirstNotRepeatingChar(const char *string) {
 
     return '\0';
 }
+
+static void reverse(char *begin, char *end) {
+    char *beginIndex = begin;
+    char *endIndex = end;
+    while (beginIndex < endIndex) {
+        char temp = *beginIndex;
+        *beginIndex = *endIndex;
+        *endIndex = temp;
+        ++beginIndex, --endIndex;
+    }
+}
+
+void reverseSentenceWithWordOrderNoChanged(char *operation) {
+    if (operation == NULL || strlen(operation) == 0) {
+        return;
+    }
+
+    unsigned int len = strlen(operation);
+    reverse(operation, operation + len - 1);
+
+    unsigned int index1 = 0, index2 = index1;
+    while (index1 < len) {
+        while (index1 < len && operation[index1] == ' ') {
+            ++index1;
+        }
+        if (index1 >= len) {
+            break;
+        }
+        index2 = index1;
+        while (index1 < len && operation[index1] != ' ') {
+            ++index1;
+        }
+        reverse(operation + index2, operation + index1 - 1);
+    }
+}
+
+void leftRotateString(char *operation, unsigned int n) {
+    if (operation == NULL || n < 0) {
+        return;
+    }
+
+    unsigned int len = strlen(operation);
+    if (len < 2) {
+        return;
+    }
+    n = n % len;
+
+    reverse(operation, operation + len - 1);
+    reverse(operation, operation + len - n - 1);
+    reverse(operation + len - n, operation + len - 1);
+}
+

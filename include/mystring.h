@@ -23,4 +23,8 @@ void printCombination(char *operation, std::vector<std::string> *pOut = NULL);
 
 char getFirstNotRepeatingChar(const char *string);
 
+void reverseSentenceWithWordOrderNoChanged(char *operation);
+
+void leftRotateString(char *operation, unsigned int n);
+
 #endif /* MYSTRING_H_ */

@@ -134,7 +134,7 @@ void printAllNumber(const int n, std::vector<std::string> *pOut/*=NULL*/) {
     if (n <= 0) {
         return;
     }
-    char *pNumbers = (char*) calloc(n + 1, sizeof(char*));
+    char *pNumbers = (char*) calloc(n + 1, sizeof(char));
     printNumber(pNumbers, n, 0, pOut);
     free(pNumbers);
 }
@@ -168,7 +168,7 @@ void print1ToMaxOfNDigits(const int n,
         return;
     }
 
-    char *pNumbers = (char*) calloc(n + 1, sizeof(char*));
+    char *pNumbers = (char*) calloc(n + 1, sizeof(char));
     memset(pNumbers, '0', n);
     while (!increaseNumber(pNumbers, n)) {
         printNumber(pNumbers, n);
@@ -276,7 +276,7 @@ const char* add(const char* left, const char *right) {
         return NULL;
     }
 
-    char *newNumber = (char*) calloc(leftLen + 2 + 1, sizeof(char*));
+    char *newNumber = (char*) calloc(leftLen + 2 + 1, sizeof(char));
     const char* leftIndex = left + leftLen - 1;
     const char* rightIndex = right + rightLen - 1;
     char* newIndex = newNumber;
@@ -374,4 +374,60 @@ unsigned int getUglyNumber(const unsigned int n) {
         ugly[i] = curMax;
     }
     return ugly[n - 1];
+}
+
+static int gMaxValue = 6;
+void printAllProbality(const int n, std::vector<float> *pOut/* = NULL*/) {
+    if (n < 1) {
+        return;
+    }
+    int *pBuffer = (int *) calloc(gMaxValue * n + 1, sizeof(int));
+    for (int i = 1; i <= gMaxValue; ++i) {
+        pBuffer[i] = 1;
+    }
+
+    for (int i = 2; i <= n; ++i) {
+        for (int j = gMaxValue * i; j >= i; --j) {
+            unsigned int sum = 0;
+            for (int k = j - 1; k > 0 && k > j - 7; --k) {
+                sum += pBuffer[k];
+            }
+            pBuffer[j] = sum;
+        }
+
+        for (int j = 1; j < i; ++j) {
+            pBuffer[j] = 0;
+        }
+    }
+
+    double base = pow(gMaxValue, n);
+    for (int i = n; i <= n * gMaxValue; ++i) {
+        printf("%f\n", pBuffer[i] / base);
+        if (pOut != NULL) {
+            pOut->push_back(pBuffer[i] / base);
+        }
+    }
+    free(pBuffer);
+}
+
+static unsigned int functionFalse(unsigned int n) {
+    return 0;
+}
+static unsigned int functionTrue(unsigned int n);
+static unsigned int (*p[2])(unsigned int) = {functionFalse, functionTrue};
+static unsigned int functionTrue(unsigned int n) {
+    return n + p[!!n](n - 1);
+}
+
+int add1ToN(unsigned int n) {
+    return functionTrue(n);
+}
+
+int addNoUseArithmetic(int left, int right) {
+    int sum = left, temp = right;
+    while (temp) {
+        sum ^= temp;
+        temp = ((sum ^ temp) & temp) << 1;
+    }
+    return sum;
 }

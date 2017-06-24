@@ -42,8 +42,12 @@ bool isSequeueOfPosOrderTraversalBST(const int *array, int length);
 
 bool isSequeueOfPreOrderTraversalBST(const int *array, int length);
 
+bool isAVL(BinaryTreeNode *pRoot);
+
 void findPath(BinaryTreeNode *pRoot, const int sum, std::vector<int> *pOut =
         NULL);
+
+unsigned int getDepth(BinaryTreeNode *pRoot);
 
 bool contain(BinaryTreeNode *pRoot, BinaryTreeNode *pChild);
 

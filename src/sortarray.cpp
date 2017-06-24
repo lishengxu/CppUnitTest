@@ -501,3 +501,177 @@ unsigned int getReversePairNumber(int *array, unsigned int length) {
     return getReversePairNumber(array, copy, 0, length - 1);
 }
 
+static int getIndexOfK(int *array, int length, int begin, int end, int k,
+        bool isFirst) {
+    if (begin > end) {
+        return -1;
+    }
+
+    int middle = begin + ((end - begin) >> 1);
+    if (array[middle] > k) {
+        end = middle - 1;
+    } else if (array[middle] == k) {
+        if (isFirst) {
+            if (middle == 0 || array[middle - 1] != k) {
+                return middle;
+            }
+            end = middle - 1;
+        } else {
+            if (middle == length - 1 || array[middle + 1] != k) {
+                return middle;
+            }
+            begin = middle + 1;
+        }
+    } else {
+        begin = middle + 1;
+    }
+    return getIndexOfK(array, length, begin, end, k, isFirst);
+}
+
+unsigned int getNumberOfK(int *array, unsigned int length, int k) {
+    if (array == NULL || length < 1) {
+        return 0;
+    }
+
+    int firstKIndex = getIndexOfK(array, length, 0, length - 1, k, true);
+    int endKIndex = getIndexOfK(array, length, 0, length - 1, k, false);
+
+    if (firstKIndex < 0 || endKIndex < 0) {
+        return 0;
+    }
+    return endKIndex - firstKIndex + 1;
+}
+
+static int getFirst1Number(int number) {
+    return (number ^ (number - 1)) & number;
+}
+
+void findNumbersAppearOnce(int *array, unsigned int length, int &number1,
+        int &number2) {
+    if (array == NULL || length < 2) {
+        return;
+    }
+
+    int result = 0;
+    for (unsigned int i = 0; i != length; ++i) {
+        result ^= array[i];
+    }
+
+    int first1Number = getFirst1Number(result);
+    number1 = number2 = 0;
+    for (unsigned int i = 0; i != length; ++i) {
+        if (array[i] & first1Number) {
+            number1 ^= array[i];
+        } else {
+            number2 ^= array[i];
+        }
+    }
+}
+
+void findNumberPairWithSumEqualsS(int *array, unsigned int length, int sum,
+        std::map<int, int> *pOut/* = NULL*/) {
+    if (array == NULL || length < 2) {
+        return;
+    }
+
+    unsigned int begin = 0, end = length - 1;
+    while (begin < end) {
+        if (array[begin] + array[end] > sum) {
+            --end;
+        } else if (array[begin] + array[end] < sum) {
+            ++begin;
+        } else {
+            printf("first:%d, second:%d\n", array[begin], array[end]);
+            if (pOut != NULL) {
+                pOut->insert(std::make_pair(array[begin], array[end]));
+            }
+            if (array[begin] == array[begin + 1]) {
+                ++begin;
+            } else {
+                --end;
+            }
+        }
+    }
+}
+
+static std::string getSequeue(unsigned int begin, unsigned int end) {
+    std::string result;
+    for (unsigned int index = begin; index <= end; ++index) {
+        char value[11] = { 0 };
+        sprintf(value, "%d", index);
+        result.append(value);
+    }
+    return result;
+}
+
+void findSequeueWithSumEqualsS(unsigned int sum,
+        std::vector<std::string> *pOut/* = NULL*/) {
+    unsigned int begin = 1;
+    unsigned int end = 2;
+    unsigned int middle = sum >> 1;
+    unsigned int curSum = begin + end;
+    while (begin <= middle && end <= middle + 1 && begin < end) {
+        if (curSum > sum) {
+            curSum -= begin;
+            ++begin;
+        } else if (curSum < sum) {
+            ++end;
+            curSum += end;
+        } else {
+            std::string str = getSequeue(begin, end);
+            printf("%s\n", str.c_str());
+            pOut->push_back(str);
+            ++end;
+            curSum += end;
+        }
+    }
+}
+
+static int compareInt(const void *left, const void *right) {
+    return *(int *) left - *(int*) right;
+}
+bool isSequeue(int *array, unsigned int length) {
+    if (array == NULL || length < 1) {
+        return false;
+    }
+
+    std::qsort(array, length, sizeof(int), compareInt);
+
+    int numberOfZero = 0;
+    int numberOfGap = 0;
+    unsigned int i = 0;
+    for (/*NULL*/; i < length; ++i) {
+        if (!array[i]) {
+            ++numberOfZero;
+        } else {
+            break;
+        }
+    }
+
+    if (i == length) {
+        return true;
+    }
+    int pre = 0, cur = array[i];
+    while (i != length) {
+        if (pre == cur) {
+            return false;
+        }
+        numberOfGap += cur - pre - 1;
+        pre = cur;
+        cur = array[++i];
+    }
+
+    return numberOfZero >= numberOfGap;
+}
+
+int getLastNumber(unsigned int n, unsigned int m) {
+    if (n < 1 || m < 1) {
+        return -1;
+    }
+
+    int last = 0;
+    for (unsigned int i = 2; i <= n; ++i) {
+        last = (last + m) % i;
+    }
+    return last;
+}

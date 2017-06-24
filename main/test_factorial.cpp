@@ -223,3 +223,49 @@ TEST(factorialtest, getUglyNumber) {
                 << std::endl;
     }
 }
+
+TEST(factorialtest, printAllProbality) {
+    std::vector<float> pOut;
+    printAllProbality(0, &pOut);
+    EXPECT_EQ(0, pOut.size());
+
+    printf("------1------\n");
+    printAllProbality(1, &pOut);
+    EXPECT_EQ(6, pOut.size());
+    EXPECT_FLOAT_EQ(1.0 / 6, pOut.at(0));
+    EXPECT_FLOAT_EQ(1.0 / 6, pOut.at(5));
+    pOut.clear();
+
+    printf("------2------\n");
+    printAllProbality(2, &pOut);
+    EXPECT_EQ(11, pOut.size());
+    EXPECT_FLOAT_EQ(1.0 / (6 * 6), pOut.at(0));
+    EXPECT_FLOAT_EQ(2.0 / (6 * 6), pOut.at(1));
+    EXPECT_FLOAT_EQ(3.0 / (6 * 6), pOut.at(2));
+    EXPECT_FLOAT_EQ(1.0 / (6 * 6), pOut.at(10));
+    pOut.clear();
+
+    printf("------6------\n");
+    printAllProbality(6, &pOut);
+    EXPECT_EQ(31, pOut.size());
+    EXPECT_FLOAT_EQ(1.0 / (6 * 6 * 6 * 6 * 6 * 6), pOut.at(0));
+    EXPECT_FLOAT_EQ(1.0 / (6 * 6 * 6 * 6 * 6 * 6), pOut.at(30));
+    pOut.clear();
+}
+
+TEST(factorialtest, add1ToN) {
+    EXPECT_EQ(0, add1ToN(0));
+    EXPECT_EQ(1, add1ToN(1));
+    EXPECT_EQ(3, add1ToN(2));
+    EXPECT_EQ(5050, add1ToN(100));
+}
+
+TEST(factorialtest, add2) {
+    EXPECT_EQ(0, addNoUseArithmetic(0, 0));
+    EXPECT_EQ(1, addNoUseArithmetic(1, 0));
+
+    EXPECT_EQ(2, addNoUseArithmetic(1, 1));
+    EXPECT_EQ(62, addNoUseArithmetic(31, 31));
+    EXPECT_EQ(2046, addNoUseArithmetic(1023, 1023));
+    EXPECT_EQ(2047, addNoUseArithmetic(1024, 1023));
+}
