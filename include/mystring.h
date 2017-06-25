@@ -27,4 +27,8 @@ void reverseSentenceWithWordOrderNoChanged(char *operation);
 
 void leftRotateString(char *operation, unsigned int n);
 
+int LCS(const char *operation, std::vector<char> *pOut = NULL);
+
+void sortString(char *operation);
+
 #endif /* MYSTRING_H_ */

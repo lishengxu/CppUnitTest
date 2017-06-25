@@ -325,6 +325,51 @@ TEST(mytreetest, findPath) {
     }
 }
 
+TEST(mytreetest, getCommonAncestor) {
+    int preOrder[] = { 1 };
+    int inOrder[] = { 1 };
+    BinaryTreeNode *root = construct(preOrder, inOrder, LENGTH(preOrder));
+    BinaryTreeNode *pOne = root;
+    BinaryTreeNode *pTwo = root;
+    EXPECT_EQ(root, getCommonAncestor(root, pOne, pTwo));
+    destoryTree(root);
+
+    int preOrder1[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int inOrder1[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+    root = construct(preOrder1, inOrder1, LENGTH(preOrder1));
+    pOne = root->mLeft->mLeft->mLeft->mLeft->mLeft->mLeft->mLeft->mLeft;
+    pTwo = root->mLeft->mLeft;
+    EXPECT_EQ(pTwo, getCommonAncestor(root, pOne, pTwo));
+    destoryTree(root);
+
+    int preOrder2[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int inOrder2[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    root = construct(preOrder2, inOrder2, LENGTH(preOrder2));
+    pOne = root->mRight->mRight->mRight->mRight->mRight->mRight->mRight->mRight;
+    pTwo = root->mRight->mRight;
+    EXPECT_EQ(pTwo, getCommonAncestor(root, pOne, pTwo));
+    destoryTree(root);
+
+    int preOrder3[] = { 10, 6, 4, 8, 14, 12, 16 };
+    int inOrder3[] = { 4, 6, 8, 10, 12, 14, 16 };
+    root = construct(preOrder3, inOrder3, LENGTH(preOrder3));
+    pOne = root->mLeft->mLeft;
+    pTwo = root->mRight->mRight;
+    EXPECT_EQ(root, getCommonAncestor(root, pOne, pTwo));
+    destoryTree(root);
+
+    int preOrder5[] = { 1, 2, 4, 7, 3, 9, 5, 11, 6, 8, 12, 10 };
+    int inOrder5[] = { 4, 7, 2, 1, 5, 9, 11, 3, 8, 10, 12, 6 };
+    root = construct(preOrder5, inOrder5, LENGTH(preOrder5));
+    pOne = root->mRight->mLeft->mLeft;
+    EXPECT_EQ(5, pOne->mValue);
+    pTwo = root->mRight->mRight->mLeft->mRight;
+    EXPECT_EQ(12, pTwo->mValue);
+    EXPECT_EQ(root->mRight, getCommonAncestor(root, pOne, pTwo));
+    EXPECT_EQ(root, getCommonAncestor(root, root->mLeft, pTwo));
+    destoryTree(root);
+}
+
 TEST(mytreetest, getDepth) {
     EXPECT_EQ(0, getDepth(NULL));
 

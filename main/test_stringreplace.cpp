@@ -149,3 +149,42 @@ TEST(mystringtest, leftRotateString) {
     leftRotateString(str3, 16);
     EXPECT_STREQ(str3, " am a student.I");
 }
+
+TEST(mystringtest, LCS) {
+
+    std::vector<char> pOut;
+    EXPECT_EQ(-1, LCS(NULL, &pOut));
+
+    EXPECT_EQ(0, LCS("1", &pOut));
+    EXPECT_EQ(0, pOut.size());
+
+    EXPECT_EQ(1, LCS("12", &pOut));
+    pOut.clear();
+
+    EXPECT_EQ(0, LCS("1234321", &pOut));
+    EXPECT_EQ(0, pOut.size());
+
+    EXPECT_EQ(8, LCS("2348297439824798234", &pOut));
+    EXPECT_EQ(0, pOut.size());
+}
+
+TEST(mystringtest, sortString) {
+    sortString(NULL);
+    sortString("");
+
+    char str[] = "a";
+    sortString(str);
+    EXPECT_STREQ("a", str);
+
+    char str2[] = "aA";
+    sortString(str2);
+    EXPECT_STREQ("aA", str2);
+
+    char str3[] = "Aa";
+    sortString(str3);
+    EXPECT_STREQ("aA", str3);
+
+    char str4[] = "aAbBCcDEdefF";
+    sortString(str4);
+    EXPECT_STREQ("abcdefABCDEF", str4);
+}
