@@ -254,3 +254,56 @@ void leftRotateString(char *operation, unsigned int n) {
     reverse(operation + len - n, operation + len - 1);
 }
 
+int LCS(const char *operation, std::vector<char> *pOut/* = NULL*/) {
+    if (operation == NULL) {
+        return -1;
+    }
+
+    int len = strlen(operation);
+    int lcs[len + 1][len + 1];
+    for (int i = 0; i <= len; ++i) {
+        for (int j = 0; j <= len; ++j) {
+            lcs[i][j] = 0;
+        }
+    }
+
+    for (int i = 1; i <= len; ++i) {
+        for (int j = len - 1; j >= 0; --j) {
+            if (operation[i - 1] == operation[j]) {
+                lcs[i][j] = lcs[i - 1][j + 1] + 1;
+            } else {
+                lcs[i][j] =
+                        lcs[i - 1][j] > lcs[i][j + 1] ?
+                                lcs[i - 1][j] : lcs[i][j + 1];
+            }
+        }
+    }
+
+    return len - lcs[len][0];
+}
+
+static void moveForwardAndSwap(char *operation, int begin, int end) {
+    if (begin >= end) {
+        return;
+    }
+
+    char temp = operation[begin];
+    for (int index = begin; index < end; ++index) {
+        operation[index] = operation[index + 1];
+    }
+    operation[end] = temp;
+}
+
+void sortString(char *operation) {
+    if (operation == NULL) {
+        return;
+    }
+
+    int len = strlen(operation);
+    for (int index = len - 1, swapIndex = len - 1; index >= 0; --index) {
+        if (operation[index] >= 'A' && operation[index] <= 'Z') {
+            moveForwardAndSwap(operation, index, swapIndex);
+            --swapIndex;
+        }
+    }
+}
