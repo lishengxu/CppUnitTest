@@ -27,7 +27,13 @@ void reverseSentenceWithWordOrderNoChanged(char *operation);
 
 void leftRotateString(char *operation, unsigned int n);
 
-int LCS(const char *operation, std::vector<char> *pOut = NULL);
+int numberOfDeleteToHuiwen(const char *operation,
+        std::vector<char> *pOut = NULL);
+
+int LCSubSequence(const char *left, const char *right,
+        std::string *pOut = NULL);
+
+int LCSubString(const char *left, const char *right, std::string *pOut = NULL);
 
 void sortString(char *operation);
 
