@@ -675,3 +675,38 @@ int getLastNumber(unsigned int n, unsigned int m) {
     }
     return last;
 }
+
+static int indexOfMin(int *values, int length) {
+    if (values == NULL || length < 1) {
+        return -1;
+    }
+    int result = 0;
+    for (int i = 0; i < length; ++i) {
+        if (values[i] < values[result]) {
+            result = i;
+        }
+    }
+    return result;
+}
+
+double getAVGWaitTime(int *arriveTime, int *dealTime, unsigned int length,
+        int processorNums) {
+    if (arriveTime == NULL || dealTime == NULL || length < 1
+            || processorNums < 1) {
+        return -1;
+    }
+
+    int result = 0;
+    int *processor = (int*) calloc(processorNums, sizeof(int));
+
+    for (unsigned int i = 0; i < length; ++i) {
+        int index = indexOfMin(processor, processorNums);
+        if (processor[index] > arriveTime[i]) {
+            result += processor[index] - arriveTime[i];
+        }
+        processor[index] = arriveTime[i] + dealTime[i];
+    }
+
+    free(processor);
+    return result * 1.0 / length;
+}

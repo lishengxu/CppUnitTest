@@ -547,3 +547,20 @@ TEST(sortarraytest, getLastNumber) {
     EXPECT_EQ(2, getLastNumber(8, 5));
 
 }
+
+TEST(sortarraytest, getAVGWaitTime) {
+    EXPECT_EQ(-1, getAVGWaitTime(NULL, NULL, 0, 4));
+
+    int arrayTime[] = { 1 };
+    int dealTime[] = { 2 };
+    EXPECT_EQ(0, getAVGWaitTime(arrayTime, dealTime, LENGTH(arrayTime), 4));
+
+    int arrayTime2[] = { 1, 4 };
+    int dealTime2[] = { 5, 2 };
+    EXPECT_EQ(1, getAVGWaitTime(arrayTime2, dealTime2, LENGTH(arrayTime2), 1));
+
+    int arrayTime3[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    int dealTime3[] = { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+    EXPECT_EQ(0.6,
+            getAVGWaitTime(arrayTime3, dealTime3, LENGTH(arrayTime3), 4));
+}
