@@ -150,27 +150,49 @@ TEST(mystringtest, leftRotateString) {
     EXPECT_STREQ(str3, " am a student.I");
 }
 
-TEST(mystringtest, LCS) {
-
+TEST(mystringtest, numberOfDeleteToHuiwen) {
     std::vector<char> pOut;
-    EXPECT_EQ(-1, LCS(NULL, &pOut));
+    EXPECT_EQ(-1, numberOfDeleteToHuiwen(NULL, &pOut));
 
-    EXPECT_EQ(0, LCS("1", &pOut));
+    EXPECT_EQ(0, numberOfDeleteToHuiwen("1", &pOut));
     EXPECT_EQ(0, pOut.size());
 
-    EXPECT_EQ(1, LCS("12", &pOut));
+    EXPECT_EQ(1, numberOfDeleteToHuiwen("12", &pOut));
     pOut.clear();
 
-    EXPECT_EQ(0, LCS("1234321", &pOut));
+    EXPECT_EQ(0, numberOfDeleteToHuiwen("1234321", &pOut));
     EXPECT_EQ(0, pOut.size());
 
-    EXPECT_EQ(8, LCS("2348297439824798234", &pOut));
+    EXPECT_EQ(8, numberOfDeleteToHuiwen("2348297439824798234", &pOut));
     EXPECT_EQ(0, pOut.size());
+}
+
+TEST(mystringtest, LCSubSequence) {
+    std::string pOut;
+    EXPECT_EQ(-1, LCSubSequence(NULL, NULL, &pOut));
+
+    EXPECT_EQ(0, LCSubSequence("1", "7", &pOut));
+    EXPECT_EQ(0, pOut.size());
+
+    EXPECT_EQ(1, LCSubSequence("12", "21", &pOut));
+    EXPECT_EQ('2', pOut.at(0));
+    pOut.clear();
+
+    EXPECT_EQ(7, LCSubSequence("1234321", "1234321", &pOut));
+    EXPECT_EQ('1', pOut.at(0));
+    EXPECT_EQ('1', pOut.at(6));
+    EXPECT_STREQ("1234321", pOut.c_str());
+    EXPECT_EQ(7, pOut.size());
+    pOut.clear();
+
+    EXPECT_EQ(11, LCSubSequence("2348297439824798234", "4328974289347928432", &pOut));
+    EXPECT_STREQ("42974247924", pOut.c_str());
+    EXPECT_EQ(11, pOut.size());
 }
 
 TEST(mystringtest, sortString) {
     sortString(NULL);
-    sortString("");
+    sortString((char*) "");
 
     char str[] = "a";
     sortString(str);
