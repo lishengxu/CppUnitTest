@@ -339,6 +339,49 @@ int LCSubSequence(const char *left, const char *right,
     return matrix[leftLen][rightLen];
 }
 
+int LCSubString(const char *left, const char *right,
+        std::string *pOut/* = NULL*/) {
+    if (left == NULL || right == NULL) {
+        return -1;
+    }
+
+    unsigned int leftLen = strlen(left);
+    unsigned int rightLen = strlen(right);
+    int matrix[leftLen][rightLen];
+    for (unsigned int i = 0; i <= leftLen; ++i) {
+        matrix[i][0] = 0;
+    }
+    for (unsigned int j = 0; j <= rightLen; ++j) {
+        matrix[0][j] = 0;
+    }
+
+    unsigned int flag = 0;
+    int result = 0;
+    for (unsigned int i = 1; i <= leftLen; ++i) {
+        for (unsigned int j = 1; j <= rightLen; ++j) {
+            if (left[i - 1] == right[j - 1]) {
+                matrix[i][j] = matrix[i - 1][j - 1] + 1;
+                if (matrix[i][j] > result) {
+                    result = matrix[i][j];
+                    flag = i - 1;
+                }
+            } else {
+                matrix[i][j] = 0;
+            }
+        }
+    }
+    if (result == 0) {
+        return result;
+    }
+    char subString[result + 1];
+    strncpy(subString, left + flag - result + 1, result);
+    subString[result] = '\0';
+    if (pOut != NULL) {
+        pOut->assign(subString);
+    }
+    return result;
+}
+
 static void moveForwardAndSwap(char *operation, int begin, int end) {
     if (begin >= end) {
         return;

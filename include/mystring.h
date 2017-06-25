@@ -33,6 +33,8 @@ int numberOfDeleteToHuiwen(const char *operation,
 int LCSubSequence(const char *left, const char *right,
         std::string *pOut = NULL);
 
+int LCSubString(const char *left, const char *right, std::string *pOut = NULL);
+
 void sortString(char *operation);
 
 #endif /* MYSTRING_H_ */
