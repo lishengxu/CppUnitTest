@@ -132,7 +132,7 @@ void posOrderTraversalNonRecursive(BinaryTreeNode *pHead,
     }
     std::stack<BinaryTreeNode*> stack;
 
-    BinaryTreeNode* pCur = pHead;
+    BinaryTreeNode *pCur = pHead;
     BinaryTreeNode *last = pHead;
     stack.push(pCur);
     while (!stack.empty()) {

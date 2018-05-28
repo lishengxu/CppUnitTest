@@ -165,8 +165,8 @@ static void printStr(char *begin, char *end, std::vector<std::string> *pOut) {
 
 static void printCombination(char *operation, int length,
         std::vector<std::string> *pOut) {
-    for (unsigned int i = 0; i < length; ++i) {
-        for (unsigned int j = i + 1; j <= length; ++j) {
+    for (int i = 0; i < length; ++i) {
+        for (int j = i + 1; j <= length; ++j) {
             printStr(operation + i, operation + j, pOut);
         }
     }

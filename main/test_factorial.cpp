@@ -269,3 +269,8 @@ TEST(factorialtest, add2) {
     EXPECT_EQ(2046, addNoUseArithmetic(1023, 1023));
     EXPECT_EQ(2047, addNoUseArithmetic(1024, 1023));
 }
+
+TEST(factorialtest, myprivate) {
+    int array[] = { 0, 1, 2, 3};
+    EXPECT_EQ(4, sizeof(array) / sizeof(array[0]));
+}

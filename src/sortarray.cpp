@@ -53,7 +53,7 @@ bool contain(const int *array, int rows, int columns, int number) {
     int curColumn = columns - 1;
 
     while (curRow < rows && curColumn >= 0) {
-        int curValue = *(array + curRow * rows + curColumn);
+        int curValue = *(array + curRow * columns + curColumn);
         if (curValue == number) {
             result = true;
             break;
@@ -384,11 +384,9 @@ void getLeastNumbers(const int *array, unsigned int length, int *output,
     for (unsigned int i = 0; i < length; ++i) {
         if (kMinSet.size() < k) {
             kMinSet.insert(array[i]);
-        } else {
-            if (array[i] < *kMinSet.begin()) {
-                kMinSet.erase(kMinSet.begin());
-                kMinSet.insert(array[i]);
-            }
+        } else if (array[i] < *kMinSet.begin()) {
+            kMinSet.erase(kMinSet.begin());
+            kMinSet.insert(array[i]);
         }
     }
 
