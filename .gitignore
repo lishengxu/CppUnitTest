@@ -36,3 +36,5 @@ Debug/*
 
 # else
 main/test_other.cpp
+
+*anguage.settings.xml

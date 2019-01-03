@@ -235,3 +235,4 @@ TEST(mystringtest, sortString) {
     sortString(str4);
     EXPECT_STREQ("abcdefABCDEF", str4);
 }
+
