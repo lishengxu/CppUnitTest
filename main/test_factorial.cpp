@@ -180,12 +180,14 @@ TEST(factorialtest, add) {
         ADD_FAILURE();
     } catch (std::exception &e) {
     }
+    EXPECT_STREQ("3456789", add("12", "3456777"));
     EXPECT_STREQ("3456789", add("3456777", "12"));
     EXPECT_STREQ("1111111111111110", add("111111111111111", "999999999999999"));
     EXPECT_STREQ("74894", add("123456", "-48562"));
     EXPECT_STREQ("1", add("10000", "-9999"));
     EXPECT_STREQ("0", add("10000", "-10000"));
     EXPECT_STREQ("-464040", add("123456", "-587496"));
+    EXPECT_STREQ("-464040", add("-587496", "123456"));
     EXPECT_STREQ("-710952", add("-123456", "-587496"));
 }
 

@@ -257,6 +257,7 @@ const char* add(const char* left, const char *right) {
     if (!leftIsPos && rightIsPos) {
         if (stringcompare(left, right) > 0) {
             resultFlag = -1;
+        } else {
             std::swap(left, right);
         }
         isAdd = false;
@@ -326,6 +327,26 @@ const char* add(const char* left, const char *right) {
         }
         *newIndex++ = value + '0';
         --leftIndex;
+    }
+    while (rightIndex >= right) {
+        int digit = *rightIndex - '0';
+        if (digit < 0 || digit > 9) {
+            free(newNumber);
+            throw std::invalid_argument("invalid input");
+            return NULL;
+        }
+        int value = digit + takeOver;
+        if (value >= 10) {
+            takeOver = 1;
+            value -= 10;
+        } else if (value < 0) {
+            takeOver = -1;
+            value += 10;
+        } else {
+            takeOver = 0;
+        }
+        *newIndex++ = value + '0';
+        --rightIndex;
     }
     if (takeOver > 0) {
         *newIndex++ = takeOver + '0';

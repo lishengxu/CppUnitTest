@@ -144,3 +144,18 @@ TEST(singletontest, positive) {
     EXPECT_EQ(3, b->getData());
 }
 
+int getSize(int data[]) {
+    return sizeof(data);
+}
+TEST(arraysizeoftest, positive) {
+    int data1[] = { 1, 2, 3, 4, 5 };
+    int sizeof1 = sizeof(data1);
+    EXPECT_EQ(20, sizeof1);
+
+    int *data2 = data1;
+    int sizeof2 = sizeof(data2);
+    EXPECT_EQ(8, sizeof2);
+
+    int sizeof3 = getSize(data1);
+    EXPECT_EQ(8, sizeof3);
+}
